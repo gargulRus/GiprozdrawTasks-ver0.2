@@ -1,0 +1,301 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	font-size: 12px;
+}
+.div-table{
+margin: 0px 10px 0px 10px;	
+}
+.div-table-editobj{
+margin: 30px 10px 0px 10px;	
+}
+.zagolovok{
+	 width:800px;
+     height: 104px;
+     position: relative;
+}
+.zagolovok div{
+	        width:50px; 
+        border:1px solid red;
+        height:50px;
+        position: absolute;
+}
+
+/*.za1{
+	width: auto;
+	margin-left: 30%;
+	display:inline-block;
+}*/
+.buttnons{
+	width:auto;
+    margin: 10px 0px 20px 30px;
+}
+
+
+th{
+background-color:#CCC;	
+}
+table{
+font-size: 12px;
+}
+
+td{
+	/*background-color: crimson;*/
+	width: auto;
+}
+td:nth-child(1){
+	/*background-color: crimson;*/
+	width: 1%;
+}
+td:nth-child(2){
+	/*background-color: crimson;*/
+	width: 2%;
+}
+td:nth-child(3){
+	/*background-color: crimson;*/
+	width: 1%;
+}
+.objectplace{
+	margin-top: 10px;
+width: 15%;
+
+}
+.fomrobject{
+margin: 20px 0px 0px 30px;
+}
+
+.editform{
+margin: -15px 0px 0px 350px;
+}
+
+#editform{
+	width: 100px;
+}
+
+.logoimg {
+	width: 100%;
+	height: 100%;
+}
+
+.one { 
+	margin-top: 10px;
+	width:auto; 
+}
+.two1{ 
+	width:100px;
+	height:100px; 
+	float: left; 
+	margin-left: 20%;
+}
+.two2 { 
+	width:auto; 
+	height:auto; 
+	float: left;
+	margin:30px 0px 0px 25px;
+
+ }
+ .clock{
+ 	margin-right: 10px;
+ 	width: auto;
+ 	height: auto;
+ 	float:right;
+ 	font-family: sans-serif;
+ 	font-weight: bold;
+ 	font-size: 20px;
+ }
+.one:after {
+    display: block;
+    width: 100%;
+    content: '';
+    clear: both;
+}
+.content {
+	padding-bottom: 40px;
+}
+.footer {
+	float: right;
+	margin-right: 30px;
+}
+
+.btn-marg-top{
+	margin-top: 10px;
+}
+
+.list-object tr>th {
+	width: 7%;
+	font-size: 12px;
+}
+.list-object tr>th:nth-child(1) {
+	width: 20px;
+}
+.list-object tr>th:nth-child(2) {
+	width: auto;
+}
+/*
+стили ячеек
+*/
+
+/*ячейка выбора гипа*/
+.openformgip{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformgip:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformgip.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*
+стили ячеек
+*/
+.openformplan{
+
+  display: block;
+  padding: 8px;
+  cursor: pointer;
+  line-height: 12px;
+  color: black;
+}
+.openformplan:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformplan.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openform{
+	color: black;
+	text-decoration: none;
+}
+.openform:hover{
+
+	text-decoration: none;
+}
+
+.openformtask{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtask:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtask.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+	/*ячейки контроля объемов работ*/
+.openformtaskpzghsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzghsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskpzgh{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzgh:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzgh.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskpzsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+  /*ячейки контроля объемов работ*/
+.openformtaskpz{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpz:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpz.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskghsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskghsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskgh{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskgh:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskgh.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtasksp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtasksp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtasksp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
