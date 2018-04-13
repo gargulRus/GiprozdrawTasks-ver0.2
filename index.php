@@ -10,11 +10,20 @@ include_once(__DIR__."/core/connect.php");
 
 
 // Установимть админские права:
-//в ссылке браузера добавить ?mode=admin
-//тогда будет работать блок php дающий возможность управлять таблицей
-// if(isset($_GET['mode']) && $_GET['mode'] == 'admin'){
-//   $_SESSION['admin'] = true;
-// }
+// в ссылке браузера добавить ?mode=admin
+// тогда будет работать блок php дающий возможность управлять таблицей
+if(isset($_GET['mode']) && $_GET['mode'] == 'spec'){
+  $_SESSION['spec'] = true;
+}elseif(isset($_GET['mode']) && $_GET['mode'] == 'gip'){
+    $_SESSION['gip'] = true;
+  }elseif(isset($_GET['mode']) && $_GET['mode'] == 'arhiv'){
+    $_SESSION['arhiv'] = true;
+  }elseif(isset($_GET['mode']) && $_GET['mode'] == 'admin'){
+    $_SESSION['admin'] = true;
+  }elseif(isset($_GET['mode']) && $_GET['mode'] == 'expert'){
+    $_SESSION['expert'] = true;
+  }
+  
 
 //данная конструкция вызывается при обращении ?save="#"
 //выполняет код скрипта и останаливает дальнейший вывод.
@@ -25,7 +34,7 @@ if(isset($_GET['save'])){
 //Грузим страницу по умолчанию. Без админских прав.
 $page = (isset($_GET['page']))
     ? $_GET['page']
-    : 'main.php';
+    : 'planforyear-guest.php';
 
 
 ?>
@@ -35,11 +44,16 @@ $page = (isset($_GET['page']))
         <meta charset="utf-8">
         <title>План работ АО "Гипроздорав"</title>
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/modals.css">
         <link rel="stylesheet" href="css/bootstrap.css">
          <link rel="shortcut icon" href="/image/logo.ico" type="image/x-icon">
          <link rel="stylesheet" href="/plugins/fontawesome/css/fontawesome-all.min.css">
          <script src="/scripts/clock.js"></script>
-         <link rel="stylesheet" type="text/css" href="css/tcal.css" />
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link href="/uploader-master/jquery.dm-uploader.min.css" rel="stylesheet" type="text/css" />
+        <link href="/uploader-master/uploader.default.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/uploader-master/jquery.dm-uploader.min.js"></script>
+
 	
     </head>
     <body>
@@ -59,20 +73,38 @@ $page = (isset($_GET['page']))
         </div>
         
 <div class="content">
-<a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
-<a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
-<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+
   <!-- Если открыта сессия админа - выдаем главную страницу -->
   <!-- с редактируемой таблицей -->
               <?php
-                if(isset($_SESSION['admin'])){
+                if(isset($_SESSION['spec'])){
                     $page = (isset($_GET['page']))
                     ? $_GET['page']
-                    : 'main.php';
+                    : 'main-spec.php';
                     include(__DIR__.'/pages/'.$page);
-               } else{
+               }elseif(isset($_SESSION['gip'])){
+                $page = (isset($_GET['page']))
+                ? $_GET['page']
+                : 'main-gip.php';
                 include(__DIR__.'/pages/'.$page);
-               }
+           } elseif(isset($_SESSION['arhiv'])){
+            $page = (isset($_GET['page']))
+            ? $_GET['page']
+            : 'main-arhiv.php';
+            include(__DIR__.'/pages/'.$page);
+       } elseif(isset($_SESSION['admin'])){
+        $page = (isset($_GET['page']))
+        ? $_GET['page']
+        : 'main.php';
+        include(__DIR__.'/pages/'.$page);
+       }elseif(isset($_SESSION['expert'])){
+        $page = (isset($_GET['page']))
+        ? $_GET['page']
+        : 'main-expert.php';
+        include(__DIR__.'/pages/'.$page);
+       }else{
+            include(__DIR__.'/pages/'.$page);
+            }
       ?>    
 
   </div>

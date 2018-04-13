@@ -1,7 +1,15 @@
-
 <div class="buttnons">
+<a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
+<a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
+<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+<br>
+<br>
 <a href="/?page=plancontrol.php" class="btn btn-gipro">План работ стадия Проект</a>
 <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
+<a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
+</div>
+<div class="title-pc" >
+<h3>Рабочая документация</h3>
 </div>
 
 <?php
@@ -12,17 +20,26 @@
 
 // формируем первоначальный массив с порядковыми номерами
 $pos_num =array(
-           1=>'1',
-           '2',
-           '3',
-           '4',
-           '5',
-           '6',
-           '7',
-           '8',
-           '9',
-           '10'
-           );
+    1=>'1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19'
+    );
 //задаем переменную для проставки порядковых номеров
            $pp= 1;
 
@@ -59,16 +76,25 @@ echo "   <div class='div-table'>";
         <tr>
             <th>П.П.</th>
             <th>Договор</th>
-            <th>ППМ</th>
-            <th>СС</th>
-            <th>ВК</th>
+            <th>Генплан</th>
+            <th>АР</th>
+            <th>КР</th>
             <th>ЭОМ</th>
-            <th>А</th>
+            <th>ВК</th>
             <th>ОВ</th>
             <th>ОТ</th>
-            <th>КР</th>
-            <th>АР</th>
-            <th>Сметы</th>
+            <th>ХС</th>
+            <th>ТС</th>
+            <th>ИТП</th>
+            <th>СС</th>
+            <th>МГ</th>
+            <th>ТХ</th>
+            <th>Авт.</th>
+            <th>ПОС\ПОД</th>
+            <th>ООС</th>
+            <th>ППМ</th>
+            <th>ОДИ</th>
+            <th>Сеты</th>
         </tr>";
     foreach ($list as $key => $row) {
         echo '<tr>';
@@ -83,7 +109,123 @@ echo "   <div class='div-table'>";
    
         foreach ($pos_num as $key_m => $col) {
             if(isset($row['task'][$key_m])){
+                if($key_m==1){
                   echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                        if($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgpr" 
+                            class="openformtaskghspgpr"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgpr" 
+                            class="openformtaskghgpr"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgpr" 
+                        class="openformtaskspgpr"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgpr" 
+                    class="openformtaskgpr"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                 }elseif($key_m==15){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                        if($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgpr" 
+                            class="openformtaskghspgpr"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgpr" 
+                            class="openformtaskghgpr"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgpr" 
+                        class="openformtaskspgpr"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgpr" 
+                    class="openformtaskgpr"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                     }elseif($key_m==16){
+                        echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                        href="#"';
+                            if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                echo 'data-toggle="modal" data-target="#updatetaskghspgpr" 
+                                class="openformtaskghspgpr"' ;
+                            }else{
+                                echo 'data-toggle="modal" data-target="#updatetaskghgpr" 
+                                class="openformtaskghgpr"' ;
+                            }
+                        }elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskspgpr" 
+                            class="openformtaskspgpr"' ;
+                        }else{
+                        echo 'data-toggle="modal" data-target="#updatetaskgpr" 
+                        class="openformtaskgpr"';
+                        } 
+                        echo'data-id="'.$row['task'][$key_m]['id'].'"
+                        data-progress="'.$row['task'][$key_m]['progress'].'"
+                        data-pos="'.$key_m.'"
+                        data-object-id="'.$row['id'].'"
+                        >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                         }elseif($key_m==17){
+                            echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                            href="#"';
+                                if($row['task'][$key_m]['ghcheck']==1){
+                                if($row['task'][$key_m]['spcheck']==1){
+                                    echo 'data-toggle="modal" data-target="#updatetaskghspgpr" 
+                                    class="openformtaskghspgpr"' ;
+                                }else{
+                                    echo 'data-toggle="modal" data-target="#updatetaskghgpr" 
+                                    class="openformtaskghgpr"' ;
+                                }
+                            }elseif($row['task'][$key_m]['spcheck']==1){
+                                echo 'data-toggle="modal" data-target="#updatetaskspgpr" 
+                                class="openformtaskspgpr"' ;
+                            }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskgpr" 
+                            class="openformtaskgpr"';
+                            } 
+                            echo'data-id="'.$row['task'][$key_m]['id'].'"
+                            data-progress="'.$row['task'][$key_m]['progress'].'"
+                            data-pos="'.$key_m.'"
+                            data-object-id="'.$row['id'].'"
+                            >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                             }elseif($key_m==19){
+                                echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                                href="#"';
+                                    if($row['task'][$key_m]['ghcheck']==1){
+                                    if($row['task'][$key_m]['spcheck']==1){
+                                        echo 'data-toggle="modal" data-target="#updatetaskghspsmr" 
+                                        class="openformtaskghspsmr"' ;
+                                    }else{
+                                        echo 'data-toggle="modal" data-target="#updatetaskghsmr" 
+                                        class="openformtaskghsmr"' ;
+                                    }
+                                }elseif($row['task'][$key_m]['spcheck']==1){
+                                    echo 'data-toggle="modal" data-target="#updatetaskspsmr" 
+                                    class="openformtaskspsmr"' ;
+                                }else{
+                                echo 'data-toggle="modal" data-target="#updatetasksmr" 
+                                class="openformtasksmr"';
+                                } 
+                                echo'data-id="'.$row['task'][$key_m]['id'].'"
+                                data-progress="'.$row['task'][$key_m]['progress'].'"
+                                data-pos="'.$key_m.'"
+                                data-object-id="'.$row['id'].'"
+                                >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                                 }else{
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
                     href="#"';
                         if($row['task'][$key_m]['ghcheck']==1){
                         if($row['task'][$key_m]['spcheck']==1){
@@ -105,6 +247,47 @@ echo "   <div class='div-table'>";
                     data-pos="'.$key_m.'"
                     data-object-id="'.$row['id'].'"
                     >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                 }
+            }elseif($key_m==1) {
+                echo '<td><a 
+                    href="#" 
+                    data-toggle="modal" data-target="#updatetaskgpr" 
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    class="openformtaskgpr hideFuck" >+
+                    </a> </td>';
+            }elseif($key_m==15) {
+                echo '<td><a 
+                    href="#" 
+                    data-toggle="modal" data-target="#updatetaskgpr" 
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    class="openformtaskgpr hideFuck" >+
+                    </a> </td>';
+            }elseif($key_m==16) {
+                echo '<td><a 
+                    href="#" 
+                    data-toggle="modal" data-target="#updatetaskgpr" 
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    class="openformtaskgpr hideFuck" >+
+                    </a> </td>';
+            }elseif($key_m==17) {
+                echo '<td><a 
+                    href="#" 
+                    data-toggle="modal" data-target="#updatetaskgpr" 
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    class="openformtaskgpr hideFuck" >+
+                    </a> </td>';
+            }elseif($key_m==19) {
+                echo '<td><a 
+                    href="#" 
+                    data-toggle="modal" data-target="#updatetasksmr" 
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    class="openformtasksmr hideFuck" >+
+                    </a> </td>';
             }else{
                 echo '<td><a 
                     href="#" 
@@ -115,11 +298,12 @@ echo "   <div class='div-table'>";
                     </a> </td>';
             }
         }
+        
         echo '</tr>';
     $pp++;
   }
        echo "</table>";
-
+       include $_SERVER['DOCUMENT_ROOT']."/core/modals/modalsR.php";
 ?>
 
 <!-- Модальное окно изменения прогресса выполнения -->
@@ -367,20 +551,6 @@ echo "   <div class='div-table'>";
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
 $( document ).ready(function() {
-
-    // скрипт для модального окна переименования объекта
-    $('.openform').click(function(){
-        $('#obname').val( $(this).attr('data-name'));
-        $('#obid').val( $(this).attr('data-id') );
-        
-    });
-
-    $('#renameobj').submit(function(){
-            $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
-              $('#renameobj').html( data );
-            });
-        return false;
-    });
 
        // скрипт для модального окна переименования задачи
     $('.openformtask').click(function(){

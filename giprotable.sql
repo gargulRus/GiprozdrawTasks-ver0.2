@@ -16,6 +16,36 @@
 CREATE DATABASE IF NOT EXISTS `giprotable` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `giprotable`;
 
+-- Дамп структуры для таблица giprotable.curators
+CREATE TABLE IF NOT EXISTS `curators` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cur_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Дамп данных таблицы giprotable.curators: ~3 rows (приблизительно)
+/*!40000 ALTER TABLE `curators` DISABLE KEYS */;
+REPLACE INTO `curators` (`id`, `cur_name`) VALUES
+	(1, ' '),
+	(2, 'Куратор1'),
+	(3, 'Куратор2');
+/*!40000 ALTER TABLE `curators` ENABLE KEYS */;
+
+-- Дамп структуры для таблица giprotable.experts
+CREATE TABLE IF NOT EXISTS `experts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `exp_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Дамп данных таблицы giprotable.experts: ~3 rows (приблизительно)
+/*!40000 ALTER TABLE `experts` DISABLE KEYS */;
+REPLACE INTO `experts` (`id`, `exp_name`) VALUES
+	(1, ' '),
+	(2, 'Эксп1'),
+	(3, 'Эксп2');
+/*!40000 ALTER TABLE `experts` ENABLE KEYS */;
+
 -- Дамп структуры для таблица giprotable.gips
 CREATE TABLE IF NOT EXISTS `gips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,9 +71,9 @@ CREATE TABLE IF NOT EXISTS `jobplan` (
   `pos_num` int(11) DEFAULT '0',
   `data` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы giprotable.jobplan: ~14 rows (приблизительно)
+-- Дамп данных таблицы giprotable.jobplan: ~100 rows (приблизительно)
 /*!40000 ALTER TABLE `jobplan` DISABLE KEYS */;
 REPLACE INTO `jobplan` (`id`, `object_id`, `pos_num`, `data`) VALUES
 	(5, 2, 1, '2018-01-10'),
@@ -52,22 +82,100 @@ REPLACE INTO `jobplan` (`id`, `object_id`, `pos_num`, `data`) VALUES
 	(8, 2, 4, '2018-07-14'),
 	(9, 2, 5, '2018-06-15'),
 	(10, 2, 6, '2018-07-20'),
-	(13, 3, 1, '2018-01-09'),
+	(13, 3, 1, '2018-01-10'),
 	(14, 3, 2, '2018-04-06'),
-	(17, 3, 3, '2018-04-07'),
-	(18, 3, 4, '2018-07-13'),
-	(19, 1, 1, '2018-01-08'),
-	(20, 1, 2, '2018-02-14'),
-	(21, 4, 1, '2018-03-06'),
-	(22, 4, 2, '2018-06-07'),
+	(17, 3, 3, '2018-04-16'),
+	(18, 3, 4, '2018-06-16'),
+	(19, 1, 1, '2018-01-10'),
+	(20, 1, 2, '2018-04-30'),
 	(23, 7, 1, '2018-01-10'),
 	(24, 7, 2, '2018-04-06'),
-	(25, 7, 5, '2018-04-04'),
-	(26, 7, 6, '2018-07-13'),
-	(27, 8, 1, '2018-01-02'),
-	(28, 8, 2, '2018-06-13'),
-	(29, 8, 5, '2018-05-14'),
-	(30, 8, 6, '2018-12-19');
+	(25, 7, 5, '2018-06-01'),
+	(26, 7, 6, '2018-07-01'),
+	(29, 8, 5, '2018-04-01'),
+	(30, 8, 6, '2018-06-30'),
+	(31, 8, 3, '2018-02-20'),
+	(32, 8, 4, '2018-04-01'),
+	(33, 5, 1, '2018-01-01'),
+	(34, 5, 2, '2018-04-27'),
+	(35, 5, 3, '2018-05-14'),
+	(36, 5, 4, '2018-07-14'),
+	(37, 5, 5, '2018-06-10'),
+	(38, 5, 6, '2018-08-10'),
+	(42, 10, 3, '2018-01-18'),
+	(43, 10, 4, '2018-04-03'),
+	(44, 10, 5, '2018-04-03'),
+	(45, 10, 6, '2018-05-25'),
+	(46, 1, 3, '2018-04-30'),
+	(47, 1, 4, '2018-06-30'),
+	(48, 1, 5, '2018-07-01'),
+	(49, 1, 6, '2018-09-01'),
+	(50, 4, 3, '2018-04-01'),
+	(51, 4, 4, '2018-06-01'),
+	(52, 3, 5, '2018-06-01'),
+	(53, 3, 6, '2018-07-01'),
+	(54, 6, 1, '2018-03-28'),
+	(55, 6, 2, '2018-04-13'),
+	(56, 6, 3, '2018-04-16'),
+	(57, 6, 4, '2018-06-16'),
+	(58, 7, 3, '2018-04-16'),
+	(59, 7, 4, '2018-06-16'),
+	(60, 9, 3, '2018-03-10'),
+	(61, 9, 4, '2018-07-01'),
+	(62, 9, 5, '2018-07-01'),
+	(63, 9, 6, '2018-09-01'),
+	(64, 11, 3, '2018-04-02'),
+	(65, 11, 4, '2018-04-27'),
+	(66, 11, 5, '2018-04-01'),
+	(67, 11, 6, '2018-04-27'),
+	(68, 12, 1, '2018-01-15'),
+	(69, 12, 2, '2018-04-15'),
+	(70, 12, 3, '2018-04-15'),
+	(71, 12, 4, '2018-06-04'),
+	(72, 12, 5, '2018-06-04'),
+	(73, 12, 6, '2018-08-06'),
+	(74, 13, 3, '2018-04-16'),
+	(75, 13, 4, '2018-06-16'),
+	(76, 13, 5, '2018-07-15'),
+	(77, 13, 6, '2018-08-15'),
+	(78, 14, 1, '2018-01-10'),
+	(79, 14, 2, '2018-05-18'),
+	(80, 14, 3, '2018-05-21'),
+	(81, 14, 4, '2018-08-03'),
+	(82, 14, 5, '2018-08-06'),
+	(83, 14, 6, '2018-12-21'),
+	(84, 15, 3, '2018-04-28'),
+	(85, 15, 4, '2018-06-28'),
+	(86, 17, 3, '2018-01-15'),
+	(87, 17, 4, '2018-03-21'),
+	(88, 21, 3, '2018-02-01'),
+	(89, 21, 4, '2018-04-30'),
+	(90, 22, 3, '2018-03-15'),
+	(91, 22, 4, '2018-04-30'),
+	(92, 23, 5, '2018-01-10'),
+	(93, 23, 6, '2018-04-16'),
+	(94, 24, 1, '2018-02-01'),
+	(95, 24, 2, '2018-05-20'),
+	(96, 24, 3, '2018-05-25'),
+	(97, 24, 4, '2018-07-25'),
+	(98, 24, 5, '2018-07-15'),
+	(99, 24, 6, '2018-09-15'),
+	(100, 26, 5, '2018-04-01'),
+	(101, 26, 6, '2018-07-20'),
+	(102, 27, 5, '2018-10-01'),
+	(103, 27, 6, '2018-12-01'),
+	(104, 29, 5, '2018-09-01'),
+	(105, 29, 6, '2018-11-01'),
+	(106, 30, 5, '2018-08-01'),
+	(107, 30, 6, '2018-10-01'),
+	(108, 31, 5, '2018-04-01'),
+	(109, 31, 6, '2018-12-21'),
+	(110, 59, 1, '2018-04-01'),
+	(111, 59, 2, '2018-06-01'),
+	(112, 59, 3, '2018-06-01'),
+	(113, 59, 4, '2018-09-01'),
+	(114, 60, 5, '2018-02-01'),
+	(115, 60, 6, '2018-04-30');
 /*!40000 ALTER TABLE `jobplan` ENABLE KEYS */;
 
 -- Дамп структуры для таблица giprotable.maintable
@@ -133,50 +241,50 @@ CREATE TABLE IF NOT EXISTS `objects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `gip_id` int(11) DEFAULT NULL,
+  `cur_id` int(11) DEFAULT NULL,
+  `exp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Дамп данных таблицы giprotable.objects: ~36 rows (приблизительно)
 /*!40000 ALTER TABLE `objects` DISABLE KEYS */;
-REPLACE INTO `objects` (`id`, `name`, `gip_id`) VALUES
-	(1, 'Севастополь (псих)', 4),
-	(2, 'Ховрино(поликл)', 3),
-	(3, 'Качуг(поликл)', 5),
-	(4, 'Тула (ПЦ)', 3),
-	(5, 'Боткинская', 6),
-	(6, 'Сочи (ПЦ)', 5),
-	(7, 'Тулун (туберкул.)', 5),
-	(8, 'Ставрополь(хирург)', 2),
-	(9, 'Севастополь(онко)', 4),
-	(10, 'Тропарево(поликл)', 3),
-	(11, 'Балашиха', 3),
-	(12, 'Ставрополь(кардиол)', 2),
-	(13, 'Свободный(роддом)', 2),
-	(14, 'Альтравита', 3),
-	(15, 'Емельяново(поликл)', 6),
-	(16, 'Челябинск(поликл)', 6),
-	(17, 'Калининград(онко)', 2),
-	(18, 'Норильск(ПЦ)', 6),
-	(19, 'Улан-Удэ(ПЦ)', 6),
-	(20, 'Гатчина(ПЦ)', 6),
-	(21, 'Петрозаводск(ПЦ)', 5),
-	(22, 'Псков(ПЦ)', NULL),
-	(23, 'Дон', 4),
-	(24, 'Тыва(больн)', 5),
-	(25, 'Ставрополь(детская)', 4),
-	(26, 'Севастополь(инф)', 4),
-	(27, 'Никол. на Амуре(леч.корп.)', 2),
-	(28, 'Комс. на Амуре(детская)', 2),
-	(29, 'Комс. на Амуре(онко)', 2),
-	(30, 'Хабаровск(поликл)', 2),
-	(31, 'Подольск(детский)', 3),
-	(32, 'Пермь-научный центр', 5),
-	(33, 'Якутия(онко)', 4),
-	(34, 'Чебоксары(инф)', 2),
-	(57, 'Краснодар(радиолог)', NULL),
-	(58, 'Смоленск(ПЦ)', 4),
-	(59, 'Севастополь(БСМП)', 4),
-	(60, 'ГЛОРИ', NULL);
+REPLACE INTO `objects` (`id`, `name`, `gip_id`, `cur_id`, `exp_id`) VALUES
+	(1, 'Севастополь (псих)', 4, NULL, NULL),
+	(2, 'Ховрино(поликл)', 3, NULL, NULL),
+	(3, 'Качуг(поликл)', 5, NULL, NULL),
+	(4, 'Тула (ПЦ)', 3, NULL, NULL),
+	(5, 'Боткинская', 6, NULL, NULL),
+	(6, 'Сочи (ПЦ)', 5, NULL, NULL),
+	(7, 'Тулун (туберкул.)', 5, NULL, NULL),
+	(8, 'Ставрополь(хирург)', 2, NULL, NULL),
+	(9, 'Севастополь(онко)', 4, NULL, NULL),
+	(10, 'Тропарево(поликл)', 3, NULL, NULL),
+	(11, 'Балашиха', 3, NULL, NULL),
+	(12, 'Ставрополь(кардиол)', 2, NULL, NULL),
+	(13, 'Свободный(роддом)', 5, NULL, NULL),
+	(14, 'Альтравита', 3, NULL, NULL),
+	(15, 'Емельяново(поликл)', 6, NULL, NULL),
+	(16, 'Челябинск(поликл)', 6, NULL, NULL),
+	(17, 'Калининград(онко)', 2, NULL, NULL),
+	(18, 'Норильск(ПЦ)', 6, NULL, NULL),
+	(19, 'Улан-Удэ(ПЦ)', 6, NULL, NULL),
+	(20, 'Гатчина(ПЦ)', 6, NULL, NULL),
+	(21, 'Петрозаводск(ПЦ)', 5, NULL, NULL),
+	(22, 'Смоленск(ПЦ)', 4, NULL, NULL),
+	(23, 'Дон', 4, NULL, NULL),
+	(24, 'Тыва(больн)', 5, NULL, NULL),
+	(25, 'Ставрополь(детская)', 4, NULL, NULL),
+	(26, 'Севастополь(инф)', 4, NULL, NULL),
+	(27, 'Никол. на Амуре(леч.корп.)', 2, NULL, NULL),
+	(29, 'Комс. на Амуре(онко)', 2, NULL, NULL),
+	(30, 'Хабаровск(поликл)', 2, NULL, NULL),
+	(31, 'Подольск(детский)', 3, NULL, NULL),
+	(32, 'Пермь-научный центр', 5, NULL, NULL),
+	(33, 'Якутия(онко)', 4, NULL, NULL),
+	(34, 'Чебоксары(инф)', 2, NULL, NULL),
+	(57, 'ГЛОРИЯ', NULL, NULL, NULL),
+	(59, 'Севастополь(БСМП)', 4, NULL, NULL),
+	(60, 'Комс. на Амуре(детск)', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `objects` ENABLE KEYS */;
 
 -- Дамп структуры для таблица giprotable.plancontrol
@@ -188,45 +296,12 @@ CREATE TABLE IF NOT EXISTS `plancontrol` (
   `pz` int(11) DEFAULT NULL,
   `gh` int(11) DEFAULT NULL,
   `sp` int(11) DEFAULT NULL,
+  `arch` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы giprotable.plancontrol: ~25 rows (приблизительно)
+-- Дамп данных таблицы giprotable.plancontrol: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `plancontrol` DISABLE KEYS */;
-REPLACE INTO `plancontrol` (`id`, `object_id`, `pos_num`, `progress`, `pz`, `gh`, `sp`) VALUES
-	(176, 1, 1, 100, 1, 1, 1),
-	(177, 1, 2, 100, 1, 1, 1),
-	(178, 1, 3, 100, 1, 1, 1),
-	(179, 1, 4, 100, 1, 1, 1),
-	(180, 1, 5, 100, 1, 1, 1),
-	(181, 1, 6, 60, 1, 1, NULL),
-	(182, 1, 7, 70, NULL, 1, 1),
-	(183, 2, 1, 100, 1, 1, 1),
-	(184, 2, 2, 100, 1, 1, 1),
-	(185, 2, 3, 100, 1, 1, 1),
-	(186, 2, 4, 100, 1, 1, 1),
-	(187, 2, 5, 100, 1, 1, 1),
-	(188, 2, 6, 100, 1, 1, 1),
-	(189, 2, 7, 100, 1, 1, 1),
-	(190, 2, 8, 100, 1, 1, 1),
-	(191, 2, 9, 100, 1, 1, 1),
-	(192, 3, 1, 60, 1, 1, NULL),
-	(193, 3, 2, 30, 1, NULL, NULL),
-	(194, 3, 3, 30, NULL, 1, NULL),
-	(195, 3, 4, 70, 1, NULL, 1),
-	(196, 3, 5, 70, NULL, 1, 1),
-	(197, 4, 1, 30, 1, NULL, NULL),
-	(198, 4, 2, 30, NULL, 1, NULL),
-	(199, 4, 3, 40, NULL, NULL, 1),
-	(200, 2, 10, 30, NULL, 1, NULL),
-	(201, 1, 1, 30, NULL, 1, NULL),
-	(202, 1, 1, 70, NULL, 1, 1),
-	(203, 1, 1, 70, NULL, 1, 1),
-	(204, 7, 1, 40, NULL, NULL, 1),
-	(205, 7, 3, 30, NULL, 1, NULL),
-	(206, 7, 6, 30, 1, NULL, NULL),
-	(207, 8, 2, 30, NULL, 1, NULL),
-	(208, 8, 4, 40, NULL, NULL, 1);
 /*!40000 ALTER TABLE `plancontrol` ENABLE KEYS */;
 
 -- Дамп структуры для таблица giprotable.plancontrolR
@@ -237,30 +312,26 @@ CREATE TABLE IF NOT EXISTS `plancontrolR` (
   `progress` int(11) DEFAULT NULL,
   `gh` int(11) DEFAULT NULL,
   `sp` int(11) DEFAULT NULL,
+  `arch` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы giprotable.plancontrolR: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `plancontrolR` DISABLE KEYS */;
-REPLACE INTO `plancontrolR` (`id`, `object_id`, `pos_num`, `progress`, `gh`, `sp`) VALUES
-	(1, 1, 1, 100, 1, 1),
-	(2, 1, 2, 100, 1, 1),
-	(3, 1, 5, 100, 1, 1),
-	(4, 1, 3, 100, 1, 1),
-	(5, 1, 4, 100, 1, 1),
-	(6, 2, 1, 100, 1, 1),
-	(7, 2, 2, 100, 1, 1),
-	(8, 2, 5, 50, NULL, 1),
-	(9, 6, 1, 100, 1, 1),
-	(10, 6, 3, 50, NULL, 1),
-	(11, 6, 5, 50, 1, NULL),
-	(12, 7, 1, 50, NULL, 1),
-	(13, 7, 2, 50, 1, NULL),
-	(14, 7, 4, 50, NULL, 1),
-	(15, 7, 6, 50, NULL, 1),
-	(16, 8, 2, 50, NULL, 1),
-	(17, 8, 5, 50, 1, NULL);
 /*!40000 ALTER TABLE `plancontrolR` ENABLE KEYS */;
+
+-- Дамп структуры для таблица giprotable.planexpert
+CREATE TABLE IF NOT EXISTS `planexpert` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `object_id` int(11) DEFAULT NULL,
+  `pos_num` int(11) DEFAULT NULL,
+  `exp_num` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- Дамп данных таблицы giprotable.planexpert: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `planexpert` DISABLE KEYS */;
+/*!40000 ALTER TABLE `planexpert` ENABLE KEYS */;
 
 -- Дамп структуры для таблица giprotable.plans
 CREATE TABLE IF NOT EXISTS `plans` (

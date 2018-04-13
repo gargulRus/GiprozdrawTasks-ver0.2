@@ -44,7 +44,7 @@ if(is_numeric( $id)){
     }
 
         if($graph==1){
-            $cnt=$cnt+50;
+            $cnt=$cnt+40;
             if($spec==1){
                 $cnt=$cnt+50;
                 echo "ошибка!!";
@@ -63,7 +63,7 @@ if(is_numeric( $id)){
 }else{
     //проверяем какие чекбоксы пришли, и на основе этого делаем запись в базу.
         if($graph==1){
-            $count=$count+50;
+            $count=$count+40;
             if($spec==1){
                 $count=$count+50;
                 $result = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `gh`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$graph."', '".$spec."' )");

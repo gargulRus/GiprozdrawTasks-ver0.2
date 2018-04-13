@@ -1,18 +1,44 @@
 <?php
-    //Делаем запрос в таблицу с ГИПами и формируем выпадающий список
-    $res = query("SELECT id, gipname FROM `gips`");
+//Делаем запрос в таблицу с ГИПами и формируем выпадающий список
+$res = query("SELECT id, gipname FROM `gips`");
 if(!$res) exit("Ошибка запроса: ".mysqli_error());
-if(mysqli_num_rows($res)>0){ 
-    $select = '<select name="idgp"  class="form-control input-sm" id="gipsel">'; 
-    while($row = mysqli_fetch_assoc($res)){ 
-        $select.= "<option value=".$row['id'].">".$row['gipname']."</option>";
-    } 
-    $select.="</select>";
-}
+    if(mysqli_num_rows($res)>0){ 
+        $select = '<select name="idgp"  class="form-control input-sm" id="gipsel">'; 
+        while($row = mysqli_fetch_assoc($res)){ 
+            $select.= "<option value=".$row['id'].">".$row['gipname']."</option>";
+        } 
+        $select.="</select>";
+    }
+//Делаем запрос в таблицу с Кураторами и формируем выпадающий список
+$rescur = query("SELECT id, cur_name FROM `curators`");
+if(!$rescur) exit("Ошибка запроса: ".mysqli_error());
+    if(mysqli_num_rows($rescur)>0){ 
+        $selectcur = '<select name="idcur"  class="form-control input-sm" id="cursel">'; 
+            while($row = mysqli_fetch_assoc($rescur)){ 
+                $selectcur.= "<option value=".$row['id'].">".$row['cur_name']."</option>";
+            } 
+        $selectcur.="</select>";
+    }
+
+//Делаем запрос в таблицу с Отв.Эксп. и формируем выпадающий список
+$resexp = query("SELECT id, exp_name FROM `experts`");
+if(!$resexp) exit("Ошибка запроса: ".mysqli_error());
+    if(mysqli_num_rows($resexp)>0){ 
+        $selectexp = '<select name="idexp"  class="form-control input-sm" id="expsel">'; 
+        while($row = mysqli_fetch_assoc($resexp)){ 
+            $selectexp.= "<option value=".$row['id'].">".$row['exp_name']."</option>";
+        } 
+        $selectexp.="</select>";
+    }
+
 ?>
 
 <div class="buttnons">
-        <a href="#" data-toggle="modal" data-target="#write" class="openformcreate btn btn-gipro">Новый Объект</a>   
+<a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
+<a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
+<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+<br><br>
+<a href="#" data-toggle="modal" data-target="#write" class="openformcreate btn btn-gipro">Новый Объект</a>   
 </div>
 
 <?php
@@ -23,7 +49,7 @@ $main_pos=array(
            '3',
            '4',
            '5',
-           '6',
+           '6'
            );
 //задаем переменную для проставки порядковых номеров
            $pp= 1;
@@ -31,7 +57,7 @@ $main_pos=array(
 $list = array();
 $keygip=0; /*Переменная для работы с массивом giparr в массиле $list. порядковый номер всегда будет 0 
 так что задаем его раньше чем цикл обработки для таблицы*/
-$result = query("SELECT id, name, gip_id FROM objects");
+$result = query("SELECT id, name, gip_id, cur_id, exp_id FROM objects");
 /*Тут после первого запроса, перебираем полученный массив с
 объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
 где по id объекта ищем задачи относящиеся к данному объекту.
@@ -51,6 +77,30 @@ while($data = mysqli_fetch_assoc($result)){
           );
     }
    }
+   $result2 = query("SELECT id, cur_name FROM curators WHERE id=".$data['cur_id']);
+   $curarr=array();
+   //промеряем наличие записи в objects записи о ГИПе, если есть формируем запрос
+   if($data['cur_id']!=NULL){
+   while($cur = mysqli_fetch_assoc($result2)){ 
+           //тут какая-то магия
+       $curarr[]=array(
+             'id'=>$cur['id'],
+             'cur_name'=>$cur['cur_name'],
+         );
+   }
+  }
+  $result2 = query("SELECT id, exp_name FROM experts WHERE id=".$data['exp_id']);
+  $exparr=array();
+  //промеряем наличие записи в objects записи о ГИПе, если есть формируем запрос
+  if($data['exp_id']!=NULL){
+  while($exp = mysqli_fetch_assoc($result2)){ 
+          //тут какая-то магия
+      $exparr[]=array(
+            'id'=>$exp['id'],
+            'exp_name'=>$exp['exp_name'],
+        );
+  }
+ }
     $result3 = query("SELECT id, data, pos_num FROM jobplan WHERE object_id=".$data['id']);
     $planarr=array();
     while($plan = mysqli_fetch_assoc($result3)){ 
@@ -65,7 +115,11 @@ while($data = mysqli_fetch_assoc($result)){
         'id'=>$data['id'],
         'name'=>$data['name'],
         'gip_id'=>$data['gip_id'],
+        'cur_id'=>$data['cur_id'],
+        'exp_id'=>$data['exp_id'],
         'gip'=>$giparr,
+        'cur'=>$curarr,
+        'exp'=>$exparr,
         'plan'=>$planarr
     );
 
@@ -79,6 +133,8 @@ echo "   <div class='div-table'>";
             <th rowspan='2'>П.П.</th>
             <th rowspan='2'>Договор</th>
             <th rowspan='2'>ГИП</th>
+            <th rowspan='2'>Куратор</th>
+            <th rowspan='2'>Отв. Эксперт.</th>
             <th colspan='2'> П </th>
             <th colspan='2'> Э </th>
             <th colspan='2'> Р </th>
@@ -119,7 +175,42 @@ echo "   <div class='div-table'>";
                 data-gip_id="'.$row['gip_id'].'"
                 >+</a></td>';
             }
-
+             //проверяем наличие Куратора в массиве
+            if(isset($row['cur'][$keygip]['cur_name'])){
+                echo '<td><a 
+            href="#" 
+            data-toggle="modal" data-target="#changecur" 
+            class="openformcur" 
+            data-id="'.$row['id'].'"
+            data-cur_id="'.$row['cur_id'].'"
+            >'. $row['cur'][$keygip]['cur_name'] .'</a></td>';
+            }else {
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#changecur" 
+                class="openformcur" 
+                data-id="'.$row['id'].'"
+                data-cur_id="'.$row['cur_id'].'"
+                >+</a></td>';
+            }
+             //проверяем наличие Эксперта в массиве
+            if(isset($row['exp'][$keygip]['exp_name'])){
+                echo '<td><a 
+            href="#" 
+            data-toggle="modal" data-target="#changeexp" 
+            class="openformexp" 
+            data-id="'.$row['id'].'"
+            data-exp_id="'.$row['exp_id'].'"
+            >'. $row['exp'][$keygip]['exp_name'] .'</a></td>';
+            }else {
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#changeexp" 
+                class="openformexp" 
+                data-id="'.$row['id'].'"
+                data-exp_id="'.$row['exp_id'].'"
+                >+</a></td>';
+            }
         foreach ($main_pos as $key_m => $col) {
             if(isset($row['plan'][$key_m])){
                 //полученную дату из массива переворачиваем в удобный вид.
@@ -225,6 +316,62 @@ echo "   <div class='div-table'>";
         </div>
     </div>
 </div>
+
+<!-- Модальное окно смены Куратора -->
+<div id="changecur" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button class="close" data-dismiss="modal">x</button>
+            <h4 class="modal-title">Сменить Куратора</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="/?save=changecur" id="changecurid">
+                    <div class="form-group">
+                    <?=$selectcur;?>
+                </div>
+                <div class="form-group">
+                     <input type="checkbox"  name="deleteobject" id="obdelete" class="objectdelete" value=1>
+                     <label for="obdelete">Снять Куратора</label>
+                </div>
+                     <input name='id' type='hidden' value="" id="curobid">
+            
+                 <div class="form-group text-right">
+                     <input type="submit" class="btn btn-success" value="Сохранить"/>
+                   </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно смены Отв.Эксп -->
+<div id="changeexp" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button class="close" data-dismiss="modal">x</button>
+            <h4 class="modal-title">Сменить Отв.Экпс.</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="/?save=changeexp" id="changeexpid">
+                    <div class="form-group">
+                    <?=$selectexp;?>
+                </div>
+                <div class="form-group">
+                     <input type="checkbox"  name="deleteobject" id="obdelete" class="objectdelete" value=1>
+                     <label for="obdelete">Снять Отв.Эксп.</label>
+                </div>
+                     <input name='id' type='hidden' value="" id="expobid">
+            
+                 <div class="form-group text-right">
+                     <input type="submit" class="btn btn-success" value="Сохранить"/>
+                   </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 <!-- Модальное окно смены даты -->
 <div id="changedate" class="modal fade">
     <div class="modal-dialog">
@@ -283,6 +430,32 @@ $( document ).ready(function() {
     $('#changegipid').submit(function(){
             $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
               $('#changegipid').html( data );
+            });
+        return false;
+    });
+
+        // скрипт для модального окна смены Куратора
+        $('.openformcur').click(function(){
+        $('#curobid').val( $(this).attr('data-id') );
+        
+    });
+
+    $('#changecurid').submit(function(){
+            $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
+              $('#changecurid').html( data );
+            });
+        return false;
+    });
+
+        // скрипт для модального окна смены Отв.Эксп
+        $('.openformexp').click(function(){
+        $('#expobid').val( $(this).attr('data-id') );
+        
+    });
+
+    $('#changeexpid').submit(function(){
+            $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
+              $('#changeexpid').html( data );
             });
         return false;
     });

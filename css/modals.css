@@ -1,0 +1,811 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+стили ячеек
+*/
+
+/*ячейка выбора гипа*/
+.openformgip{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformgip:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformgip.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*ячейка выбора Куратора*/
+.openformcur{
+	display: block;
+	padding: 8px;
+	cursor: pointer;
+	line-height: 12px;
+	color: black;
+	}
+	.openformcur:hover{
+	background-color: #ccc;
+	opacity: 1.0 !important;
+	text-decoration: none;
+	}
+	
+	.openformcur.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+	/*ячейка выбора Отв.Эксп.*/
+.openformexp{
+	display: block;
+	padding: 8px;
+	cursor: pointer;
+	line-height: 12px;
+	color: black;
+	}
+	.openformexp:hover{
+	background-color: #ccc;
+	opacity: 1.0 !important;
+	text-decoration: none;
+	}
+	
+	.openformexp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*
+стили ячеек
+*/
+.openformplan{
+
+  display: block;
+  padding: 8px;
+  cursor: pointer;
+  line-height: 12px;
+  color: black;
+}
+.openformplan:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformplan.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openform{
+	color: black;
+	text-decoration: none;
+}
+.openform:hover{
+
+	text-decoration: none;
+}
+
+.openformtask{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtask:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtask.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+	/*ячейки контроля объемов работ*/
+.openformtaskpzghsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzghsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskpzgh{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzgh:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzgh.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskpzsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpzsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+  /*ячейки контроля объемов работ*/
+.openformtaskpz{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpz:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskpz.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskghsp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskghsp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtaskgh{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskgh:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtaskgh.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+	/*ячейки контроля объемов работ*/
+.openformtasksp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtasksp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformtasksp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+    /*СТИЛИ ЯЧЕЕК ДЛЯ МОДАЛЬНЫХ ОКОН
+      С ВЕДОМОСТЯМИ РАБОТ ВМЕСТО СПЕЦИФИКАЦИЙ СТАДИИ П
+                                               */
+.openformplangp{
+
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformplangp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformplangp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openformgp{
+    color: black;
+    text-decoration: none;
+}
+.openformgp:hover{
+
+    text-decoration: none;
+}
+
+.openformtaskgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+    /*ячейки контроля объемов работ*/
+.openformtaskpzghspgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghspgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskpzghspgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+    /*ячейки контроля объемов работ*/
+.openformtaskpzghgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskpzghgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+    /*ячейки контроля объемов работ*/
+.openformtaskpzspgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzspgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskpzspgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskpzgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+    /*ячейки контроля объемов работ*/
+.openformtaskghspgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghspgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskghspgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+    /*ячейки контроля объемов работ*/
+.openformtaskghgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+
+.openformtaskghgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+    /*ячейки контроля объемов работ*/
+.openformtaskspgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskspgp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+.openformtaskspgp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+ /*СТИЛИ ЯЧЕЕК ДЛЯ МОДАЛЬНЫХ ОКОН
+      С ВЕДОМОСТЯМИ РАБОТ ВМЕСТО СПЕЦИФИКАЦИЙ СТАДИИ Р
+                                               */
+.openformplangpr{
+
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformplangpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformplangpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openformgpr{
+color: black;
+text-decoration: none;
+}
+.openformgpr:hover{
+
+text-decoration: none;
+}
+
+.openformtaskgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*ячейки контроля объемов работ*/
+.openformtaskpzghspgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghspgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghspgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzghgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzspgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzspgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzspgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzgp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghspgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghspgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghspgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskspgpr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskspgpr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformtaskspgpr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+
+    /*СТИЛИ ЯЧЕЕК ДЛЯ МОДАЛЬНЫХ ОКОН
+      СМЕТ СТАДИИ П
+                                               */
+.openformplansm{
+
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformplansm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformplansm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openformsm{
+color: black;
+text-decoration: none;
+}
+.openformsm:hover{
+
+text-decoration: none;
+}
+
+.openformtasksm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtasksm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtasksm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*ячейки контроля объемов работ*/
+.openformtaskpzghspsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghspsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghspsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzghsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzspsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzspsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzspsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghspsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghspsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghspsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskspsm{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskspsm:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformtaskspsm.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+
+ /*СТИЛИ ЯЧЕЕК ДЛЯ МОДАЛЬНЫХ ОКОН
+      СМЕТ СТАДИИ Р
+                                               */
+.openformplansmr{
+
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformplansmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformplansmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openformsmr{
+color: black;
+text-decoration: none;
+}
+.openformsmr:hover{
+
+text-decoration: none;
+}
+
+.openformtasksmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtasksmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtasksmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*ячейки контроля объемов работ*/
+.openformtaskpzghspsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghspsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghspsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzghsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzghsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzghsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzspsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzspsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzspsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskpzsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskpzsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskpzsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghspsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghspsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghspsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskghsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskghsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformtaskghsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*ячейки контроля объемов работ*/
+.openformtaskspsmr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskspsmr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformtaskspsmr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+/*Стили ячеек для экспертизы*/
+/*ячейки с содержимым*/
+.openformtaskexp{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformtaskexp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformtaskexp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }

@@ -37,7 +37,6 @@ $count=0;
 // echo '<br>';
 // echo $spec ." SPEC";
 // echo '<br>';
-// echo 'Подстчет процентов';
 
 //проверяем наличие записи в ячейке. Если true делаем if
 //если false делаем else
@@ -54,7 +53,7 @@ if(is_numeric( $id)){
         if($graph==1){
             $cnt=$cnt+30;
             if($spec==1){
-                $cnt=$cnt+40;
+                $cnt=$cnt+30;
                 echo "ошибка!!";
                 echo $cnt;
             }else{
@@ -62,7 +61,7 @@ if(is_numeric( $id)){
                     $result6 = query("UPDATE plancontrol SET pz = '1', gh = '1',progress = '$cnt' WHERE id=".$id);
             }
         }elseif($spec==1){
-            $cnt=$cnt+40;
+            $cnt=$cnt+30;
             echo "гч есть, вносим сп, вносим пз";
             $result6 = query("UPDATE plancontrol SET pz = '1', sp = '1',progress = '$cnt' WHERE id=".$id);
         }else{
@@ -72,7 +71,7 @@ if(is_numeric( $id)){
     }elseif($graph==1){
         $cnt=$cnt+30;
         if($spec==1){
-            $cnt=$cnt+40;
+            $cnt=$cnt+30;
             echo "пз есть, вносим гч, вносим сп";
             $result6 = query("UPDATE plancontrol SET sp = '1', gh = '1',progress = '$cnt' WHERE id=".$id);
         }else{
@@ -80,7 +79,7 @@ if(is_numeric( $id)){
             $result6 = query("UPDATE plancontrol SET gh = '1' ,progress = '$cnt' WHERE id=".$id);
         }
     }elseif($spec==1){
-        $cnt=$cnt+40;
+        $cnt=$cnt+30;
         echo "пз есть, гч есть, вносим сп";
         $result6 = query("UPDATE plancontrol SET sp = '1' ,progress = '$cnt' WHERE id=".$id);
     }else{
@@ -93,13 +92,13 @@ if(is_numeric( $id)){
         if($graph==1){
             $count=$count+30;
             if($spec==1){
-                $count=$count+40;
+                $count=$count+30;
                 $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `pz`, `gh`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$pz."', '".$graph."', '".$spec."' )");
                 }else{
                 $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `pz`, `gh`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$pz."', '".$graph."')");
                 }
         }elseif ($spec==1) {
-            $count=$count+40;
+            $count=$count+30;
             $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `pz`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$pz."', '".$spec."' )");
         }else{
             $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `pz`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$pz."')");
@@ -107,14 +106,14 @@ if(is_numeric( $id)){
     }elseif($graph==1){
         $count=$count+30;
         if($spec==1){
-            $count=$count+40;
+            $count=$count+30;
             $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `gh`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$graph."', '".$spec."' )");
             }else{
             $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `gh`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$graph."' )");
 
             }
     }else if($spec==1){
-        $count=$count+40;
+        $count=$count+30;
         $result = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$spec."' )");
     }else{
         echo "Сохранять нечего!";
@@ -122,6 +121,8 @@ if(is_numeric( $id)){
 }
 
 ?>
+
+<h4><i class="fas fa-sync fa-spin"></i></h4>
 <script type="text/javascript">
 $( document ).ready(function() {
 	setTimeout(function(){ location.reload(); }, 500);

@@ -1,4 +1,8 @@
 <div class="buttnons">
+<a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
+<a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
+<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+
 </div>
 
 <?php
@@ -15,8 +19,16 @@ $pos_num =array(
     '7',
     '8',
     '9',
-    '10'
-);
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18'
+    );
 
 $job_num=array(
     1=>'1',
@@ -79,6 +91,16 @@ while($data = mysqli_fetch_assoc($result)){
         );
     }
 
+    $result5 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+    $planexpert=array();
+    while($planE = mysqli_fetch_assoc($result5)){ 
+        $planexpert[$planE['pos_num']]=array(
+        'id'=>$planE['id'],
+        'position_num'=>$planE['pos_num'],
+        'exp_num'=>$planE['exp_num'],
+        );
+    }
+
     $result3 = query("SELECT id, pos_num, data FROM jobplan WHERE object_id=".$data['id']);
     $jobarr=array();
     while($job = mysqli_fetch_assoc($result3)){ 
@@ -96,8 +118,10 @@ while($data = mysqli_fetch_assoc($result)){
         'task'=>$planarr,
         'job'=>$jobarr,
         'taskR'=>$planarrR,
+        'taskE'=>$planexpert
     );
 }
+
 
 //формируем таблицу с полученным вложенным массивом
 echo "<div class='div-table'>";
@@ -140,6 +164,7 @@ foreach ($list as $key => $row) {
             $monthRstart = 0;
             $monthRend = 0;     
             $countR=0;
+            $countE=0;
 
             //считаем процент полученный из Стадии П
             foreach ($pos_num as $key_m => $col) {
@@ -149,8 +174,9 @@ foreach ($list as $key => $row) {
                     }
                 }else{}
             }
-            //Получаем общее значение
-            $count=$count / 10;
+            //Получаем общее значение и округляем
+            $count=$count / 19;
+            $count=round($count, 2);
 
             //считаем процент полученный из Стадии Р
             foreach ($pos_num as $key_m => $col) {
@@ -160,8 +186,18 @@ foreach ($list as $key => $row) {
                     }
                 }else{}
             }
-            //Получаем общее значение
-            $countR=$countR / 10;
+            //Получаем общее значение и округляем
+            $countR=$countR / 19;
+            $countR=round($countR, 2);
+
+            //считаем сумму кол-ва замечаний по всем объектам
+            foreach ($pos_num as $key_m => $col) {
+                if(isset($row['taskE'][$key_m]['id'])){
+                    if(isset($row['taskE'][$key_m]['exp_num'])){
+                    $countE=$countE+$row['taskE'][$key_m]['exp_num'];
+                    }
+                }else{}
+            }
            
             foreach ($month as $key_month => $col) {
                 //проверяем наличие дат в таблце jobplan и если они там есть, то выделяем числа месяцев.
@@ -215,29 +251,29 @@ foreach ($list as $key => $row) {
                 }else{}
 
                 if($key_month>=$monthEstart && $key_month<=$monthEend){
-                    $string=$string. " Э ";
+                    $string=$string. " Э -".$countE;
                 }else{}
 
                 if($key_month>=$monthRstart && $key_month<=$monthRend){
                     $string=$string. " Р ". $countR ."% ";
                     if($countR<=45){
-                        $cellcolor=' bgcolor="#ff2a3a" ';
+                        $cellcolor='   ';
                     }elseif($countR>=46 && $countR<=75){
-                        $cellcolor=' bgcolor="#e6e911" ';
+                        $cellcolor='   ';
                     }elseif($countR>=76){
-                        $cellcolor=' bgcolor="#6ddd0a" ';
-                    }else{$cellcolor=' bgcolor="#f455f6" ';}
+                        $cellcolor='   ';
+                    }else{$cellcolor='  ';}
                 }else{}
 
 
                 if($key_month>=$monthPstart && $key_month<=$monthPend){
                     if($count<=45){
-                        $cellcolor=' bgcolor="#ff2a3a" ';
+                        $cellcolor='   ';
                     }elseif($count>=46 && $count<=75){
-                        $cellcolor=' bgcolor="#e6e911" ';
+                        $cellcolor='   ';
                     }elseif($count>=76){
-                        $cellcolor=' bgcolor="#6ddd0a" ';
-                    }else{$cellcolor=' bgcolor="#f455f6" ';}
+                        $cellcolor='   ';
+                    }else{$cellcolor='   ';}
                     echo '<td'.$cellcolor.'>';
                     echo $string;
                     echo '</td>';
@@ -257,4 +293,3 @@ foreach ($list as $key => $row) {
 }
     echo '</tr>';
 echo "</table>";
-?>

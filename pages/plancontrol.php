@@ -1,6 +1,15 @@
 <div class="buttnons">
+<a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
+<a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
+<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+<br>
+<br>
 <a href="/?page=plancontrol.php" class="btn btn-gipro">План работ стадия Проект</a>
 <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
+<a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
+</div>
+<div class="title-pc" >
+<h3>Проектная документация</h3>
 </div>
 
 <?php
@@ -15,7 +24,16 @@ $pos_num =array(
            '7',
            '8',
            '9',
-           '10'
+           '10',
+           '11',
+           '12',
+           '13',
+           '14',
+           '15',
+           '16',
+           '17',
+           '18',
+           '19'
            );
 //задаем переменную для проставки порядковых номеров
            $pp= 1;
@@ -54,15 +72,24 @@ echo "   <div class='div-table'>";
         <tr>
             <th>П.П.</th>
             <th>Договор</th>
-            <th>ППМ</th>
-            <th>СС</th>
-            <th>ВК</th>
+            <th>Генплан</th>
+            <th>АР</th>
+            <th>КР</th>
             <th>ЭОМ</th>
-            <th>А</th>
+            <th>ВК</th>
             <th>ОВ</th>
             <th>ОТ</th>
-            <th>КР</th>
-            <th>АР</th>
+            <th>ХС</th>
+            <th>ТС</th>
+            <th>ИТП</th>
+            <th>СС</th>
+            <th>МГ</th>
+            <th>ТХ</th>
+            <th>Авт.</th>
+            <th>ПОС\ПОД</th>
+            <th>ООС</th>
+            <th>ППМ</th>
+            <th>ОДИ</th>
             <th>Сметы</th>
         </tr>";
     foreach ($list as $key => $row) {
@@ -78,6 +105,247 @@ echo "   <div class='div-table'>";
    
         foreach ($pos_num as $key_m => $col) {
             if(isset($row['task'][$key_m])){
+                if($key_m==1){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                    /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
+                    и в разных случаях выводим ссылки на разные модальные окна */
+                    if($row['task'][$key_m]['pzcheck']==1){
+                        if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                /* если во всех ячейках есть '1' то 
+                                выводим окно со всеми заблокированными чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghspgp" 
+                                class="openformtaskpzghspgp"' ;
+                            }else{
+                                /* если в ячейки sp нет '1', а в pz и gh есть,  то 
+                                    выводим окно с заблокированными ПЗ и ГЧ чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghgp" 
+                                class="openformtaskpzghgp"' ;
+                            }
+                        }/* если в ячейки gh нет '1', а в pz и sp есть,  то 
+                        выводим окно с заблокированными ПЗ и СП чекбоксами */
+                        elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskpzspgp" 
+                            class="openformtaskpzspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskpzgp" 
+                            class="openformtaskpzgp"' ;
+                        }
+                    }/* Далее аналогичная логика */
+                    elseif($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgp" 
+                            class="openformtaskghspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgp" 
+                            class="openformtaskghgp"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgp" 
+                        class="openformtaskspgp"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgp" 
+                    class="openformtaskgp"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }elseif($key_m==15){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                    /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
+                    и в разных случаях выводим ссылки на разные модальные окна */
+                    if($row['task'][$key_m]['pzcheck']==1){
+                        if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                /* если во всех ячейках есть '1' то 
+                                выводим окно со всеми заблокированными чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghspgp" 
+                                class="openformtaskpzghspgp"' ;
+                            }else{
+                                /* если в ячейки sp нет '1', а в pz и gh есть,  то 
+                                    выводим окно с заблокированными ПЗ и ГЧ чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghgp" 
+                                class="openformtaskpzghgp"' ;
+                            }
+                        }/* если в ячейки gh нет '1', а в pz и sp есть,  то 
+                        выводим окно с заблокированными ПЗ и СП чекбоксами */
+                        elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskpzspgp" 
+                            class="openformtaskpzspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskpzgp" 
+                            class="openformtaskpzgp"' ;
+                        }
+                    }/* Далее аналогичная логика */
+                    elseif($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgp" 
+                            class="openformtaskghspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgp" 
+                            class="openformtaskghgp"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgp" 
+                        class="openformtaskspgp"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgp" 
+                    class="openformtaskgp"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }elseif($key_m==16){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                    /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
+                    и в разных случаях выводим ссылки на разные модальные окна */
+                    if($row['task'][$key_m]['pzcheck']==1){
+                        if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                /* если во всех ячейках есть '1' то 
+                                выводим окно со всеми заблокированными чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghspgp" 
+                                class="openformtaskpzghspgp"' ;
+                            }else{
+                                /* если в ячейки sp нет '1', а в pz и gh есть,  то 
+                                    выводим окно с заблокированными ПЗ и ГЧ чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghgp" 
+                                class="openformtaskpzghgp"' ;
+                            }
+                        }/* если в ячейки gh нет '1', а в pz и sp есть,  то 
+                        выводим окно с заблокированными ПЗ и СП чекбоксами */
+                        elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskpzspgp" 
+                            class="openformtaskpzspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskpzgp" 
+                            class="openformtaskpzgp"' ;
+                        }
+                    }/* Далее аналогичная логика */
+                    elseif($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgp" 
+                            class="openformtaskghspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgp" 
+                            class="openformtaskghgp"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgp" 
+                        class="openformtaskspgp"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgp" 
+                    class="openformtaskgp"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }elseif($key_m==17){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                    /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
+                    и в разных случаях выводим ссылки на разные модальные окна */
+                    if($row['task'][$key_m]['pzcheck']==1){
+                        if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                /* если во всех ячейках есть '1' то 
+                                выводим окно со всеми заблокированными чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghspgp" 
+                                class="openformtaskpzghspgp"' ;
+                            }else{
+                                /* если в ячейки sp нет '1', а в pz и gh есть,  то 
+                                    выводим окно с заблокированными ПЗ и ГЧ чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghgp" 
+                                class="openformtaskpzghgp"' ;
+                            }
+                        }/* если в ячейки gh нет '1', а в pz и sp есть,  то 
+                        выводим окно с заблокированными ПЗ и СП чекбоксами */
+                        elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskpzspgp" 
+                            class="openformtaskpzspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskpzgp" 
+                            class="openformtaskpzgp"' ;
+                        }
+                    }/* Далее аналогичная логика */
+                    elseif($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspgp" 
+                            class="openformtaskghspgp"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghgp" 
+                            class="openformtaskghgp"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspgp" 
+                        class="openformtaskspgp"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetaskgp" 
+                    class="openformtaskgp"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }elseif($key_m==19){
+                    echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
+                    href="#"';
+                    /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
+                    и в разных случаях выводим ссылки на разные модальные окна */
+                    if($row['task'][$key_m]['pzcheck']==1){
+                        if($row['task'][$key_m]['ghcheck']==1){
+                            if($row['task'][$key_m]['spcheck']==1){
+                                /* если во всех ячейках есть '1' то 
+                                выводим окно со всеми заблокированными чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghspsm" 
+                                class="openformtaskpzghspsm"' ;
+                            }else{
+                                /* если в ячейки sp нет '1', а в pz и gh есть,  то 
+                                    выводим окно с заблокированными ПЗ и ГЧ чекбоксами */
+                                echo 'data-toggle="modal" data-target="#updatetaskpzghsm" 
+                                class="openformtaskpzghsm"' ;
+                            }
+                        }/* если в ячейки gh нет '1', а в pz и sp есть,  то 
+                        выводим окно с заблокированными ПЗ и СП чекбоксами */
+                        elseif($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskpzspsm" 
+                            class="openformtaskpzspsm"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskpzsm" 
+                            class="openformtaskpzsm"' ;
+                        }
+                    }/* Далее аналогичная логика */
+                    elseif($row['task'][$key_m]['ghcheck']==1){
+                        if($row['task'][$key_m]['spcheck']==1){
+                            echo 'data-toggle="modal" data-target="#updatetaskghspsm" 
+                            class="openformtaskghspsm"' ;
+                        }else{
+                            echo 'data-toggle="modal" data-target="#updatetaskghsm" 
+                            class="openformtaskghsm"' ;
+                        }
+                    }elseif($row['task'][$key_m]['spcheck']==1){
+                        echo 'data-toggle="modal" data-target="#updatetaskspsm" 
+                        class="openformtaskspsm"' ;
+                    }else{
+                    echo 'data-toggle="modal" data-target="#updatetasksm" 
+                    class="openformtasksm"';
+                    } 
+                    echo'data-id="'.$row['task'][$key_m]['id'].'"
+                    data-progress="'.$row['task'][$key_m]['progress'].'"
+                    data-pos="'.$key_m.'"
+                    data-object-id="'.$row['id'].'"
+                    >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }else{
                   echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
                     href="#"';
                     /* проверяем каждый элемент в массиве на наличие записи в ячейках pz, gh и sp.
@@ -125,6 +393,47 @@ echo "   <div class='div-table'>";
                     data-pos="'.$key_m.'"
                     data-object-id="'.$row['id'].'"
                     >'. $row['task'][$key_m]['progress'] .'</a></td>';
+                }
+            }elseif($key_m==1){
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#updatetaskgp" 
+                data-pos="'.$key_m.'"
+                data-object-id="'.$row['id'].'"
+                class="openformtaskgp hideFuck" >+
+                </a> </td>';
+            }elseif($key_m==15){
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#updatetaskgp" 
+                data-pos="'.$key_m.'"
+                data-object-id="'.$row['id'].'"
+                class="openformtaskgp hideFuck" >+
+                </a> </td>';
+            }elseif($key_m==16){
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#updatetaskgp" 
+                data-pos="'.$key_m.'"
+                data-object-id="'.$row['id'].'"
+                class="openformtaskgp hideFuck" >+
+                </a> </td>';
+            }elseif($key_m==17){
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#updatetaskgp" 
+                data-pos="'.$key_m.'"
+                data-object-id="'.$row['id'].'"
+                class="openformtaskgp hideFuck" >+
+                </a> </td>';
+            }elseif($key_m==19){
+                echo '<td><a 
+                href="#" 
+                data-toggle="modal" data-target="#updatetasksm" 
+                data-pos="'.$key_m.'"
+                data-object-id="'.$row['id'].'"
+                class="openformtasksm hideFuck" >+
+                </a> </td>';
             }else{
                 echo '<td><a 
                     href="#" 
@@ -139,7 +448,8 @@ echo "   <div class='div-table'>";
     $pp++;
   }
        echo "</table>";
-
+       
+       include $_SERVER['DOCUMENT_ROOT']."/core/modals/modals.php";
 ?>
 
 <!-- Модальное окно изменения прогресса выполнения -->
@@ -408,6 +718,9 @@ echo "   <div class='div-table'>";
 </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link href="/uploader-master/jquery.dm-uploader.min.css" rel="stylesheet" type="text/css" />
+        <link href="/uploader-master/uploader.default.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/uploader-master/jquery.dm-uploader.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
 $( document ).ready(function() {
@@ -496,9 +809,6 @@ $( document ).ready(function() {
               $('#updatetaskformpzghsp').html( data );
             });
         return false;
-    });
-     // скрипт для модального окна создания объекта
-        $('.openformcreate').click(function(){
     });
 
         // скрипт для модального окна ghsp
