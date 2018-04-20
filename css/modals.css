@@ -5,6 +5,7 @@
 */
 
 /*ячейка выбора гипа*/
+
 .openformgip{
 display: block;
 padding: 8px;
@@ -19,22 +20,21 @@ text-decoration: none;
 }
 
 .openformgip.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
-
 /*ячейка выбора Куратора*/
 .openformcur{
-	display: block;
-	padding: 8px;
-	cursor: pointer;
-	line-height: 12px;
-	color: black;
-	}
-	.openformcur:hover{
-	background-color: #ccc;
-	opacity: 1.0 !important;
-	text-decoration: none;
-	}
-	
-	.openformcur.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformcur:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+
+.openformcur.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
 
 	/*ячейка выбора Отв.Эксп.*/
 .openformexp{

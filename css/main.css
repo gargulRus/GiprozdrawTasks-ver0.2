@@ -3,6 +3,7 @@
 body{
 	font-size: 12px;
 }
+
 .div-table{
 margin: 0px 10px 0px 10px;	
 }
@@ -42,22 +43,8 @@ table{
 font-size: 12px;
 }
 
-td{
-	/*background-color: crimson;*/
-	width: auto;
-}
-td:nth-child(1){
-	/*background-color: crimson;*/
-	width: 1%;
-}
-td:nth-child(2){
-	/*background-color: crimson;*/
-	width: 2%;
-}
-td:nth-child(3){
-	/*background-color: crimson;*/
-	width: 1%;
-}
+
+
 .objectplace{
 	margin-top: 10px;
 width: 15%;
@@ -125,12 +112,19 @@ margin: -15px 0px 0px 350px;
 }
 
 .list-object tr>th {
-	width: 7%;
+	width: 10%;
 	font-size: 12px;
 }
 .list-object tr>th:nth-child(1) {
 	width: 20px;
+	
 }
+
 .list-object tr>th:nth-child(2) {
 	width: auto;
+	
+}
+
+.letspacing{
+	word-spacing: 1.5em;
 }

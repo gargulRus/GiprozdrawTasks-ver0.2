@@ -110,7 +110,7 @@ echo "   <div class='div-table'>";
                     data-progress="'.$row['task'][$key_m]['exp_num'].'"
                     data-pos="'.$key_m.'"
                     data-object-id="'.$row['id'].'"
-                    > Э- '. $row['task'][$key_m]['exp_num'] .'</a></td>';
+                    >'. $row['task'][$key_m]['exp_num'] .'</a></td>';
             }else{
                 echo '<td><a 
                     href="#" 

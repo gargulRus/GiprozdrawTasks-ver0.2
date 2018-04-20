@@ -247,42 +247,54 @@ foreach ($list as $key => $row) {
                 $cellcolor=" ";
                  
                 if($key_month>=$monthPstart && $key_month<=$monthPend){
-                     $string= "П " .$count ."% "; 
+                     $string= "П "; 
                 }else{}
 
-                if($key_month>=$monthEstart && $key_month<=$monthEend){
-                    $string=$string. " Э -".$countE;
+                if($key_month==$monthPend){
+                    $string= "П-" .$count ."% "; 
                 }else{}
 
-                if($key_month>=$monthRstart && $key_month<=$monthRend){
-                    $string=$string. " Р ". $countR ."% ";
-                    if($countR<=45){
-                        $cellcolor='   ';
-                    }elseif($countR>=46 && $countR<=75){
-                        $cellcolor='   ';
-                    }elseif($countR>=76){
-                        $cellcolor='   ';
-                    }else{$cellcolor='  ';}
+                if($key_month>=$monthEstart && $key_month<$monthEend){
+                    $string=$string. "Э ";
+                }else{}
+
+                if($key_month==$monthEend){
+                    $string=$string. "Э-".$countE." ";
+                }else{}
+
+                if($key_month>=$monthRstart && $key_month<$monthRend){
+                    $string=$string. "Р ";
+                    // if($countR<=45){
+                    //     $cellcolor='   ';
+                    // }elseif($countR>=46 && $countR<=75){
+                    //     $cellcolor='   ';
+                    // }elseif($countR>=76){
+                    //     $cellcolor='   ';
+                    // }else{$cellcolor='  ';}
+                }else{}
+
+                if($key_month==$monthRend){
+                    $string=$string. "Р-". $countR ."% ";
                 }else{}
 
 
                 if($key_month>=$monthPstart && $key_month<=$monthPend){
-                    if($count<=45){
-                        $cellcolor='   ';
-                    }elseif($count>=46 && $count<=75){
-                        $cellcolor='   ';
-                    }elseif($count>=76){
-                        $cellcolor='   ';
-                    }else{$cellcolor='   ';}
-                    echo '<td'.$cellcolor.'>';
+                    // if($count<=45){
+                    //     $cellcolor='   ';
+                    // }elseif($count>=46 && $count<=75){
+                    //     $cellcolor='   ';
+                    // }elseif($count>=76){
+                    //     $cellcolor='   ';
+                    // }else{$cellcolor='   ';}
+                    echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string;
                     echo '</td>';
                 }elseif($key_month>=$monthEstart && $key_month<=$monthEend){                    
-                    echo '<td'.$cellcolor.'>';
+                    echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string;
                     echo '</td>';
                 }elseif($key_month>=$monthRstart && $key_month<=$monthRend){
-                    echo '<td'.$cellcolor.'>';
+                    echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string;
                     echo '</td>';
                 }else{

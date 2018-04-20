@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
             <button class="close" data-dismiss="modal">x</button>
-            <h4 class="modal-title">Изменить задачу пустое</h4>
+            <h4 class="modal-title">Изменить задачу</h4>
             </div>
             <div class="modal-body">
                  <form method="POST" action="/?save=updatetask" id="updatetaskformgp">
@@ -44,7 +44,7 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzgp">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="graph" id="tsgraph" class="graphclass" value=1>
                      <label for="tsgraph">Графическая часть</label>
@@ -77,10 +77,10 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzghgp">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Графическая часть</label>
+                     <label for="tsgraph"><div class="alert-success">Графическая часть-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="spec" id="tsspec" class="taskspec" value=1>
                      <label for="tsspec">Ведомость Объемов</label>
@@ -110,13 +110,13 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzspgp">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="graph" id="tsgraph" class="graphclass" value=1>
                      <label for="tsgraph">Графическая часть</label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Ведомость Объемов</label>
+                     <label for="tsspec"><div class="alert-success">Ведомость Объемов-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidpzspgp">
@@ -143,13 +143,13 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzghspgp">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Графическая часть</label>
+                     <label for="tsgraph"><div class="alert-success">Графическая часть-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Ведомость Объемов</label>
+                     <label for="tsspec"><div class="alert-success">Ведомость Объемов-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidpzghspgp">
@@ -179,10 +179,10 @@
                      <label for="tspz">ПЗ</label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Графическая часть</label>
+                     <label for="tsgraph"><div class="alert-success">Графическая часть-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Ведомость Объемов</label>
+                     <label for="tsspec"><div class="alert-success">Ведомость Объемов-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidghspgp">
@@ -212,7 +212,7 @@
                      <label for="tspz">ПЗ</label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Графическая часть</label>
+                     <label for="tsgraph"><div class="alert-success">Графическая часть-СДАНО</div></label>
                      <br>
                      <input type="checkbox" name="spec" id="tsspec" class="taskspec" value=1>
                      <label for="tsspec">Ведомость Объемов</label>
@@ -248,7 +248,7 @@
                      <label for="tsgraph">Графическая часть</label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Ведомость Объемов</label>
+                     <label for="tsspec"><div class="alert-success">Ведомость Объемов-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidspgp">
@@ -310,7 +310,7 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzsm">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="graph" id="tsgraph" class="graphclass" value=1>
                      <label for="tsgraph">Сметы</label>
@@ -343,10 +343,10 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzghsm">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Сметы</label>
+                     <label for="tsgraph"><div class="alert-success">Сметы-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="spec" id="tsspec" class="taskspec" value=1>
                      <label for="tsspec">Прайс-Листы</label>
@@ -376,13 +376,13 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzspsm">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox"  name="graph" id="tsgraph" class="graphclass" value=1>
                      <label for="tsgraph">Сметы</label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Прайс-Листы</label>
+                     <label for="tsspec"><div class="alert-success">Прайс-Листы-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidpzspsm">
@@ -409,13 +409,13 @@
                  <form method="POST" action="/?save=updatetask" id="updatetaskformpzghspsm">
                     <div class="form-group">
                     <input type="checkbox"  disabled name="pz" id="tspz" class="taskpz" value=1>
-                     <label for="tspz">ПЗ</label>
+                     <label for="tspz"><div class="alert-success">ПЗ-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Сметы</label>
+                     <label for="tsgraph"><div class="alert-success">Сметы-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Прайс-Листы</label>
+                     <label for="tsspec"><div class="alert-success">Прайс-Листы-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidpzghspsm">
@@ -445,10 +445,10 @@
                      <label for="tspz">ПЗ</label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Сметы</label>
+                     <label for="tsgraph"><div class="alert-success">Сметы-СДАНО</div></label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Прайс-Листы</label>
+                     <label for="tsspec"><div class="alert-success">Прайс-Листы-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidghspsm">
@@ -478,7 +478,7 @@
                      <label for="tspz">ПЗ</label>
                      <br>
                      <input type="checkbox" disabled name="graph" id="tsgraph" class="graphclass" value=1>
-                     <label for="tsgraph">Сметы</label>
+                     <label for="tsgraph"><div class="alert-success">Сметы-СДАНО</div></label>
                      <br>
                      <input type="checkbox" name="spec" id="tsspec" class="taskspec" value=1>
                      <label for="tsspec">Прайс-Листы</label>
@@ -514,7 +514,7 @@
                      <label for="tsgraph">Сметы</label>
                      <br>
                      <input type="checkbox" disabled name="spec" id="tsspec" class="taskspec" value=1>
-                     <label for="tsspec">Прайс-Листы</label>
+                     <label for="tsspec"><div class="alert-success">Прайс-Листы-СДАНО</div></label>
                 </div>
                 <br>
                      <input name='id' type='hidden' value="" id="tsidspsm">

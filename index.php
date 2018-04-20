@@ -50,9 +50,6 @@ $page = (isset($_GET['page']))
          <link rel="stylesheet" href="/plugins/fontawesome/css/fontawesome-all.min.css">
          <script src="/scripts/clock.js"></script>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-         <link href="/uploader-master/jquery.dm-uploader.min.css" rel="stylesheet" type="text/css" />
-        <link href="/uploader-master/uploader.default.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/uploader-master/jquery.dm-uploader.min.js"></script>
 
 	
     </head>

@@ -38,7 +38,10 @@ if(!$resexp) exit("Ошибка запроса: ".mysqli_error());
 <a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
 <a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
 <br><br>
-<a href="#" data-toggle="modal" data-target="#write" class="openformcreate btn btn-gipro">Новый Объект</a>   
+<a href="#" data-toggle="modal" data-target="#write" class="openformcreate btn btn-gipro">Новый Объект</a>
+<a href="#" data-toggle="modal" data-target="#newgip" class="openformcreate btn btn-gipro">ГИПы</a>
+<a href="#" data-toggle="modal" data-target="#newcur" class="openformcreate btn btn-gipro">Кураторы</a> 
+<a href="#" data-toggle="modal" data-target="#newexp" class="openformcreate btn btn-gipro">Отв за Эксперт.</a>  
 </div>
 
 <?php
@@ -125,14 +128,13 @@ while($data = mysqli_fetch_assoc($result)){
 
 }
 //формируем таблицу с полученным вложенным массивом
-
 echo "   <div class='div-table'>";
    echo "
    <table class='table table-bordered table-hover table-condensed list-object'>
         <tr>
             <th rowspan='2'>П.П.</th>
             <th rowspan='2'>Договор</th>
-            <th rowspan='2'>ГИП</th>
+            <th rowspan='2' class='gipth'>ГИП</th>
             <th rowspan='2'>Куратор</th>
             <th rowspan='2'>Отв. Эксперт.</th>
             <th colspan='2'> П </th>
@@ -159,7 +161,7 @@ echo "   <div class='div-table'>";
             >'. $row['name'] .'</a></td>';
             //проверяем наличие ГИПа в массиве
             if(isset($row['gip'][$keygip]['gipname'])){
-                echo '<td><a 
+                echo '<td class="gips"><a  id="openformgip"
             href="#" 
             data-toggle="modal" data-target="#changegip" 
             class="openformgip" 
@@ -167,7 +169,7 @@ echo "   <div class='div-table'>";
             data-gip_id="'.$row['gip_id'].'"
             >'. $row['gip'][$keygip]['gipname'] .'</a></td>';
             }else {
-                echo '<td><a 
+                echo '<td><a id="openformgip"
                 href="#" 
                 data-toggle="modal" data-target="#changegip" 
                 class="openformgip" 
@@ -238,6 +240,7 @@ echo "   <div class='div-table'>";
     $pp++;
   }
        echo "</table>";
+       echo "</div>";
 ?>
 <!-- Модальное окно создания объекта -->
 <div id="write" class="modal fade">
@@ -260,7 +263,105 @@ echo "   <div class='div-table'>";
         </div>
     </div>
 </div>
-
+<!-- Модальное окно ГИПа -->
+<div id="newgip" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button class="close" data-dismiss="modal">x</button>
+            <h4 class="modal-title">ГИПы</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="/?save=newgip" id="creategip">
+                 <div class="form-group">
+                    <label for="compsel">Добавить нового ГИПа в базу</label>
+                    <input name='name' type='text' value="" placeholder="Фамилия ГИПа" id="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                    <label for="compsel">Изменить ГИПа в базе</label>
+                    <?=$select;?>
+                    </div>
+                    <div class="form-group">
+                    <label for="obdelete">Удалить</label>
+                    <input type="checkbox"  name="deletegip" id="gipdelete" class="gipdelet" value=1>
+                    <label for="obrename">Переименовать</label>
+                    <input type="checkbox"  name="renamegip" id="giprename" class="giprenam" value=1>
+                    <input name='rename' type='text' value="" placeholder="Фамилия ГИПа" id="" class="form-control">
+                </div>
+                 <div class="form-group text-right">
+                     <input type="submit" class="btn btn-success" value="Сохранить"/>
+                   </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно Куратора -->
+<div id="newcur" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button class="close" data-dismiss="modal">x</button>
+            <h4 class="modal-title">Кураторы</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="/?save=newcur" id="createcur">
+                 <div class="form-group">
+                    <label for="compsel">Добавить нового Куратора в базу</label>
+                    <input name='name' type='text' value="" placeholder="Фамилия Куратора" id="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                    <label for="compsel">Изменить Куратора в базе</label>
+                    <?=$selectcur;?>
+                    </div>
+                    <div class="form-group">
+                    <label for="obdelete">Удалить</label>
+                    <input type="checkbox"  name="deletecur" id="curdelete" class="curdelet" value=1>
+                    <label for="obrename">Переименовать</label>
+                    <input type="checkbox"  name="renamecur" id="currename" class="currenam" value=1>
+                    <input name='rename' type='text' value="" placeholder="Фамилия Куратора" id="" class="form-control">
+                </div>
+                 <div class="form-group text-right">
+                     <input type="submit" class="btn btn-success" value="Сохранить"/>
+                   </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно Отв.Эксп. -->
+<div id="newexp" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button class="close" data-dismiss="modal">x</button>
+            <h4 class="modal-title">Ответственный по экспертизе</h4>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="/?save=newexp" id="createexp">
+                 <div class="form-group">
+                    <label for="compsel">Добавить нового Ответственного в базу</label>
+                    <input name='name' type='text' value="" placeholder="Фамилия Ответств." id="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                    <label for="compsel">Изменить Ответственного в базе</label>
+                    <?=$selectexp;?>
+                    </div>
+                    <div class="form-group">
+                    <label for="obdelete">Удалить</label>
+                    <input type="checkbox"  name="deleteexp" id="expdelete" class="expdelet" value=1>
+                    <label for="obrename">Переименовать</label>
+                    <input type="checkbox"  name="renameexp" id="exprename" class="exprenam" value=1>
+                    <input name='rename' type='text' value="" placeholder="Фамилия Ответств." id="" class="form-control">
+                </div>
+                 <div class="form-group text-right">
+                     <input type="submit" class="btn btn-success" value="Сохранить"/>
+                   </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 <!-- Модальное окно переименования объекта -->
 <div id="renameobject" class="modal fade">
     <div class="modal-dialog">
@@ -484,6 +585,26 @@ $( document ).ready(function() {
             });
         return false;
     });
-     
+     // скрипт для модального окна кнопки ГИПов
+        $('#creategip').submit(function(){
+            $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
+              $('#creategip').html( data );
+            });
+        return false;
+    });
+    // скрипт для модального окна кнопки Кураторов
+    $('#createcur').submit(function(){
+        $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
+            $('#createcur').html( data );
+        });
+    return false;
+    });
+    // скрипт для модального окна кнопки Ответственных
+    $('#createexp').submit(function(){
+        $.post( $(this).attr('action'), $(this).serialize(), function( data ) {
+            $('#createexp').html( data );
+        });
+    return false;
+    });    
 });
 </script>
