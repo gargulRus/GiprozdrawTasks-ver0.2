@@ -4,7 +4,16 @@
 стили ячеек
 */
 
+
 /*ячейка выбора гипа*/
+
+.mfp-content{
+    max-width:650px;
+}
+
+
+
+
 
 .openformgip{
 display: block;
@@ -809,3 +818,21 @@ opacity: 1.0 !important;
 text-decoration: none;
 }
 .openformtaskexp.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+/*Стили ячеек для ППМ*/
+.openformtaskppm, .openformtaskppmpz, .openformtaskppmpzgh, .openformtaskppmpzsp, 
+.openformtaskppmpzghsp, .openformtaskppmghsp, .openformtaskppmgh, .openformtaskppmsp{
+    display: block;
+    padding: 8px;
+    cursor: pointer;
+    line-height: 12px;
+    color: black;
+    }
+.openformtaskppm:hover, .openformtaskppmpz:hover, .openformtaskppmpzgh:hover, 
+.openformtaskppmpzsp:hover, .openformtaskppmpzghsp:hover, .openformtaskppmghsp:hover, .openformtaskppmgh:hover, .openformtaskppmsp:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+    }
+.openformtaskppm.hideFuck, .openformtaskppmpz.hideFuck, .openformtaskppmpzgh.hideFuck, 
+.openformtaskppmpzsp.hideFuck, .openformtaskppmpzghsp.hideFuck, .openformtaskppmghsp.hideFuck, .openformtaskppmgh.hideFuck, .openformtaskppmsp.hideFuck
+{ opacity: 0.0; text-align: center; color:#fff; }

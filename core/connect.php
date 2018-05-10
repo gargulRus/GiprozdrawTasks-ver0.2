@@ -10,7 +10,8 @@ function query($query){ global $link; //Название твоего соеди
 }
 
 
-$link = mysqli_connect("192.168.62.231", "root", "1") or
+// $link = mysqli_connect("192.168.62.231", "root", "1") or
+$link = mysqli_connect("localhost", "root", "") or
     die("Ошибка соединения: " . mysql_error());
 mysqli_select_db($link, "giprotable");
 

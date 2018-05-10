@@ -112,7 +112,6 @@ margin: -15px 0px 0px 350px;
 }
 
 .list-object tr>th {
-	width: 10%;
 	font-size: 12px;
 }
 .list-object tr>th:nth-child(1) {
@@ -125,6 +124,10 @@ margin: -15px 0px 0px 350px;
 	
 }
 
+.list-object td{ padding:0 !important; }
+
 .letspacing{
-	word-spacing: 1.5em;
+	word-spacing: 3.0em;
 }
+
+.openformplan{  white-space: nowrap}

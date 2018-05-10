@@ -1,93 +1,65 @@
 <?php
 
-$id = $_POST['id'];
-$objid=$_POST['object-id'];
-$pos_num=$_POST['pos'];
-$progress = $_POST['progress'];
+$task_id = $_POST['task_id'];
+$object_id=$_POST['object_id'];
+$pos_num=$_POST['pos_num'];
+$notuse=$_POST['boxnotuse'];
+$update = array();
+$progress=0;
 
-if(isset($_POST['graph'])){
-    $graph = 1;
-}else {
-    $graph = 2;
+//Рассчитываем процент
+$responce = array();
+$plan = plan_listR($pos_num);
+foreach($plan['tasks'] as $key=>$task){
+    $update[$key]=(isset($_POST[$key]))?1:0;
+    if($update[$key]==1){
+        $progress+=$task['percent'];
+        $responce[]='Отмечено: '.$task['title'];
+    }
 }
-if(isset($_POST['spec'])){
-    $spec = 1;
-}else {
-    $spec = 2;
-}
-
-$count=0;
-
-// echo $id . " ID";
-// echo '<br>';
-// echo $objid . " OBID";
-// echo '<br>';
-// echo $pos_num ." POSNUM";
-// echo '<br>';
-// echo $progress . " PROGRESS";
-// echo '<br>';
-// echo $graph ." GH" ;
-// echo '<br>';
-// echo $pz ." PZ";
-// echo '<br>';
-// echo $spec ." SPEC";
-// echo '<br>';
-// echo 'Подстчет процентов';
-
-//проверяем наличие записи в ячейке. Если true делаем if
-//если false делаем else
-
-if(is_numeric( $id)){
-    $result6 = query("SELECT progress FROM plancontrolR WHERE id=".$id);
-    while($list4 = mysqli_fetch_assoc($result6)){
-        $cnt=$list4['progress'];
+// var_export($plan);
+//Создаем новую запись
+if($task_id=='new'){
+    $keys=array(); $values=array(); 
+    foreach ($update as $key => $value) { 
+        $keys[]='`'.$key.'`'; 
+        $values[]="'".$value."'";
     }
 
-        if($graph==1){
-            $cnt=$cnt+40;
-            if($spec==1){
-                $cnt=$cnt+50;
-                echo "ошибка!!";
-                echo $cnt;
-            }else{
-                    echo "Вносим Графическую часть";
-                    $result6 = query("UPDATE plancontrolR SET gh = '1',progress = '$cnt' WHERE id=".$id);
-            }
-        }elseif($spec==1){
-            $cnt=$cnt+50;
-            echo "Вносим Спецификацию";
-            $result6 = query("UPDATE plancontrolR SET sp = '1',progress = '$cnt' WHERE id=".$id);
-        }else{
-            echo "Ошибка!";
-        }  
-}else{
-    //проверяем какие чекбоксы пришли, и на основе этого делаем запись в базу.
-        if($graph==1){
-            $count=$count+40;
-            if($spec==1){
-                $count=$count+50;
-                $result = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `gh`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$graph."', '".$spec."' )");
-                echo "Вносим Графическую часть и Спецификацию";
-            }else{
-                $result = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `gh`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$graph."')");
-                echo "Вносим Графическую часть";
-            }
-        }elseif ($spec==1) {
-            $count=$count+50;
-            $result = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `sp`) VALUES ('".$objid."', '".$pos_num."', '".$count."', '".$spec."' )");
-            echo "Вносим Спецификацию";
-        }else{
-            echo "Сохранять нечего!";
-        }
-    }
+    $sql = "INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, ".implode(',',$keys).") 
+    VALUES ('".$object_id."', '".$pos_num."', '".$progress."', ".implode(',',$values)." )";
 
+    $result = query ($sql);
+
+    echo implode('<br>',$responce);
+}
+
+//Обновляем запись
+if(is_numeric($task_id)){
+    $sql_update=array();
+    foreach ($update as $key => $val) {
+        $sql_update[]="`".$key."` = '".$val."'";
+    }
+    
+    $sql = "UPDATE plancontrolR SET ";
+    $sql.= implode(',',$sql_update);
+    $sql.=", `arhgh` = NULL, `arhpdf` = NULL, `progress` = '".$progress."' WHERE id='".$task_id."' LIMIT 1";
+
+    $result = query($sql);
+    echo implode('<br>',$responce);
+
+}
+
+//проверяем - используется раздел или нет
+if(is_numeric($task_id) && $notuse==1){
+    $setnotuse = query("UPDATE plancontrolR SET notuse = '$notuse' ,progress = 0 WHERE id=".$task_id);
+    echo "Убираем раздел";
+}
+if($task_id=='new' && $notuse==1){
+    $setnotuse = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `notuse`) VALUES ('".$object_id."', '".$pos_num."', '0', '".$notuse."')");
+    echo "Убираем раздел";
+}
 ?>
-
 <h4><i class="fas fa-sync fa-spin"></i></h4>
-<script type="text/javascript">
-$( document ).ready(function() {
-	setTimeout(function(){ location.reload(); }, 1500);
- 
 
-});
-</script>
+<meta http-equiv="refresh" content="2">

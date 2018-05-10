@@ -10,20 +10,16 @@ if(isset($_POST['deleteobject'])){
 }
 if ($del==2){
 	$result = query ("UPDATE objects SET name = '$rename' WHERE id='$id'");
-	$action=" изменяется";
+	$action=" переименован";
 }else {
 	$result2 = query ("DELETE FROM objects WHERE id='$id'");
-	$action=" удаляется";
+	$action=" удален";
 }
 ?>
 
 <div class="fomrobject">
-<h4>Объект <?php echo $action; ?>  <i class="fas fa-sync fa-spin"></i></h4>
-<script type="text/javascript">
-$( document ).ready(function() {
-	setTimeout(function(){ location.reload(); }, 1500);
- 
 
-});
-</script>
+<h4>Объект <?php echo $action; ?>, ждите.. </h4>
+<meta http-equiv="refresh" content="3">
+
 </div>
