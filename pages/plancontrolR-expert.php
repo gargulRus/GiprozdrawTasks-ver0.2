@@ -1,7 +1,8 @@
 <div class="buttnons">
 <a href="/?page=main-expert.php" class="btn btn-gipro">План работ по договорам</a>
 <a href="/?page=plancontrol-expert.php" class="btn btn-gipro">Таблица контроля</a>
-<a href="/?page=planforyear-expert.php" class="btn btn-gipro">План работ на год</a>
+<a href="/?page=planforyear-expert.php" class="btn btn-gipro">План работ на год Факт</a>
+<a href="/?page=planforyear-plan.php" class="btn btn-gipro">План работ на год План</a>
 <br>
 <br>
 <a href="/?page=plancontrol-expert.php" class="btn btn-gipro">План работ стадия Проект</a>
@@ -19,15 +20,20 @@ foreach ($list as $key => $row) {
     echo '<td>'. $row['name'] .'</td>';
 
     foreach ($pos_num as $key_m => $col) {
-        
         if(isset($row['task'][$key_m]) && $row['task'][$key_m]['notuse']==1){
-            echo '<td> 
+            echo '<td>
             Не исп.
             </td>';
         }elseif(isset($row['task'][$key_m])){
-                echo '<td alt="' . $row['task'][$key_m]['id'] . '">'. $row['task'][$key_m]['progress'] .'%</td>';
+            if($row['task'][$key_m]['fullfuck']==1){
+                echo '<td alt="" bgcolor="#e8d532">'. $row['task'][$key_m]['progress'] .' %
+                </td>';
+            }else{
+                echo '<td alt="">'. $row['task'][$key_m]['progress'] .' %
+                </td>';
+            }
         }else{
-            echo '<td></td>';
+            echo '<td> </td>';
         }
     }
     echo '</tr>';

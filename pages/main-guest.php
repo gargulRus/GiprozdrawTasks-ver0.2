@@ -1,3 +1,5 @@
+<div class="buttnons">
+</div>
 <?php
 include(__DIR__.'/../template/main-users.php');
 
@@ -24,10 +26,62 @@ foreach ($list as $key => $row) {
             echo '<td></td>';
         }
     foreach ($main_pos as $key_m => $col) {
+        $cellcolor="";
+        $nowdate =date("Y-m-d");;
         if(isset($row['plan'][$key_m])){
             //полученную дату из массива переворачиваем в удобный вид.
-            $newdate=date('d-m-Y', strtotime($row['plan'][$key_m]['data']));
-              echo '<td alt="' . $row['plan'][$key_m]['id'] . '">'. $newdate .'</td>';
+            if($key_m==2 && $row['plan'][$key_m]['data']>$nowdate){
+                $newdate=date('d-m-Y', strtotime($row['plan'][$key_m]['data']));
+                $newdate1 = date_create($newdate);
+                $datetoday = date("d-m-Y");
+                $datetoday = date_create($datetoday);
+                $diffnow= date_diff($newdate1, $datetoday);
+                $daysnow = (int)$diffnow->format('%a');
+                if($daysnow<=10){
+                    $cellcolor="red";
+                }elseif($daysnow<=20){
+                    $cellcolor="Yellow";
+                }else{
+                    $cellcolor="#70DE83";
+                }
+                echo '<td bgcolor="'.$cellcolor.'" alt="' . $row['plan'][$key_m]['id'] . '">'. $newdate .'</td>';
+            }elseif($key_m==4 && $row['plan'][$key_m]['data']>$nowdate){
+                $newdate=date('d-m-Y', strtotime($row['plan'][$key_m]['data']));
+                $newdate1 = date_create($newdate);
+                $datetoday = date("d-m-Y");
+                $datetoday = date_create($datetoday);
+                $diffnow= date_diff($newdate1, $datetoday);
+                $daysnow = (int)$diffnow->format('%a');
+                if($daysnow<=10){
+                    $cellcolor="red";
+                }elseif($daysnow<=20){
+                    $cellcolor="Yellow";
+                }else{
+                    $cellcolor="#70DE83";
+                }
+                echo '<td bgcolor="'.$cellcolor.'" alt="' . $row['plan'][$key_m]['id'] . '">'. $newdate .'</td>';
+            }elseif($key_m==6 && $row['plan'][$key_m]['data']>$nowdate){
+                $newdate=date('d-m-Y', strtotime($row['plan'][$key_m]['data']));
+                $newdate1 = date_create($newdate);
+                $datetoday = date("d-m-Y");
+                $datetoday = date_create($datetoday);
+                $diffnow= date_diff($newdate1, $datetoday);
+                $daysnow = (int)$diffnow->format('%a');
+                if($daysnow<=10){
+                    $cellcolor="red";
+                }elseif($daysnow<=20){
+                    $cellcolor="Yellow";
+                }else{
+                    $cellcolor="#70DE83";
+                }
+                echo '<td bgcolor="'.$cellcolor.'" alt="' . $row['plan'][$key_m]['id'] . '">'. $newdate .'</td>';
+            }else{
+                $newdate=date('d-m-Y', strtotime($row['plan'][$key_m]['data']));
+                  echo '<td alt="' . $row['plan'][$key_m]['id'] . '">'. $newdate .'</td>';
+
+            }
+
+
         }else{
             echo '<td></td>';
         }

@@ -3,16 +3,17 @@
 $task_id = $_POST['task_id'];
 $object_id=$_POST['object_id'];
 $pos_num=$_POST['pos_num'];
-$notuse=$_POST['boxnotuse'];
-$fullfuck = $_POST['fullfuck'];
+$progress=90;
+
 $update = array();
-$progress=0;
 
-
+echo $task_id." Ид Задачи";
+echo $object_id." ИД объекта";
+echo $pos_num." Номер раздела";
 
 //Рассчитываем процент
 $responce = array();
-$plan = plan_list($pos_num);
+$plan = arhiv_list($pos_num);
 foreach($plan['tasks'] as $key=>$task){
     $update[$key]=(isset($_POST[$key]))?1:0;
     if($update[$key]==1){
@@ -21,6 +22,7 @@ foreach($plan['tasks'] as $key=>$task){
     }
 }
 
+echo $progress." процент";
 
 //Создаем новую запись
 if($task_id=='new'){
@@ -48,30 +50,18 @@ if(is_numeric($task_id)){
     
     $sql = "UPDATE plancontrol SET ";
     $sql.= implode(',',$sql_update);
-    $sql.=", `arhgh` = NULL, `arhpdf` = NULL, `progress` = '".$progress."' WHERE id='".$task_id."' LIMIT 1";
+    $sql.=",  `progress` = '".$progress."' WHERE id='".$task_id."' LIMIT 1";
+    // `arhgh` = NULL, `arhpdf` = NULL,
     $result = query($sql);
-    // if($fullfuck=="on"){
-    // $setfulluck = query("UPDATE plancontrol SET fullfuck = 1 WHERE id=".$task_id);
-    // }else{
-    //     $setfulluck = query("UPDATE plancontrol SET fullfuck = NULL WHERE id=".$task_id);
-    // }
     echo implode('<br>',$responce);
 
 }
-
-//проверяем - используется раздел или нет
-if(is_numeric($task_id) && $notuse==1){
-    $setnotuse = query("UPDATE plancontrol SET notuse = '$notuse' ,progress = 0 WHERE id=".$task_id);
-    echo "Убираем раздел";
-}
-if($task_id=='new' && $notuse==1){
-    $setnotuse = query ("INSERT INTO `plancontrol` (`object_id`, `pos_num`, `progress`, `notuse`) VALUES ('".$object_id."', '".$pos_num."', '0', '".$notuse."')");
-    echo "Убираем раздел";
-}
-
+$numbers="ыва";
+$numbers = (int)$numbers;
+if(is_int($numbers) && $numbers>=10){
+    echo 'num'.$numbers;
+    }else{echo 'false';}
 ?>
-
-
 <h4><i class="fas fa-sync fa-spin"></i></h4>
 
 <meta http-equiv="refresh" content="2">

@@ -2,6 +2,7 @@
 $task_id = $_GET['task_id'];
 $pos_num = $_GET['pos_num'];
 $object_id = $_GET['object_id'];
+$object_name = $_GET['object_name'];
 $task=array();
 if(!empty($task_id) && $task_id!='new'){
     $task = mysqli_fetch_assoc(query("SELECT * FROM plancontrolR WHERE id=".$task_id));
@@ -14,7 +15,7 @@ $plan = arhiv_listR($pos_num);
 <div class="">
 
     <div class="modal-header">
-        <h4 class="modal-title">Редактирование раздела &laquo;<?php echo $plan['title'];?>&raquo;</h4>
+        <h4 class="modal-title">Редактирование раздела &laquo;<?php echo $plan['title'];?>&raquo; <?php echo $object_name; ?></h4>
     </div>
     <div class="modal-body">
         <form method="POST" action="/?save=arhivR" class="form-ajax">

@@ -1,7 +1,8 @@
 <div class="buttnons">
 <a href="/?page=main-arhiv.php" class="btn btn-gipro">План работ по договорам</a>
 <a href="/?page=plancontrol-arhiv.php" class="btn btn-gipro">Таблица контроля</a>
-<a href="/?page=planforyear-arhiv.php" class="btn btn-gipro">План работ на год</a>
+<a href="/?page=planforyear-arhiv.php" class="btn btn-gipro">План работ на год Факт</a>
+<a href="/?page=planforyear-plan.php" class="btn btn-gipro">План работ на год План</a>
 <br>
 <br>
 <a href="/?page=plancontrol-arhiv.php" class="btn btn-gipro">План работ стадия Проект</a>
@@ -29,13 +30,25 @@ include(__DIR__.'/../template/plancontrol-users.php');
                 </a> </td>';
             }elseif(isset($row['task'][$key_m])){
                 if($row['task'][$key_m]['progress']<89){
-                    echo '<td><a 
+                    if($row['task'][$key_m]['fullfuck']==1){
+                    echo '<td bgcolor="#e8d532"><a 
                     href="#" class="openformtask"
                     >'. $row['task'][$key_m]['progress'] .' %</a></td>';
+                    }else{
+                        echo '<td><a 
+                        href="#" class="openformtask"
+                        >'. $row['task'][$key_m]['progress'] .' %</a></td>';
+                    }
                 }else{
-                    echo '<td><a 
-                    href="/?modal=arhiv&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'" class="modal-a openformtask">'. $row['task'][$key_m]['progress'] .'%
+                    if($row['task'][$key_m]['fullfuck']==1){
+                    echo '<td bgcolor="#e8d532" ><a 
+                    href="/?modal=arhiv&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask">'. $row['task'][$key_m]['progress'] .'%
                     </a> </td>';
+                    }else{
+                    echo '<td><a 
+                    href="/?modal=arhiv&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask">'. $row['task'][$key_m]['progress'] .'%
+                    </a> </td>';
+                    }
                 }
             }else{
                 echo '<td><a 

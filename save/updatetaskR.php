@@ -4,6 +4,7 @@ $task_id = $_POST['task_id'];
 $object_id=$_POST['object_id'];
 $pos_num=$_POST['pos_num'];
 $notuse=$_POST['boxnotuse'];
+$fullfuck = $_POST['fullfuck'];
 $update = array();
 $progress=0;
 
@@ -46,6 +47,12 @@ if(is_numeric($task_id)){
     $sql.=", `arhgh` = NULL, `arhpdf` = NULL, `progress` = '".$progress."' WHERE id='".$task_id."' LIMIT 1";
 
     $result = query($sql);
+
+    if($fullfuck=="on"){
+        $setfulluck = query("UPDATE plancontrolR SET fullfuck = 1 WHERE id=".$task_id);
+        }else{
+            $setfulluck = query("UPDATE plancontrolR SET fullfuck = NULL WHERE id=".$task_id);
+        }
     echo implode('<br>',$responce);
 
 }

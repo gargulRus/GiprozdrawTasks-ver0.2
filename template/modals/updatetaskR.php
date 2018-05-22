@@ -2,9 +2,17 @@
 $task_id = $_GET['task_id'];
 $pos_num = $_GET['pos_num'];
 $object_id = $_GET['object_id'];
+$object_name = $_GET['object_name'];
+$fullfuckis= $_GET['fullfuckis'];
 $task=array();
 if(!empty($task_id) && $task_id!='new'){
     $task = mysqli_fetch_assoc(query("SELECT * FROM plancontrolR WHERE id=".$task_id));
+}
+
+if($fullfuckis==1){
+    $checkfuck="checked";
+}else{
+    $checkfuck="";
 }
 
 $plan = plan_listR($pos_num);
@@ -14,10 +22,17 @@ $plan = plan_listR($pos_num);
 <div class="">
 
     <div class="modal-header">
-        <h4 class="modal-title">Редактирование раздела &laquo;<?php echo $plan['title'];?>&raquo;</h4>
+        <h4 class="modal-title">Редактирование раздела &laquo;<?php echo $plan['title'];?>&raquo; <?php echo $object_name; ?></h4>
     </div>
     <div class="modal-body">
         <form method="POST" action="/?save=updatetaskR" class="form-ajax">
+        
+        <!-- <div class="material-switch pull-right">
+        <p>Предварительный вариант</p>
+            <input id="fullfuckid" name="fullfuck" type="checkbox" <?php echo $checkfuck;?>/>
+            <label for="fullfuckid" class="label-warning"></label>
+        </div> -->
+              <br>
 
             <?php foreach($plan['tasks'] as $key=>$checkbox){ ?>
                 <div class="form-group">

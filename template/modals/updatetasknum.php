@@ -24,7 +24,7 @@ $plan = plan_list($pos_num);
         <h4 class="modal-title">Редактирование раздела &laquo;<?php echo $plan['title'];?>&raquo;  <?php echo $object_name; ?></h4>
     </div>
     <div class="modal-body">
-        <form method="POST" action="/?save=updatetask" class="form-ajax">
+        <form method="POST" action="/?save=updatetasknum" class="form-ajax">
 
         <!-- <div class="material-switch pull-right">
         <p>Предварительный вариант</p>
@@ -32,25 +32,9 @@ $plan = plan_list($pos_num);
             <label for="fullfuckid" class="label-warning"></label>
         </div> -->
               <br>
-            <?php foreach($plan['tasks'] as $key=>$checkbox){ ?>
-                <div class="form-group">
-                    <input type="checkbox" name="<?php echo $key;?>" 
-                        id="task_<?php echo $key;?>" value=1 
-                        <?php echo (isset($task[$key]) && $task[$key]==1)
-                        ?'checked'
-                        :'' ?>
-                        >
-                        <label <?php echo (isset($task[$key]) && $task[$key]==1)
-                        ?'class ="bg-success"'
-                        :'' ?>
-                         for="task_<?php echo $key;?>"><?php echo $checkbox['title'];?>
-                        <?php echo (isset($task[$key]) && $task[$key]==1)
-                        ?'<div class="btn btn-danger btn-sm" for="delpzid">Убрать раздел</div>'
-                        :'' ?>
-                        </label>
-                </div>
-            <?php } ?>
-            <input type="checkbox"  name="boxnotuse" id="notuseid" class="notuse" value=1>
+              <input name='percent' type='text' value="" placeholder="Процент" id="obname" class="form-control">
+              <br>
+              <input type="checkbox"  name="boxnotuse" id="notuseid" class="notuse" value=1>
             <label class="btn btn-danger btn-sm" for="notuseid">Том не нужен</label>
 
             <input name='task_id' type='hidden' value="<?php echo $task_id;?>">

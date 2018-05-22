@@ -1,12 +1,14 @@
 <div class="buttnons">
 <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
 <a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
-<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год</a>
+<a href="/?page=planforyear.php" class="btn btn-gipro">План работ на год факт</a>
+<a href="/?page=planforyear-plan.php" class="btn btn-gipro">План работ на год план</a>
 <br>
 <br>
 <a href="/?page=plancontrol.php" class="btn btn-gipro">План работ стадия Проект</a>
 <a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
 <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
+</div>
 
 <?php
 include(__DIR__.'/../template/planexpert-users.php');

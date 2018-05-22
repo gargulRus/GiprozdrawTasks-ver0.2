@@ -15,20 +15,22 @@ $pos_num =array(
     '3', //КР
     '4', //ЭО
     '5', //ЭМ
-    '6', //ВК
-    '7', //НВК
-    '8', //АПТ
-    '9', //ОВ
-    '10', //ОТ
-    '11', //ХС
-    '12', //ТС
-    '13', //Тепл.Пункт
-    '14', //СС
-    '15', //МГ
-    '16', //КГС
-    '17', //ТХ
-    '18', //АВТ
-    '19' //Сметы
+    '6', //НЭС
+    '7', //ВК
+    '8', //НВК
+    '9', //ДС
+    '10', //АПТ
+    '11', //ОВ
+    '12', //ОТ
+    '13', //ХС
+    '14', //ТС
+    '15', //Тепл.Пункт
+    '16', //СС
+    '17', //МГ
+    '18', //КГС
+    '19', //ТХ
+    '20', //Автом
+    '21' //Сметы
     );
 //задаем переменную для проставки порядковых номеров
            $pp= 1;
@@ -41,7 +43,7 @@ $result = query("SELECT id, name FROM objects");
 */
 while($data = mysqli_fetch_assoc($result)){ 
 
-    $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp FROM plancontrolR WHERE object_id=".$data['id']);
+    $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
     $planarr=array();
     while($plan = mysqli_fetch_assoc($result2)){ 
         $planarr[$plan['pos_num']]=array(
@@ -49,6 +51,7 @@ while($data = mysqli_fetch_assoc($result)){
               'progress'=>$plan['progress'],
               'position_num'=>$plan['pos_num'],
               'notuse'=>$plan['notuse'],
+              'fullfuck'=>$plan['fullfuck'],
               'ghcheck'=>$plan['gh'],
               'spcheck'=>$plan['sp']
           );
@@ -72,8 +75,10 @@ echo "   <div class='div-table'>";
             <th>КР</th>
             <th>ЭО</th>
             <th>ЭМ</th>
+            <th>НЭС</th>
             <th>ВК</th>
             <th>НВК</th>
+            <th>ДС</th>
             <th>АПТ</th>
             <th>ОВ</th>
             <th>ОТ</th>

@@ -58,6 +58,7 @@ $pos_numR =array(
     '20', //Автом
     '21' //Сметы
     );
+
 $job_num=array(
     1=>'1',
     '2',
@@ -157,6 +158,8 @@ $datenow = date("d-m-Y");
 list($day, $monthnow, $year) = explode("-", $datenow);
 $monthnow = (int)$monthnow;
 //формируем таблицу с полученным вложенным массивом
+
+
 echo "<div class='div-table'>";
 echo "
 <table class='table table-bordered table-hover table-condensed list-object'>
@@ -200,6 +203,7 @@ foreach ($list as $key => $row) {
             $monthRend = 0;     
             $countR=0;
             $countE=0;
+        
 
             //считаем процент полученный из Стадии П
             //сначала считаем процент по всем разделам
@@ -256,12 +260,12 @@ foreach ($list as $key => $row) {
                     list($day, $month1, $year) = explode("-", $row['job'][1]['data']);
                     $monthPstart = (int)$month1;
                 }else{}
-
+                   
                 if(isset($row['job'][2]['data'])){
                     list($day, $month2, $year) = explode("-", $row['job'][2]['data']);
                     $monthPend = (int)$month2;
                 }else{}
-
+                    
                 //Проверяем даты начала и конца Экспертизы
                 if(isset($row['job'][3]['data'])){
                     list($day, $month3, $year) = explode("-", $row['job'][3]['data']);
@@ -284,6 +288,33 @@ foreach ($list as $key => $row) {
                     $monthRend = (int)$month6;
                 }else{}
 
+                    $percentcalcP =  plancalc($row['job'][1]['data'], $row['job'][2]['data']);
+                    $percentcalcR =  plancalc($row['job'][5]['data'], $row['job'][6]['data']);
+                    //считаем проценты по плану по простой линейной зависимости
+                 
+                    // var_dump(plancalc($row['job'][1]['data'], $row['job'][2]['data']));
+                    // $date1= date_create ($row['job'][1]['data']);
+                    // $date2= date_create ($row['job'][2]['data']);
+                    // $diffP= date_diff($date1, $date2);
+                    // $daysPplan = (int)$diffP->format('%a');
+                    
+                    // $datenow1 = date("Y-m-d");
+                    // $today = date_create($datenow1);
+                    
+                    // $diffnow= date_diff($date1, $today);
+                    // $daysPnow = (int)$diffnow->format('%a');
+
+                    // $daysPnow= $daysPnow * 100;
+                    // if($daysPplan==0){
+
+                    // }else{
+                    // $percentcalc= $daysPnow/ $daysPplan;
+                    // }
+                    // $percentcalc=round($percentcalc, 0);
+                    // if($percentcalc>100){
+                    //     $percentcalc=100;
+                    // }else{}
+
                 $string="";
                 
                 $cellcolor=" ";
@@ -299,11 +330,33 @@ foreach ($list as $key => $row) {
                 */
                 
                 //Проверяем Стадию П
+                 $calcraznica= $percentcalcP - $count;           
+                 $calcraznicaR= $percentcalcR - $countR;           
+                if($calcraznica>15){
+                    $percolor="#fe8a8a";
+                }elseif($calcraznica<=14){
+                    $percolor="#fffea0";
+                }elseif($calcraznica<=3){
+                    $percolor="#aefcb7";
+                }else{
+                    $percolor="";
+                }
+
+                if($calcraznicaR>15){
+                    $percolorR="#fe8a8a";
+                }elseif($calcraznicaR<=14){
+                    $percolorR="#fffea0";
+                }elseif($calcraznicaR<=3){
+                    $percolorR="#aefcb7";
+                }else{
+                    $percolorR="";
+                }
+
                 if($key_month>=$monthPstart && $key_month<=$monthPend){
                     if($key_month==$monthnow){
-                        $string= "П-" .$count ."% ";
+                        $string=  "<span style='background: #aefcb7;'>П-план-".$percentcalcP."%</span> <span style='background:".$percolor."'>П-факт-" .$count ."%</span> ";
                     }elseif ($monthnow>$key_month && $key_month==$monthPend) {
-                        $string= "П-" .$count ."% ";
+                        $string= "<span style='background: #aefcb7;'>П-план-".$percentcalcP."%</span> <span style='background:".$percolor."'>П-факт-" .$count ."%</span> ";
                     }else{$string= "П ";}
                 }else{}
                 
@@ -319,9 +372,9 @@ foreach ($list as $key => $row) {
                 //Проверяем Стадию Р    
                 if($key_month>=$monthRstart && $key_month<=$monthRend){
                     if($key_month==$monthnow){
-                        $string=$string. "Р-". $countR ."% ";
+                        $string=$string."<span style='background: #aefcb7;'>Р-план-".$percentcalcR."</span>% <span style='background:".$percolorR."'>Р-факт-" .$countR ."%</span>";
                     }elseif ($monthnow>$key_month && $key_month==$monthRend) {
-                        $string=$string. "Р-". $countR ."% ";
+                        $string=$string."<span style='background: #aefcb7;'>Р-план-".$percentcalcR."</span>% <span style='background:".$percolorR."'>Р-факт-" .$countR ."%</span>";
                     }else{$string=$string. "Р ";}
                 }else{}
 
@@ -369,4 +422,21 @@ foreach ($list as $key => $row) {
 }
     echo '</tr>';
 echo "</table>";
+
+// $datenow1 = date("Y-m-d");
+// $today = date_create($datenow1);
+
+// $diff= date_diff($date1, $date2);
+// $dataint = (int)$diff->format('%a');
+// echo $dataint;
+
+// $diffnow= date_diff($date1, $today);
+// $dataint2 = (int)$diffnow->format('%a');
+// echo $dataint2;
+// // print_r ($diff);
+
+// $dataint2= $dataint2 * 100;
+// $percentcalc= $dataint2/ $dataint;
+// echo "<br>";
+// echo $percentcalc;
 ?>

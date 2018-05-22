@@ -5,6 +5,7 @@
   <title>План работ АО "Гипроздорав"</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/switch.css">
   <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="shortcut icon" href="/image/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="/plugins/fontawesome/css/fontawesome-all.min.css">
@@ -35,23 +36,27 @@
         <script type="text/javascript">
             clock();
         </script>
-        <?php if($_SESSION['mode']=='admin'){
+        <?php 
+        $newsdate= "Обновление 14.05.2018";
+              if($_SESSION['mode']=='admin'){
                 $priveleg = 'Вы зашли как Администратор.';
+                $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
               }elseif($_SESSION['mode']=='spec'){
                 $priveleg = 'Вы зашли как Специалист.';
+                $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
               }elseif($_SESSION['mode']=='gip'){
                 $priveleg = 'Вы зашли как Главный Инженер.';
+                $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
               }elseif($_SESSION['mode']=='arhiv'){
                 $priveleg = 'Вы зашли как Архив.';
+                $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
               }elseif($_SESSION['mode']=='expert'){
                 $priveleg = 'Вы зашли как Эксперт.';
-              }else{$priveleg="";}
+                $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
+              }else{$priveleg=""; $news="";}
         ?>
         <h4><?php echo $priveleg;?></h4>
-       <?php echo '<a 
-                href="/?modal=updatenews" class="modal-a btn btn-info">Обновление 10.05.2018
-                </a>';
-                ?>
+        <?php echo $news;?>
       </div>
   </div>
         

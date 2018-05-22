@@ -36,6 +36,35 @@ function load_page(){
 
 }
 
+
+function plancalc($data1, $data2){
+
+    $date1= date_create ($data1);
+    $date2= date_create ($data2);
+
+    $diffP= date_diff($date1, $date2);
+    $daysPplan = (int)$diffP->format('%a');
+    
+    $datenow1 = date("Y-m-d");
+    $today = date_create($datenow1);
+    
+    $diffnow= date_diff($date1, $today);
+    $daysPnow = (int)$diffnow->format('%a');
+
+    $daysPnow= $daysPnow * 100;
+    if($daysPplan==0){
+
+    }else{
+    $percentcalc= $daysPnow/ $daysPplan;
+    }
+    $percentcalc=round($percentcalc, 0);
+    if($percentcalc>100){
+        $percentcalc=100;
+    }else{}
+
+        return $percentcalc;
+}
+
 function load_modal(){
     $modal_name = $_GET['modal'];
     include(__DIR__.'/../template/modals/'.$modal_name.'.php');
@@ -131,9 +160,11 @@ function plan_list($pos_num=false){
     $plan_list[10]=array(
         'title'=>'ОТ',
         'tasks'=>array(
-            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
-            'gh'=>array('title'=>'Графическая часть','percent'=>30),
-            'sp'=>array('title'=>'Спецификация','percent'=>30)
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
+            'otcalc'=>array('title'=>'Расчет теплопотерь','percent'=>15),
+            'otplans'=>array('title'=>'Планы','percent'=>45),
+            'otscheme'=>array('title'=>'Принудит. схема','percent'=>5),
+            'sp'=>array('title'=>'Спецификация','percent'=>15)
         )
     );
     $plan_list[11]=array(
@@ -201,7 +232,7 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[19]=array(
-        'title'=>'Автоматика',
+        'title'=>'Рад. Без.',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -209,7 +240,7 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[20]=array(
-        'title'=>'ПОС-ПОД',
+        'title'=>'Автоматика',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -217,6 +248,22 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[21]=array(
+        'title'=>'ПОС-ПОД',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $plan_list[22]=array(
+        'title'=>'АТЗ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $plan_list[23]=array(
         'title'=>'ООС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>35),
@@ -225,7 +272,7 @@ function plan_list($pos_num=false){
             'ved'=>array('title'=>'Ведомость Объемов','percent'=>10)
         )
     );
-    $plan_list[22]=array(
+    $plan_list[24]=array(
         'title'=>'ППМ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -233,7 +280,14 @@ function plan_list($pos_num=false){
             'calcppm'=>array('title'=>'Расчет Рисков','percent'=>30)
         )
     );
-    $plan_list[23]=array(
+    $plan_list[25]=array(
+        'title'=>'ГОЧС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>40),
+            'gh'=>array('title'=>'Графическая часть','percent'=>50),
+        )
+    );
+    $plan_list[26]=array(
         'title'=>'ОДИ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -241,19 +295,33 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[24]=array(
+    $plan_list[27]=array(
         'title'=>'Энергоэффективность',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
             'gh'=>array('title'=>'Графическая часть','percent'=>45),
         )
     );
-    $plan_list[25]=array(
+    $plan_list[28]=array(
         'title'=>'Сметы',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'sm'=>array('title'=>'Сметы','percent'=>30),
             'prices'=>array('title'=>'Прайс-листы','percent'=>30)
+        )
+    );
+    $plan_list[29]=array(
+        'title'=>'БЭО',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
+            'gh'=>array('title'=>'Графическая часть','percent'=>45),
+        )
+    );
+    $plan_list[30]=array(
+        'title'=>'ОЗДС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
+            'gh'=>array('title'=>'Графическая часть','percent'=>45),
         )
     );
     if(isset($pos_num) && !empty($pos_num)){
@@ -267,176 +335,181 @@ function arhiv_list($pos_num=false){
     $arhiv_list[1]=array(
         'title'=>'Генплан',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[2]=array(
         'title'=>'Архитектура',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[3]=array(
         'title'=>'Конструкции',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[4]=array(
         'title'=>'"ЭОМ"',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[5]=array(
         'title'=>'НЭС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[6]=array(
         'title'=>'ВК',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[7]=array(
         'title'=>'НВК',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[8]=array(
         'title'=>'АПТ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[9]=array(
         'title'=>'ОВ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[10]=array(
         'title'=>'ОТ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[11]=array(
         'title'=>'ХС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[12]=array(
         'title'=>'ТС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[13]=array(
         'title'=>'Тепловой Пункт',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[14]=array(
         'title'=>'СС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[15]=array(
         'title'=>'НСС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[16]=array(
         'title'=>'МГ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[17]=array(
         'title'=>'КГС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[18]=array(
         'title'=>'ТХ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[19]=array(
-        'title'=>'Автоматика',
+        'title'=>'Рад. Без.',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[20]=array(
-        'title'=>'ПОС-ПОД',
+        'title'=>'Автоматика',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[21]=array(
-        'title'=>'ООС',
+        'title'=>'ПОС-ПОД',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[22]=array(
-        'title'=>'ППМ',
+        'title'=>'АТЗ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[23]=array(
-        'title'=>'ОДИ',
+        'title'=>'ООС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[24]=array(
-        'title'=>'Энергоэффективность',
+        'title'=>'ППМ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_list[25]=array(
+        'title'=>'ГОЧС',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_list[26]=array(
+        'title'=>'ОДИ',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_list[27]=array(
+        'title'=>'Энергоэффективность',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_list[28]=array(
+        'title'=>'БЭО',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_list[29]=array(
         'title'=>'Сметы',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_list[30]=array(
+        'title'=>'ОЗДС',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     if(isset($pos_num) && !empty($pos_num)){
@@ -485,27 +558,53 @@ function plan_listR($pos_num=false){
         )
     );
     $plan_listR[6]=array(
-        'title'=>'ВК',
+        'title'=>'НЭС',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
     $plan_listR[7]=array(
-        'title'=>'НВК',
+        'title'=>'ВК',
         'tasks'=>array(
-            'gh'=>array('title'=>'Графическая часть','percent'=>50),
-            'sp'=>array('title'=>'Спецификация','percent'=>40)
+            'vkod'=>array('title'=>'ОД','percent'=>5),
+            'vkplans'=>array('title'=>'Планы','percent'=>20),
+            'vkprfv'=>array('title'=>'Схемы В','percent'=>20),
+            'vkprfk'=>array('title'=>'Схемы К','percent'=>20),
+            'vkpump'=>array('title'=>'Насосная, Водомерный узел','percent'=>20),
+            'sp'=>array('title'=>'Спецификация','percent'=>5)
         )
     );
     $plan_listR[8]=array(
-        'title'=>'АПТ',
+        'title'=>'НВК',
         'tasks'=>array(
-            'gh'=>array('title'=>'Графическая часть','percent'=>50),
-            'sp'=>array('title'=>'Спецификация','percent'=>40)
+            'nvkod'=>array('title'=>'ОД','percent'=>10),
+            'nvkplans'=>array('title'=>'Планы','percent'=>30),
+            'nvkprfv'=>array('title'=>'Профили В','percent'=>20),
+            'nvkprfk'=>array('title'=>'Профили К','percent'=>20),
+            'sp'=>array('title'=>'Спецификация','percent'=>10)
         )
     );
     $plan_listR[9]=array(
+        'title'=>'ДС',
+        'tasks'=>array(
+            'dskod'=>array('title'=>'ОД','percent'=>10),
+            'dsplans'=>array('title'=>'Планы','percent'=>35),
+            'dsprf'=>array('title'=>'Профили','percent'=>35),
+            'sp'=>array('title'=>'Спецификация','percent'=>10)
+        )
+    );
+    $plan_listR[10]=array(
+        'title'=>'АПТ',
+        'tasks'=>array(
+            'aptod'=>array('title'=>'ОД','percent'=>10),
+            'aptplans'=>array('title'=>'Планы','percent'=>25),
+            'aptscheme'=>array('title'=>'Схемы','percent'=>25),
+            'aptpump'=>array('title'=>'Насосная','percent'=>20),
+            'sp'=>array('title'=>'Спецификация','percent'=>10)
+        )
+    );
+    $plan_listR[11]=array(
         'title'=>'ОВ',
         'tasks'=>array(
             'ovttlinfo'=>array('title'=>'Общие данные','percent'=>2),
@@ -521,28 +620,31 @@ function plan_listR($pos_num=false){
             'release'=>array('title'=>'Выпуск','percent'=>2)
         )
     );
-    $plan_listR[10]=array(
+    $plan_listR[12]=array(
         'title'=>'ОТ',
         'tasks'=>array(
-            'gh'=>array('title'=>'Графическая часть','percent'=>50),
-            'sp'=>array('title'=>'Спецификация','percent'=>40)
+            'otcalc'=>array('title'=>'Расчет теплопотерь','percent'=>15),
+            'otplans'=>array('title'=>'Планы','percent'=>25),
+            'otscheme'=>array('title'=>'Схемы','percent'=>20),
+            'otgidro'=>array('title'=>'Гидрав. рассчет','percent'=>20),
+            'otall'=>array('title'=>'Общие данные','percent'=>10)
         )
     );
-    $plan_listR[11]=array(
+    $plan_listR[13]=array(
         'title'=>'ХС',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[12]=array(
+    $plan_listR[14]=array(
         'title'=>'ТС',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[13]=array(
+    $plan_listR[15]=array(
         'title'=>'Тепл.Пункт',
         'tasks'=>array(
             'itptm'=>array('title'=>'ТМ','percent'=>30),
@@ -551,35 +653,35 @@ function plan_listR($pos_num=false){
             'itpatmy'=>array('title'=>'АТМУ','percent'=>20)
         )
     );
-    $plan_listR[14]=array(
+    $plan_listR[16]=array(
         'title'=>'СС',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[15]=array(
+    $plan_listR[17]=array(
         'title'=>'МГ',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[16]=array(
+    $plan_listR[18]=array(
         'title'=>'КГС',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[17]=array(
+    $plan_listR[19]=array(
         'title'=>'Технология',
         'tasks'=>array(
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
             'sp'=>array('title'=>'Спецификация','percent'=>40)
         )
     );
-    $plan_listR[18]=array(
+    $plan_listR[20]=array(
         'title'=>'Атоматика',
         'tasks'=>array(
             'avta'=>array('title'=>'Автоматика','percent'=>30),
@@ -588,7 +690,7 @@ function plan_listR($pos_num=false){
             'avtadl'=>array('title'=>'АДЛ','percent'=>20)
         )
     );
-    $plan_listR[19]=array(
+    $plan_listR[21]=array(
         'title'=>'Сметы',
         'tasks'=>array(
             'sm'=>array('title'=>'Сметы','percent'=>50),
@@ -607,134 +709,127 @@ function arhiv_listR($pos_num=false){
     $arhiv_listR[1]=array(
         'title'=>'Генплан',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[2]=array(
         'title'=>'Архитектура',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[3]=array(
         'title'=>'Конструкции',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[4]=array(
         'title'=>'ЭО',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[5]=array(
         'title'=>'ЭМ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[6]=array(
-        'title'=>'ВК',
+        'title'=>'НЭС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[7]=array(
-        'title'=>'НВК',
+        'title'=>'ВК',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[8]=array(
-        'title'=>'АПТ',
+        'title'=>'НВК',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[9]=array(
-        'title'=>'ОВ',
+        'title'=>'ДС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[10]=array(
-        'title'=>'ОТ',
+        'title'=>'АПТ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[11]=array(
-        'title'=>'ХС',
+        'title'=>'ОВ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10),
         )
     );
     $arhiv_listR[12]=array(
-        'title'=>'ТС',
+        'title'=>'ОТ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[13]=array(
-        'title'=>'Тепл.Пункт',
+        'title'=>'ХС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[14]=array(
-        'title'=>'СС',
+        'title'=>'ТС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[15]=array(
-        'title'=>'МГ',
+        'title'=>'Тепл.Пункт',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[16]=array(
-        'title'=>'КГС',
+        'title'=>'СС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[17]=array(
-        'title'=>'Технология',
+        'title'=>'МГ',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[18]=array(
-        'title'=>'Атоматика',
+        'title'=>'КГС',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
     $arhiv_listR[19]=array(
+        'title'=>'Технология',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_listR[20]=array(
+        'title'=>'Атоматика',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+        )
+    );
+    $arhiv_listR[21]=array(
         'title'=>'Сметы',
         'tasks'=>array(
-            'arhgh'=>array('title'=>'Принять чертежи в бумаге','percent'=>5),
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5),
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
         )
     );
 
