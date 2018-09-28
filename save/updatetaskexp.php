@@ -1,12 +1,12 @@
 <?php
-$id = $_POST['id'];
-$objid=$_POST['object-id'];
-$pos_num=$_POST['pos'];
-$progress = $_POST['progress'];
-$expprog = $_POST['name'];
+$id = $_POST['task_id'];
+$objid=$_POST['object_id'];
+$pos_num=$_POST['pos_num'];
+//$progress = $_POST['progress'];
+$expprog = $_POST['percent'];
 
-$action;
-if(isset($_POST['deleteobject'])){
+$action="";
+if(isset($_POST['deleteexp'])){
   $del=1;
 }else{
    $del=2;
@@ -28,11 +28,12 @@ if(is_numeric( $id)){
 
 <div class="fomrobject">
 <h4><?php echo $action; ?>  <i class="fas fa-sync fa-spin"></i></h4>
-<script type="text/javascript">
+<meta http-equiv="refresh" content="2">
+<!-- <script type="text/javascript">
 $( document ).ready(function() {
 	setTimeout(function(){ location.reload(); }, 1500);
  
 
 });
-</script>
+</script> -->
 </div>

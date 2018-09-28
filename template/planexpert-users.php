@@ -1,117 +1,124 @@
 <div class="title-pc" >
 <h3>Замечания экспертизы</h3>
 </div>
-
+<div class="fixed-box">
+    <div class="fixed-div">
+    <div class='div-table'>
+    <table class='table table-bordered table-hover table-condensed list-object'>
+        <tr>
+        <th id="thup">П.П.</th>
+        <th id="thupq">Договор</th>
+        <th id="thupw">ГИПы</th>
+        <th id="thupe">Генплан</th>
+        <th id="thupr">АР</th>
+        <th id="thupt">КР</th>
+        <th id="thupy">ЭОМ</th>
+        <th id="thupu">НЭС</th>
+        <th id="thupi">ВК</th>
+        <th id="thupo">НВК</th>
+        <th id="thupp">АПТ</th>
+        <th id="thupa">ОВ</th>
+        <th id="thups">ОТ</th>
+        <th id="thupd">ХС</th>
+        <th id="thupf">ТС</th>
+        <th id="thupg">Тепл. пункт</th>
+        <th id="thuph">СС</th>
+        <th id="thupj">НСС</th>
+        <th id="thupk">МГ</th>
+        <th id="thupl">КГС</th>
+        <th id="thupz">ТХ</th>
+        <th id="thupx">Рад. Без.</th>
+        <th id="thupc">Автом.</th>
+        <th id="thupv">ПОС\ПОД</th>
+        <th id="thupb">АТЗ</th>
+        <th id="thupn">ООС</th>
+        <th id="thupm">ППМ</th>
+        <th id="thupqq">ГОЧС</th>
+        <th id="thupww">ОДИ</th>
+        <th id="thupee">Энергоэфф.</th>
+        <th id="thuprr">Сметы</th>
+        <th id="thuptt">СЭС</th>
+       </tr>
+</table>
+</div>
+</div>
+</div>
 <?php
 // формируем первоначальный массив с месяцами
 $pos_num =array(
-    1=>'1', //Генплан
-    '2', //АР
-    '3', //КР
-    '4', //ЭОМ
-    '5', //НЭС
-    '6', //ВК
-    '7', //НВК
-    '8', //АПТ
-    '9', //ОВ
-    '10', //ОТ
-    '11', //ХС
-    '12', //ТС
-    '13', //ИТП
-    '14', //СС
-    '15', //НСС
-    '16', //МГ
-    '17', //КГС
-    '18', //ТХ
-    '19', //Рад.Без.
-    '20', //Автом
-    '21', //ПОС-ПОД
-    '22', //АТЗ
-    '23', //ООС
-    '24', //ППМ
-    '25', //ГОЧС
-    '26', //ОДИ
-    '27', //ЭЭ
-    '28', //Сметы
-    '29' //СЭС
+    1=>'1', //ГИПы
+    '2', //Генплан
+    '3', //АР
+    '4', //КР
+    '5', //ЭОМ
+    '6', //НЭС
+    '7', //ВК
+    '8', //НВК
+    '9', //АПТ
+    '10', //ОВ
+    '11', //ОТ
+    '12', //ХС
+    '13', //ТС
+    '14', //ИТП
+    '15', //СС
+    '16', //НСС
+    '17', //МГ
+    '18', //КГС
+    '19', //ТХ
+    '20', //Рад.Без.
+    '21', //Автом
+    '22', //ПОС-ПОД
+    '23', //АТЗ
+    '24', //ООС
+    '25', //ППМ
+    '26', //ГОЧС
+    '27', //ОДИ
+    '28', //ЭЭ
+    '29', //Сметы
+    '30' //СЭС
     );
 //задаем переменную для проставки порядковых номеров
            $pp= 1;
 
-$list = array();
-$result = query("SELECT id, name FROM objects");
-/*Тут после первого запроса, перебираем полученный массив с
-объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
-где по id объекта ищем задачи относящиеся к данному объекту.
-*/
-while($data = mysqli_fetch_assoc($result)){ 
-
-    $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
-    $planarr=array();
-    while($plan = mysqli_fetch_assoc($result2)){ 
-        $planarr[$plan['pos_num']]=array(
-              'id'=>$plan['id'],
-              'position_num'=>$plan['pos_num'],
-              'exp_num'=>$plan['exp_num']
-          );
-    }
-    $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
-    $planP=array();
-    while($plan = mysqli_fetch_assoc($result3)){ 
-        $planP[$plan['pos_num']]=array(
-              'id'=>$plan['id'],
-              'progress'=>$plan['progress'],
-              'position_num'=>$plan['pos_num'],
-              'notuse'=>$plan['notuse'],
-              'pzcheck'=>$plan['pz'],
-              'ghcheck'=>$plan['gh'],
-              'spcheck'=>$plan['sp']
-          );
-    }
-    $list[]=array(
-        'id'=>$data['id'],
-        'name'=>$data['name'],
-        'task'=>$planarr,
-        'taskP'=>$planP
-    );
-}
+           $list=getepxPobj($_COOKIE['role'], $_COOKIE['au_id']);
 
 //формируем таблицу с полученным вложенным массивом
 echo "   <div class='div-table'>";
    echo "
    <table class='table table-bordered table-hover table-condensed list-object'>
         <tr>
-        <th>П.П.</th>
-        <th>Договор</th>
-        <th>Генплан</th>
-        <th>АР</th>
-        <th>КР</th>
-        <th>ЭОМ</th>
-        <th>НЭС</th>
-        <th>ВК</th>
-        <th>НВК</th>
-        <th>АПТ</th>
-        <th>ОВ</th>
-        <th>ОТ</th>
-        <th>ХС</th>
-        <th>ТС</th>
-        <th>Тепл. пункт</th>
-        <th>СС</th>
-        <th>НСС</th>
-        <th>МГ</th>
-        <th>КГС</th>
-        <th>ТХ</th>
-        <th>Рад. Без.</th>
-        <th>Автом.</th>
-        <th>ПОС\ПОД</th>
-        <th>АТЗ</th>
-        <th>ООС</th>
-        <th>ППМ</th>
-        <th>ГОЧС</th>
-        <th>ОДИ</th>
-        <th>Энергоэфф.</th>
-        <th>Сметы</th>
-        <th>СЭС</th>
+        <th id='thid'>П.П.</th>
+        <th id='thidq'>Договор</th>
+        <th id='thidw'>ГИПы</th>
+        <th id='thide'>Генплан</th>
+        <th id='thidr'>АР</th>
+        <th id='thidt'>КР</th>
+        <th id='thidy'>ЭОМ</th>
+        <th id='thidu'>НЭС</th>
+        <th id='thidi'>ВК</th>
+        <th id='thido'>НВК</th>
+        <th id='thidp'>АПТ</th>
+        <th id='thida'>ОВ</th>
+        <th id='thids'>ОТ</th>
+        <th id='thidd'>ХС</th>
+        <th id='thidf'>ТС</th>
+        <th id='thidg'>Тепл. пункт</th>
+        <th id='thidh'>СС</th>
+        <th id='thidj'>НСС</th>
+        <th id='thidk'>МГ</th>
+        <th id='thidl'>КГС</th>
+        <th id='thidz'>ТХ</th>
+        <th id='thidx'>Рад. Без.</th>
+        <th id='thidc'>Автом.</th>
+        <th id='thidv'>ПОС\ПОД</th>
+        <th id='thidb'>АТЗ</th>
+        <th id='thidn'>ООС</th>
+        <th id='thidm'>ППМ</th>
+        <th id='thidqq'>ГОЧС</th>
+        <th id='thidww'>ОДИ</th>
+        <th id='thidee'>Энергоэфф.</th>
+        <th id='thidrr'>Сметы</th>
+        <th id='thidtt'>СЭС</th>
         </tr>";
 //     foreach ($list as $key => $row) {
 //         echo '<tr>';
@@ -138,3 +145,75 @@ echo "   <div class='div-table'>";
 //        echo "</table>";
        
 ?>
+
+<script>
+$(document).ready(function($) {
+
+// alert(getStyle( document.getElementById('thid'),'width'));
+// alert(getStyle( document.getElementById('thidq'),'width'));
+
+// $('thup'){
+// $(this).attr('width', getStyle( document.getElementById('thid'),'width'))
+// });
+$('th#thup').attr('width', getStyle( document.getElementById('thid'),'width'));
+$('th#thupq').attr('width', getStyle( document.getElementById('thidq'),'width'));
+$('th#thupw').attr('width', getStyle( document.getElementById('thidw'),'width'));
+$('th#thupe').attr('width', getStyle( document.getElementById('thide'),'width'));
+$('th#thupr').attr('width', getStyle( document.getElementById('thidr'),'width'));
+$('th#thupt').attr('width', getStyle( document.getElementById('thidt'),'width'));
+$('th#thupy').attr('width', getStyle( document.getElementById('thidy'),'width'));
+$('th#thupu').attr('width', getStyle( document.getElementById('thidu'),'width'));
+$('th#thupi').attr('width', getStyle( document.getElementById('thidi'),'width'));
+$('th#thupo').attr('width', getStyle( document.getElementById('thido'),'width'));
+$('th#thupp').attr('width', getStyle( document.getElementById('thidp'),'width'));
+$('th#thupa').attr('width', getStyle( document.getElementById('thida'),'width'));
+$('th#thups').attr('width', getStyle( document.getElementById('thids'),'width'));
+$('th#thupd').attr('width', getStyle( document.getElementById('thidd'),'width'));
+$('th#thupf').attr('width', getStyle( document.getElementById('thidf'),'width'));
+$('th#thupg').attr('width', getStyle( document.getElementById('thidg'),'width'));
+$('th#thuph').attr('width', getStyle( document.getElementById('thidh'),'width'));
+$('th#thupj').attr('width', getStyle( document.getElementById('thidj'),'width'));
+$('th#thupk').attr('width', getStyle( document.getElementById('thidk'),'width'));
+$('th#thupl').attr('width', getStyle( document.getElementById('thidl'),'width'));
+$('th#thupz').attr('width', getStyle( document.getElementById('thidz'),'width'));
+$('th#thupx').attr('width', getStyle( document.getElementById('thidx'),'width'));
+$('th#thupc').attr('width', getStyle( document.getElementById('thidc'),'width'));
+$('th#thupv').attr('width', getStyle( document.getElementById('thidv'),'width'));
+$('th#thupb').attr('width', getStyle( document.getElementById('thidb'),'width'));
+$('th#thupn').attr('width', getStyle( document.getElementById('thidn'),'width'));
+$('th#thupm').attr('width', getStyle( document.getElementById('thidm'),'width'));
+$('th#thupqq').attr('width', getStyle( document.getElementById('thidqq'),'width'));
+$('th#thupww').attr('width', getStyle( document.getElementById('thidww'),'width'));
+$('th#thupee').attr('width', getStyle( document.getElementById('thidee'),'width'));
+$('th#thuprr').attr('width', getStyle( document.getElementById('thidrr'),'width'));
+$('th#thuptt').attr('width', getStyle( document.getElementById('thidtt'),'width'));
+
+// alert(getStyle( document.getElementById('thup'),'width'));
+// alert(getStyle( document.getElementById('thupq'),'width'));
+// alert( getRealSize(document.getElementById('thid1')).width );
+// alert( getRealSize(document.getElementById('thid2')).width );
+
+    $nav = $('.fixed-div');
+    $nav.css('width', $nav.outerWidth());
+    $window = $(window);
+    $h = $nav.offset().top;
+    $window.scroll(function() {
+        if ($window.scrollTop() > $h) {
+            $nav.addClass('fixed');
+        } else {
+            $nav.removeClass('fixed');
+        }
+    });
+});
+
+ function getStyle(b, a) {
+    if (document.defaultView && document.defaultView.getComputedStyle) {
+        return document.defaultView.getComputedStyle(b, "")[a]
+    } else if (b.currentStyle) {
+        return b.currentStyle[a]
+    }
+};
+
+
+
+</script>

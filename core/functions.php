@@ -1,68 +1,96 @@
-
 <?php
+function currdata(){
+        $currentDate = date('m-Y'); //может быть присвоена из другой переменной
+        //список месяцев с названиями для замены
+        $_monthsList = array(
+            "01-" => "январь",
+            "02-" => "февраль",
+            "03-" => "март",
+            "04-" => "апрель",
+            "05-" => "май",
+            "06-" => "июнь",
+            "07-" => "июль",
+            "08-" => "август",
+            "09-" => "сентябрь",
+            "10-" => "октябрь",
+            "11-" => "ноябрь",
+            "12-" => "декабрь"
+        );
+        //Наша задача - вывод русской даты, 
+        //поэтому заменяем число месяца на название:
+            $_mD = date("m-"); //для замены
+            $currentDate = str_replace($_mD, " ".$_monthsList[$_mD]." ", $currentDate);
+    return $currentDate;
+}
 
 //функция обработки mysql запросов
 function load_page(){
-
     if(isset($_GET['page']) && !empty($_GET['page'])){
         $page = $_GET['page'];
     }else{
-        //Грузим страницу по умолчанию. Без админских прав.
+    //Грузим страницу по умолчанию. Без админских прав.
         $page = 'planforyear-guest.php';
-
         switch ($_SESSION['mode']) {
             case 'spec':
-                $page = 'main-spec.php'; break;
-                // $page = 'main-update.php'; break;
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
             case 'gip':
-                $page = 'main-gip.php'; break;
-                // $page = 'main-update.php'; break;
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
             case 'arhiv':
-                $page = 'main-arhiv.php'; break;
-                // $page = 'main-update.php'; break;
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
             case 'admin':
-                $page = 'main.php'; break;
+            $page = 'main.php'; break;
             case 'expert':
-                $page = 'main-expert.php'; break;
-                // $page = 'main-update.php'; break;
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
             default:
-                // $page = 'main-update.php';
-                $page = 'planforyear-guest.php';
-                break;
+            // $page = 'main-update.php';
+            $page = 'planforyear-guest.php';
+            break;
         }
     }
-
     include(__DIR__.'/../pages/'.$page);
-
 }
 
-
 function plancalc($data1, $data2){
+        $date1= date_create ($data1);
+        $date2= date_create ($data2);
 
-    $date1= date_create ($data1);
-    $date2= date_create ($data2);
+        $diffP= date_diff($date1, $date2);
+        $daysPplan = (int)$diffP->format('%a');
 
-    $diffP= date_diff($date1, $date2);
-    $daysPplan = (int)$diffP->format('%a');
-    
-    $datenow1 = date("Y-m-d");
-    $today = date_create($datenow1);
-    
-    $diffnow= date_diff($date1, $today);
-    $daysPnow = (int)$diffnow->format('%a');
+        $datenow1 = date("Y-m-d");
+        $today = date_create($datenow1);
 
-    $daysPnow= $daysPnow * 100;
-    if($daysPplan==0){
+        $diffnow= date_diff($date1, $today);
+        $daysPnow = (int)$diffnow->format('%a');
 
-    }else{
-    $percentcalc= $daysPnow/ $daysPplan;
-    }
-    $percentcalc=round($percentcalc, 0);
-    if($percentcalc>100){
+        $daysPnow= $daysPnow * 100;
+
+        if($daysPplan==0){
+        }else{
+        $percentcalc= $daysPnow/ $daysPplan;
+        }
+
+        $percentcalc=round($percentcalc, 0);
+        
+        if($percentcalc>100){
         $percentcalc=100;
-    }else{}
+        }else{}
 
-        return $percentcalc;
+    return $percentcalc;
+}
+
+function daydiff($data1, $data2){
+        $date1= date_create ($data1);
+        $date2= date_create ($data2);
+
+        $diffP= date_diff($date1, $date2);
+        $daysPplan = (int)$diffP->format('%a');
+
+    return $daysPplan;
 }
 
 function load_modal(){
@@ -70,10 +98,18 @@ function load_modal(){
     include(__DIR__.'/../template/modals/'.$modal_name.'.php');
 }
 
-
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В СТАДИИ П ДЛЯ СПЕЦИАЛИСТОВ<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function plan_list($pos_num=false){
     $plan_list=array();
     $plan_list[1]=array(
+        'title'=>'ГИП',
+        'tasks'=>array(
+            'pz'=>array('title'=>'ОПЗ','percent'=>30),
+            'gh'=>array('title'=>'ИРД','percent'=>30),
+            'ved'=>array('title'=>'ТУ','percent'=>30)
+        )
+    );
+    $plan_list[2]=array(
         'title'=>'Генплан',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -81,7 +117,7 @@ function plan_list($pos_num=false){
             'ved'=>array('title'=>'Ведомость Объемов','percent'=>30)
         )
     );
-    $plan_list[2]=array(
+    $plan_list[3]=array(
         'title'=>'Архитектура',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
@@ -92,7 +128,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>10)
         )
     );
-    $plan_list[3]=array(
+    $plan_list[4]=array(
         'title'=>'Конструкции',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
@@ -101,16 +137,8 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>10)
         )
     );
-    $plan_list[4]=array(
-        'title'=>'"ЭОМ"',
-        'tasks'=>array(
-            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
-            'gh'=>array('title'=>'Графическая часть','percent'=>30),
-            'sp'=>array('title'=>'Спецификация','percent'=>30)
-        )
-    );
     $plan_list[5]=array(
-        'title'=>'НЭС',
+        'title'=>'ЭОМ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -118,7 +146,7 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[6]=array(
-        'title'=>'ВК',
+        'title'=>'НЭС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -126,7 +154,7 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[7]=array(
-        'title'=>'НВК',
+        'title'=>'ВК',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -134,7 +162,7 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[8]=array(
-        'title'=>'АПТ',
+        'title'=>'НВК',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
             'gh'=>array('title'=>'Графическая часть','percent'=>30),
@@ -142,6 +170,14 @@ function plan_list($pos_num=false){
         )
     );
     $plan_list[9]=array(
+        'title'=>'АПТ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $plan_list[10]=array(
         'title'=>'ОВ',
         'tasks'=>array(
             'calcovnag'=>array('title'=>'Расчет нагрузок','percent'=>2),
@@ -157,7 +193,7 @@ function plan_list($pos_num=false){
             'release'=>array('title'=>'Выпуск','percent'=>2)
         )
     );
-    $plan_list[10]=array(
+    $plan_list[11]=array(
         'title'=>'ОТ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
@@ -167,7 +203,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>15)
         )
     );
-    $plan_list[11]=array(
+    $plan_list[12]=array(
         'title'=>'ХС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -175,7 +211,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[12]=array(
+    $plan_list[13]=array(
         'title'=>'ТС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -183,7 +219,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[13]=array(
+    $plan_list[14]=array(
         'title'=>'Тепловой Пункт',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -191,7 +227,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[14]=array(
+    $plan_list[15]=array(
         'title'=>'СС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -199,7 +235,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[15]=array(
+    $plan_list[16]=array(
         'title'=>'НСС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -207,7 +243,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[16]=array(
+    $plan_list[17]=array(
         'title'=>'МГ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -215,7 +251,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[17]=array(
+    $plan_list[18]=array(
         'title'=>'КГС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -223,7 +259,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[18]=array(
+    $plan_list[19]=array(
         'title'=>'ТХ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -231,7 +267,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[19]=array(
+    $plan_list[20]=array(
         'title'=>'Рад. Без.',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -239,7 +275,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[20]=array(
+    $plan_list[21]=array(
         'title'=>'Автоматика',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -247,7 +283,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[21]=array(
+    $plan_list[22]=array(
         'title'=>'ПОС-ПОД',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -255,7 +291,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[22]=array(
+    $plan_list[23]=array(
         'title'=>'АТЗ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -263,7 +299,7 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[23]=array(
+    $plan_list[24]=array(
         'title'=>'ООС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>35),
@@ -272,7 +308,7 @@ function plan_list($pos_num=false){
             'ved'=>array('title'=>'Ведомость Объемов','percent'=>10)
         )
     );
-    $plan_list[24]=array(
+    $plan_list[25]=array(
         'title'=>'ППМ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -280,14 +316,14 @@ function plan_list($pos_num=false){
             'calcppm'=>array('title'=>'Расчет Рисков','percent'=>30)
         )
     );
-    $plan_list[25]=array(
+    $plan_list[26]=array(
         'title'=>'ГОЧС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>40),
             'gh'=>array('title'=>'Графическая часть','percent'=>50),
         )
     );
-    $plan_list[26]=array(
+    $plan_list[27]=array(
         'title'=>'ОДИ',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -295,14 +331,14 @@ function plan_list($pos_num=false){
             'sp'=>array('title'=>'Спецификация','percent'=>30)
         )
     );
-    $plan_list[27]=array(
+    $plan_list[28]=array(
         'title'=>'Энергоэффективность',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
             'gh'=>array('title'=>'Графическая часть','percent'=>45),
         )
     );
-    $plan_list[28]=array(
+    $plan_list[29]=array(
         'title'=>'Сметы',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
@@ -310,14 +346,14 @@ function plan_list($pos_num=false){
             'prices'=>array('title'=>'Прайс-листы','percent'=>30)
         )
     );
-    $plan_list[29]=array(
+    $plan_list[30]=array(
         'title'=>'БЭО',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
             'gh'=>array('title'=>'Графическая часть','percent'=>45),
         )
     );
-    $plan_list[30]=array(
+    $plan_list[31]=array(
         'title'=>'ОЗДС',
         'tasks'=>array(
             'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
@@ -330,186 +366,193 @@ function plan_list($pos_num=false){
     return $plan_list;
 }
 
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В СТАДИИ П ДЛЯ АРХИВА<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function arhiv_list($pos_num=false){
     $arhiv_list=array();
     $arhiv_list[1]=array(
-        'title'=>'Генплан',
+        'title'=>'ГИП',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[2]=array(
-        'title'=>'Архитектура',
+        'title'=>'Генплан',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[3]=array(
-        'title'=>'Конструкции',
+        'title'=>'Архитектура',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[4]=array(
-        'title'=>'"ЭОМ"',
+        'title'=>'Конструкции',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[5]=array(
-        'title'=>'НЭС',
+        'title'=>'ЭОМ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[6]=array(
-        'title'=>'ВК',
+        'title'=>'НЭС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[7]=array(
-        'title'=>'НВК',
+        'title'=>'ВК',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[8]=array(
-        'title'=>'АПТ',
+        'title'=>'НВК',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[9]=array(
-        'title'=>'ОВ',
+        'title'=>'АПТ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[10]=array(
-        'title'=>'ОТ',
+        'title'=>'ОВ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[11]=array(
-        'title'=>'ХС',
+        'title'=>'ОТ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[12]=array(
-        'title'=>'ТС',
+        'title'=>'ХС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[13]=array(
-        'title'=>'Тепловой Пункт',
+        'title'=>'ТС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[14]=array(
-        'title'=>'СС',
+        'title'=>'Тепловой Пункт',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[15]=array(
-        'title'=>'НСС',
+        'title'=>'СС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[16]=array(
-        'title'=>'МГ',
+        'title'=>'НСС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[17]=array(
-        'title'=>'КГС',
+        'title'=>'МГ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[18]=array(
-        'title'=>'ТХ',
+        'title'=>'КГС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[19]=array(
-        'title'=>'Рад. Без.',
+        'title'=>'ТХ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[20]=array(
-        'title'=>'Автоматика',
+        'title'=>'Рад. Без.',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[21]=array(
-        'title'=>'ПОС-ПОД',
+        'title'=>'Автоматика',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[22]=array(
-        'title'=>'АТЗ',
+        'title'=>'ПОС-ПОД',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[23]=array(
-        'title'=>'ООС',
+        'title'=>'АТЗ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[24]=array(
-        'title'=>'ППМ',
+        'title'=>'ООС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[25]=array(
-        'title'=>'ГОЧС',
+        'title'=>'ППМ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[26]=array(
-        'title'=>'ОДИ',
+        'title'=>'ГОЧС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[27]=array(
-        'title'=>'Энергоэффективность',
+        'title'=>'ОДИ',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[28]=array(
-        'title'=>'БЭО',
+        'title'=>'Энергоэффективность',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[29]=array(
-        'title'=>'Сметы',
+        'title'=>'БЭО',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     $arhiv_list[30]=array(
+        'title'=>'Сметы',
+        'tasks'=>array(
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
+        )
+    );
+    $arhiv_list[31]=array(
         'title'=>'ОЗДС',
         'tasks'=>array(
-            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>10)
+            'arhpdf'=>array('title'=>'Принять чертежи в PDF','percent'=>5)
         )
     );
     if(isset($pos_num) && !empty($pos_num)){
@@ -518,6 +561,463 @@ function arhiv_list($pos_num=false){
     return $arhiv_list;
 }
 
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В СТАДИИ П ДЛЯ ЭКСПЕРТОВ<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+function expertP_list($pos_num=false){
+    $expertP_list=array();
+    $expertP_list[1]=array(
+        'title'=>'ГИП',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[2]=array(
+        'title'=>'Генплан',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[3]=array(
+        'title'=>'Архитектура',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[4]=array(
+        'title'=>'Конструкции',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[5]=array(
+        'title'=>'ЭОМ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[6]=array(
+        'title'=>'НЭС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[7]=array(
+        'title'=>'ВК',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[8]=array(
+        'title'=>'НВК',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[9]=array(
+        'title'=>'АПТ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[10]=array(
+        'title'=>'ОВ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[11]=array(
+        'title'=>'ОТ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[12]=array(
+        'title'=>'ХС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[13]=array(
+        'title'=>'ТС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[14]=array(
+        'title'=>'Тепловой Пункт',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[15]=array(
+        'title'=>'СС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[16]=array(
+        'title'=>'НСС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[17]=array(
+        'title'=>'МГ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[18]=array(
+        'title'=>'КГС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[19]=array(
+        'title'=>'ТХ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[20]=array(
+        'title'=>'Рад. Без.',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[21]=array(
+        'title'=>'Автоматика',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[22]=array(
+        'title'=>'ПОС-ПОД',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[23]=array(
+        'title'=>'АТЗ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[24]=array(
+        'title'=>'ООС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[25]=array(
+        'title'=>'ППМ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[26]=array(
+        'title'=>'ГОЧС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[27]=array(
+        'title'=>'ОДИ',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[28]=array(
+        'title'=>'Энергоэффективность',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[29]=array(
+        'title'=>'БЭО',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[30]=array(
+        'title'=>'Сметы',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    $expertP_list[31]=array(
+        'title'=>'ОЗДС',
+        'tasks'=>array(
+            'expertpdf'=>array('title'=>'Принять файлы для экспертизы','percent'=>5)
+        )
+    );
+    if(isset($pos_num) && !empty($pos_num)){
+        return $expertP_list[$pos_num];
+    }
+    return $expertP_list;
+}
+
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В ЗАМЕЧАНИЯХ ДЛЯ ЭКСПЕРТОВ<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+function expert_list($pos_num=false){
+    $expert_list=array();
+    $expert_list[1]=array(
+        'title'=>'ГИПы',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'ved'=>array('title'=>'Ведомость Объемов','percent'=>30)
+        )
+    );
+    $expert_list[2]=array(
+        'title'=>'Генплан',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'ved'=>array('title'=>'Ведомость Объемов','percent'=>30)
+        )
+    );
+    $expert_list[3]=array(
+        'title'=>'Архитектура',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
+            'pl'=>array('title'=>'Планы','percent'=>30),
+            'fs'=>array('title'=>'Фасады','percent'=>10),
+            '3d'=>array('title'=>'3D-Визуализация','percent'=>10),
+            'veddecor'=>array('title'=>'Ведомость отделки','percent'=>20),
+            'sp'=>array('title'=>'Спецификация','percent'=>10)
+        )
+    );
+    $expert_list[4]=array(
+        'title'=>'Конструкции',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
+            'gh'=>array('title'=>'Графическая часть','percent'=>40),
+            'calckr'=>array('title'=>'Расчетная часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>10)
+        )
+    );
+    $expert_list[5]=array(
+        'title'=>'ЭОМ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[6]=array(
+        'title'=>'НЭС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[7]=array(
+        'title'=>'ВК',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[8]=array(
+        'title'=>'НВК',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[9]=array(
+        'title'=>'АПТ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[10]=array(
+        'title'=>'ОВ',
+        'tasks'=>array(
+            'calcovnag'=>array('title'=>'Расчет нагрузок','percent'=>2),
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>8),
+            'ovairbalance'=>array('title'=>'Таб. воздушных балансов','percent'=>14),
+            'ovchar'=>array('title'=>'Характеристика','percent'=>8),
+            'ovairvak'=>array('title'=>'Таб. местных отсосов','percent'=>4),
+            'ovdypp'=>array('title'=>'Планы ДУ и ПП','percent'=>9),
+            'ovonelinepl'=>array('title'=>'Планы "в одну линию"','percent'=>27),
+            'ovpltp'=>array('title'=>'Планы теплоснабжения','percent'=>8),
+            'ovspvent'=>array('title'=>'Спецификация - вентиляция','percent'=>5),
+            'ovsptp'=>array('title'=>'Спецификация - теплоснабжение','percent'=>3),
+            'release'=>array('title'=>'Выпуск','percent'=>2)
+        )
+    );
+    $expert_list[11]=array(
+        'title'=>'ОТ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>10),
+            'otcalc'=>array('title'=>'Расчет теплопотерь','percent'=>15),
+            'otplans'=>array('title'=>'Планы','percent'=>45),
+            'otscheme'=>array('title'=>'Принудит. схема','percent'=>5),
+            'sp'=>array('title'=>'Спецификация','percent'=>15)
+        )
+    );
+    $expert_list[12]=array(
+        'title'=>'ХС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[13]=array(
+        'title'=>'ТС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[14]=array(
+        'title'=>'Тепловой Пункт',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[15]=array(
+        'title'=>'СС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[16]=array(
+        'title'=>'НСС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[17]=array(
+        'title'=>'МГ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[18]=array(
+        'title'=>'КГС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[19]=array(
+        'title'=>'ТХ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[20]=array(
+        'title'=>'Рад. Без.',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[21]=array(
+        'title'=>'Автоматика',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[22]=array(
+        'title'=>'ПОС-ПОД',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[23]=array(
+        'title'=>'АТЗ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[24]=array(
+        'title'=>'ООС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>35),
+            'attach'=>array('title'=>'Приложения','percent'=>15),
+            'calcnoise'=>array('title'=>'Расчет Шума','percent'=>30),
+            'ved'=>array('title'=>'Ведомость Объемов','percent'=>10)
+        )
+    );
+    $expert_list[25]=array(
+        'title'=>'ППМ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'ved'=>array('title'=>'Ведомость Объемов','percent'=>30),
+            'calcppm'=>array('title'=>'Расчет Рисков','percent'=>30)
+        )
+    );
+    $expert_list[26]=array(
+        'title'=>'ГОЧС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>40),
+            'gh'=>array('title'=>'Графическая часть','percent'=>50),
+        )
+    );
+    $expert_list[27]=array(
+        'title'=>'ОДИ',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'gh'=>array('title'=>'Графическая часть','percent'=>30),
+            'sp'=>array('title'=>'Спецификация','percent'=>30)
+        )
+    );
+    $expert_list[28]=array(
+        'title'=>'Энергоэффективность',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
+            'gh'=>array('title'=>'Графическая часть','percent'=>45),
+        )
+    );
+    $expert_list[29]=array(
+        'title'=>'Сметы',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>30),
+            'sm'=>array('title'=>'Сметы','percent'=>30),
+            'prices'=>array('title'=>'Прайс-листы','percent'=>30)
+        )
+    );
+    $expert_list[30]=array(
+        'title'=>'СЭС',
+        'tasks'=>array(
+            'pz'=>array('title'=>'Пояснительная Записка','percent'=>45),
+            'gh'=>array('title'=>'Графическая часть','percent'=>45),
+        )
+    );
+    if(isset($pos_num) && !empty($pos_num)){
+        return $expert_list[$pos_num];
+    }
+    return $expert_list;
+}
+
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В СТАДИИ Р ДЛЯ СПЕЦИАЛИСТОВ<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function plan_listR($pos_num=false){
     $plan_listR=array();
     $plan_listR[1]=array(
@@ -704,6 +1204,7 @@ function plan_listR($pos_num=false){
     return $plan_listR;
 }
 
+//ФОРМИРОВАНИЕ МОДАЛЬНЫХ ОКОН В СТАДИИ Р ДЛЯ АРХИВА<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function arhiv_listR($pos_num=false){
     $arhiv_listR=array();
     $arhiv_listR[1]=array(
@@ -839,4 +1340,927 @@ function arhiv_listR($pos_num=false){
     return $arhiv_listR;
 }
 
+
+function diffdatebymonth ($diffdata1, $diffdata2) {  
+        $diffminmax = abs(strtotime($diffdata1) - strtotime($diffdata2)); 
+        $minmaxresult = ceil($diffminmax / (30*60*60*24));
+    return $minmaxresult;
+}
+
+function getobjectsP ($posnum, $role, $au_id) {
+
+    $list = array();
+
+    if($role=='gap'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrol= query("SELECT id, object_id, pos_num, notuse, progress  FROM plancontrol WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrol)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelP = query("SELECT id, stage FROM razdelP WHERE pos_num=".$posnum);
+            $radzdelParr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelP)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }elseif($role=='kr'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND kr_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrol= query("SELECT id, object_id, pos_num, notuse, progress  FROM plancontrol WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrol)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelP = query("SELECT id, stage FROM razdelP WHERE pos_num=".$posnum);
+            $radzdelParr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelP)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }elseif($role=='gip'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gip_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrol= query("SELECT id, object_id, pos_num, notuse, progress  FROM plancontrol WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrol)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelP = query("SELECT id, stage FROM razdelP WHERE pos_num=".$posnum);
+            $radzdelParr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelP)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }elseif($role=='ov'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND ov_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrol= query("SELECT id, object_id, pos_num, notuse, progress  FROM plancontrol WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrol)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelP = query("SELECT id, stage FROM razdelP WHERE pos_num=".$posnum);
+            $radzdelParr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelP)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }else{
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL ");
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrol= query("SELECT id, object_id, pos_num, notuse, progress  FROM plancontrol WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrol)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelP = query("SELECT id, stage FROM razdelP WHERE pos_num=".$posnum);
+            $radzdelParr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelP)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }
+    return $list;
+}
+
+
+function getobjectsR ($posnum, $role, $au_id) {
+
+    $list = array();
+
+    if($role=='gip'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gip_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrolR= query("SELECT id, object_id, pos_num, notuse, progress FROM plancontrolR WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrolR)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelR = query("SELECT id, stage FROM razdelR WHERE pos_num=".$posnum);
+            $radzdelarr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelR)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }elseif($role=='gap'){
+
+    $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
+
+    while($data = mysqli_fetch_assoc($toObjects)){
+        $toPlancontrolR= query("SELECT id, object_id, pos_num, notuse, progress FROM plancontrolR WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+        $planarr=array();
+        while($plan = mysqli_fetch_assoc($toPlancontrolR)){ 
+            $planarr[]=array(
+                'id'=>$plan['id'],
+                'object_id'=>$plan['object_id'],
+                'pos_num'=>$plan['pos_num'],
+                'notuse'=>$plan['notuse'],
+                'progress'=>$plan['progress']
+            );
+        }
+        $toRazdelR = query("SELECT id, stage FROM razdelR WHERE pos_num=".$posnum);
+        $radzdelarr=array();
+        while($razdelP = mysqli_fetch_assoc($toRazdelR)){ 
+            $radzdelParr[]=array(
+                'id'=>$razdelP['id'],
+                'stage'=>$razdelP['stage']
+            );
+        }
+        $list[]=array(
+            'id'=>$data['id'],
+            'name'=>$data['name'],
+            'arhiv_id'=>$data['arhiv_id'],
+            'gip_id'=>$data['gip_id'],
+            'gap_id'=>$data['gap_id'],
+            'ov_id'=>$data['ov_id'],
+            'kr_id'=>$data['kr_id'],
+            'planarr'=>$planarr,
+            'radzdelParr'=>$radzdelParr,
+        );
+    }
+    }elseif($role=='ov'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND ov_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+        $toPlancontrolR= query("SELECT id, object_id, pos_num, notuse, progress FROM plancontrolR WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+        $planarr=array();
+        while($plan = mysqli_fetch_assoc($toPlancontrolR)){ 
+            $planarr[]=array(
+                'id'=>$plan['id'],
+                'object_id'=>$plan['object_id'],
+                'pos_num'=>$plan['pos_num'],
+                'notuse'=>$plan['notuse'],
+                'progress'=>$plan['progress']
+            );
+        }
+        $toRazdelR = query("SELECT id, stage FROM razdelR WHERE pos_num=".$posnum);
+        $radzdelarr=array();
+        while($razdelP = mysqli_fetch_assoc($toRazdelR)){ 
+            $radzdelParr[]=array(
+                'id'=>$razdelP['id'],
+                'stage'=>$razdelP['stage']
+            );
+        }
+        $list[]=array(
+            'id'=>$data['id'],
+            'name'=>$data['name'],
+            'arhiv_id'=>$data['arhiv_id'],
+            'gip_id'=>$data['gip_id'],
+            'gap_id'=>$data['gap_id'],
+            'ov_id'=>$data['ov_id'],
+            'kr_id'=>$data['kr_id'],
+            'planarr'=>$planarr,
+            'radzdelParr'=>$radzdelParr,
+        );
+        }
+    }elseif($role=='kr'){
+
+        $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND kr_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($toObjects)){
+            $toPlancontrolR= query("SELECT id, object_id, pos_num, notuse, progress FROM plancontrolR WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrolR)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelR = query("SELECT id, stage FROM razdelR WHERE pos_num=".$posnum);
+            $radzdelarr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelR)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }else{
+
+        $toObjectsR = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL ");
+
+        while($data = mysqli_fetch_assoc($toObjectsR)){
+
+            $toPlancontrolR= query("SELECT id, object_id, pos_num, notuse, progress FROM plancontrolR WHERE object_id=".$data['id']." AND pos_num=".$posnum." ORDER BY object_id ASC");
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($toPlancontrolR)){ 
+                $planarr[]=array(
+                    'id'=>$plan['id'],
+                    'object_id'=>$plan['object_id'],
+                    'pos_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'progress'=>$plan['progress']
+                );
+            }
+            $toRazdelR = query("SELECT id, stage FROM razdelR WHERE pos_num=".$posnum);
+            $radzdelarr=array();
+            while($razdelP = mysqli_fetch_assoc($toRazdelR)){ 
+                $radzdelParr[]=array(
+                    'id'=>$razdelP['id'],
+                    'stage'=>$razdelP['stage']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'planarr'=>$planarr,
+                'radzdelParr'=>$radzdelParr,
+            );
+        }
+    }
+    return $list;
+}
+
+function getontrolPobj($role, $au_id){
+
+    $list = array();
+
+    if($role=='gip'){
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gip_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+    }elseif($role=='gap'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($result)){
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+    }elseif($role=='ov'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND ov_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($result)){
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+    }elseif($role=='kr'){
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND kr_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($result)){
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+    }else{
+        $result = query("SELECT id, name, arhiv_id FROM objects WHERE arhiv_id IS NULL ");
+
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'task'=>$planarr
+            );
+        }
+    }
+
+    return $list;
+}
+
+function getontrolRobj($role, $au_id){
+
+    $list = array();
+
+    if($role=='gip'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gip_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+
+    }elseif($role=='gap'){
+
+    $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
+
+    while($data = mysqli_fetch_assoc($result)){ 
+
+        $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
+        $planarr=array();
+        while($plan = mysqli_fetch_assoc($result2)){ 
+            $planarr[$plan['pos_num']]=array(
+                'id'=>$plan['id'],
+                'progress'=>$plan['progress'],
+                'position_num'=>$plan['pos_num'],
+                'notuse'=>$plan['notuse'],
+                'fullfuck'=>$plan['fullfuck'],
+                'ghcheck'=>$plan['gh'],
+                'spcheck'=>$plan['sp']
+            );
+        }
+        $list[]=array(
+            'id'=>$data['id'],
+            'name'=>$data['name'],
+            'arhiv_id'=>$data['arhiv_id'],
+            'gip_id'=>$data['gip_id'],
+            'gap_id'=>$data['gap_id'],
+            'ov_id'=>$data['ov_id'],
+            'kr_id'=>$data['kr_id'],
+            'task'=>$planarr
+        );
+    }
+
+    }elseif($role=='ov'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND ov_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+
+    }elseif($role=='kr'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND kr_id =".$au_id);
+
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+            $planarr[$plan['pos_num']]=array(
+                'id'=>$plan['id'],
+                'progress'=>$plan['progress'],
+                'position_num'=>$plan['pos_num'],
+                'notuse'=>$plan['notuse'],
+                'fullfuck'=>$plan['fullfuck'],
+                'ghcheck'=>$plan['gh'],
+                'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr
+            );
+        }
+
+    }else{
+
+        $result = query("SELECT id, name, arhiv_id FROM objects WHERE arhiv_id IS NULL ");
+
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'fullfuck'=>$plan['fullfuck'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'task'=>$planarr
+            );
+        }
+    }
+
+    return $list;
+}
+
+function getepxPobj($role, $au_id){
+
+    $list = array();
+
+    if($role=='gip'){
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gip_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'position_num'=>$plan['pos_num'],
+                    'exp_num'=>$plan['exp_num']
+                );
+            }
+            $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+            $planP=array();
+            while($plan = mysqli_fetch_assoc($result3)){ 
+                $planP[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr,
+                'taskP'=>$planP
+            );
+        }
+    }elseif($role=='gap'){
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'position_num'=>$plan['pos_num'],
+                    'exp_num'=>$plan['exp_num']
+                );
+            }
+            $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+            $planP=array();
+            while($plan = mysqli_fetch_assoc($result3)){ 
+                $planP[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr,
+                'taskP'=>$planP
+            );
+        }
+
+    }elseif($role=='ov'){
+
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND ov_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'position_num'=>$plan['pos_num'],
+                    'exp_num'=>$plan['exp_num']
+                );
+            }
+            $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+            $planP=array();
+            while($plan = mysqli_fetch_assoc($result3)){ 
+                $planP[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr,
+                'taskP'=>$planP
+            );
+        }
+    }elseif($role=='kr'){
+        $result = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND kr_id =".$au_id);
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'position_num'=>$plan['pos_num'],
+                    'exp_num'=>$plan['exp_num']
+                );
+            }
+            $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+            $planP=array();
+            while($plan = mysqli_fetch_assoc($result3)){ 
+                $planP[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'gip_id'=>$data['gip_id'],
+                'gap_id'=>$data['gap_id'],
+                'ov_id'=>$data['ov_id'],
+                'kr_id'=>$data['kr_id'],
+                'task'=>$planarr,
+                'taskP'=>$planP
+            );
+        }
+    }else{
+        $result = query("SELECT id, name, arhiv_id FROM objects");
+        /*Тут после первого запроса, перебираем полученный массив с
+        объектами, и на кажду итерацию цикла делаем еще один запрос в таблицу с задачами,
+        где по id объекта ищем задачи относящиеся к данному объекту.
+        */
+        while($data = mysqli_fetch_assoc($result)){ 
+
+            $result2 = query("SELECT id, pos_num, exp_num FROM planexpert WHERE object_id=".$data['id']);
+            $planarr=array();
+            while($plan = mysqli_fetch_assoc($result2)){ 
+                $planarr[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'position_num'=>$plan['pos_num'],
+                    'exp_num'=>$plan['exp_num']
+                );
+            }
+            $result3 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+            $planP=array();
+            while($plan = mysqli_fetch_assoc($result3)){ 
+                $planP[$plan['pos_num']]=array(
+                    'id'=>$plan['id'],
+                    'progress'=>$plan['progress'],
+                    'position_num'=>$plan['pos_num'],
+                    'notuse'=>$plan['notuse'],
+                    'pzcheck'=>$plan['pz'],
+                    'ghcheck'=>$plan['gh'],
+                    'spcheck'=>$plan['sp']
+                );
+            }
+            $list[]=array(
+                'id'=>$data['id'],
+                'name'=>$data['name'],
+                'arhiv_id'=>$data['arhiv_id'],
+                'task'=>$planarr,
+                'taskP'=>$planP
+            );
+        }
+    }
+
+    return $list;
+}
 ?>

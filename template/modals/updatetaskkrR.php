@@ -26,8 +26,16 @@ $plan = plan_listR($pos_num);
     </div>
     <div class="modal-body">
         <form method="POST" action="/?save=updatetasknumR" class="form-ajax">
-        <br>
+        <div class="material-switch pull-right">
+        <p>Предварительный вариант</p>
+            <input id="fullfuckid" name="fullfuck" type="checkbox" <?php echo $checkfuck;?>/>
+            <label for="fullfuckid" class="label-warning"></label>
+        </div>
+              <br>
+              <br>
+              <div class="numRstyle">
               <input name='krpercent' type='text' value="" placeholder="Процент" id="obname" class="form-control">
+              </div>
               <br>
               <input type="checkbox"  name="boxnotuse" id="notuseid" class="notuse" value=1>
             <label class="btn btn-danger btn-sm" for="notuseid">Том не нужен</label>

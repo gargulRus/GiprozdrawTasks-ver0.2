@@ -7,9 +7,9 @@ $progress=90;
 
 $update = array();
 
-echo $task_id." Ид Задачи";
-echo $object_id." ИД объекта";
-echo $pos_num." Номер раздела";
+// echo $task_id." Ид Задачи";
+// echo $object_id." ИД объекта";
+// echo $pos_num." Номер раздела";
 
 //Рассчитываем процент
 $responce = array();
@@ -22,7 +22,7 @@ foreach($plan['tasks'] as $key=>$task){
     }
 }
 
-echo $progress." процент";
+// echo $progress." процент";
 
 //Создаем новую запись
 // if($task_id=='new'){
@@ -54,7 +54,7 @@ if(is_numeric($task_id)){
     // `arhgh` = NULL, `arhpdf` = NULL,
     $result = query($sql);
     echo implode('<br>',$responce);
-    echo $sql;
+    // echo $sql;
 }
 ?>
 <h4><i class="fas fa-sync fa-spin"></i></h4>

@@ -27,8 +27,47 @@ background-color: #ccc;
 opacity: 1.0 !important;
 text-decoration: none;
 }
+.openformgap{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformgap:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformov{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformov:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
+.openformkr{
+display: block;
+padding: 8px;
+cursor: pointer;
+line-height: 12px;
+color: black;
+}
+.openformkr:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+}
 
 .openformgip.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+.openformgap.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+.openformov.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+.openformkr.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
 /*ячейка выбора Куратора*/
 .openformcur{
 display: block;
@@ -78,6 +117,22 @@ text-decoration: none;
 	}
 
 .openformplan.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
+
+.openformplanR{
+
+  display: block;
+  padding: 8px;
+  cursor: pointer;
+  line-height: 12px;
+  color: black;
+}
+.openformplanR:hover{
+background-color: #ccc;
+opacity: 1.0 !important;
+text-decoration: none;
+	}
+
+.openformplanR.hideFuck{ opacity: 0.0; text-align: center; color:#fff; }
 
 .openform{
 	color: black;

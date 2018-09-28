@@ -1,3 +1,27 @@
+<div class="fixed-box">
+    <div class="fixed-div">
+    <div class='div-table'>
+    <table class='table table-bordered table-hover table-condensed list-object'>
+        <tr>
+        <th id="thup">П.П.</th>
+        <th id="thupq">Договор</th>
+        <th id="thupw">Январь</th>
+        <th id="thupe">Февраль</th>
+        <th id="thupr">Март</th>
+        <th id="thupt">Апрель</th>
+        <th id="thupy">Май</th>
+        <th id="thupu">Июнь</th>
+        <th id="thupi">Июль</th>
+        <th id="thupo">Август</th>
+        <th id="thupp">Сентябрь</th>
+        <th id="thupa">Октябрь</th>
+        <th id="thups">Ноябрь</th>
+        <th id="thupd">Декабрь</th>
+       </tr>
+</table>
+</div>
+</div>
+</div>
 <?php
 
 // формируем первоначальный массив с месяцами
@@ -33,6 +57,7 @@ $pos_num =array(
     '28', //Сметы
     '29', //БЭО
     '30', //ОЗДС
+    '31', //ОЗДС
     );
 
 $pos_numR =array(
@@ -79,8 +104,85 @@ $month=array(
     '9',
     '10',
     '11',
-    '12'
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
 );
+
+
+/*
+Делаем запрос в базу и ищем самые маленькие и самые большие даты.
+Они буду участвовать в формировании таблицы и создании шапки с месяцами.
+
+т.к. в базе jobplan ячеек с датами две data и data_2, делаем два массива и два запроса,
+после чего ищем в этих двух массива самые маленькие даты и записываем эти даты в переменные
+
+После ищем разницу между самой маленькой датой и самой большой, находим разницу в месяцах.
+
+После формируем массив. Ключи массива формируем в цикле от 1 до значения разницы в месяцах.
+Значения массива формируем в цикле от 1 до 12, и так каждую итерацию. 
+В итоге получим массив в котором будет необходимое кол-во месяцев, полученых из разниц в датах,
+с числовыми значениями месяцев, и ключи с правильной нумерацией для таблицы.
+*/
+
+//Запросы и массивы на максимальную дату
+$maxarr1 = array();
+$request= query("SELECT max(data) FROM jobplan");
+while($maxarr1data = mysqli_fetch_assoc($request)){ 
+    array_push($maxarr1, $maxarr1data);
+}
+
+$maxarr2 = array();
+$request= query("SELECT max(data_2) FROM jobplan");
+while($maxarr2data = mysqli_fetch_assoc($request)){ 
+    array_push($maxarr2, $maxarr2data);
+}
+//Запросы и массивы на минимальную дату
+$minarr1 = array();
+$request= query("SELECT min(data) FROM jobplan");
+while($minarr1data = mysqli_fetch_assoc($request)){ 
+    array_push($minarr1, $minarr1data);
+}
+
+$minarr2 = array();
+$request= query("SELECT min(data_2) FROM jobplan");
+while($minarr2data = mysqli_fetch_assoc($request)){ 
+    array_push($minarr2, $minarr2data);
+}
+
+//Определяем самые максимальные и самые минимальные даты из двух столбцов.
+if($maxarr1[0]['max(data)']>$maxarr2[0]['max(data_2)']){
+    $maxdate=$maxarr1[0]['max(data)'];
+}else{
+    $maxdate=$maxarr2[0]['max(data_2)'];
+}
+
+if($minarr1[0]['min(data)']<$minarr2[0]['min(data_2)']){
+    $mindate =$minarr1[0]['min(data)'];
+}else{
+    $mindate =$minarr2[0]['min(data_2)'];
+}
+
+//Ищем разницу между датами и получаем эту разницу в месяцах
+// $diffminmax = abs(strtotime($maxdate) - strtotime($mindate)); 
+$monthsminmax = diffdatebymonth($maxdate, $mindate);
+
+//Формируем массив с ключами и датами
+$minmaxarray = array();
+$i = 0;
+$b=1;
+$с=1;
+for($i;$i<$monthsminmax;$i++){
+    $minmaxarray[$с] = $b;
+    $b=$b+1;
+    if($b>12){
+     $b=1;
+    }
+    $с=$с+1;
+}
 
 //задаем переменную для проставки порядковых номеров
 $pp= 1;
@@ -91,10 +193,10 @@ plancontrol - данные по стадии Проект
 plancontrolR - данные по стадии Рабочка 
 */
 $list = array();
-$result = query("SELECT id, name FROM objects");
+$result = query("SELECT id, name, arhiv_id FROM objects");
 while($data = mysqli_fetch_assoc($result)){ 
 
-    $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp FROM plancontrol WHERE object_id=".$data['id']);
+    $result2 = query("SELECT id, progress, pos_num, notuse, pz, gh, sp, fullfuck FROM plancontrol WHERE object_id=".$data['id']);
     $planarr=array();
     while($plan = mysqli_fetch_assoc($result2)){ 
         $planarr[$plan['pos_num']]=array(
@@ -102,13 +204,14 @@ while($data = mysqli_fetch_assoc($result)){
         'progress'=>$plan['progress'],
         'position_num'=>$plan['pos_num'],
         'notuse'=>$plan['notuse'],
+        'fullfuck'=>$plan['fullfuck'],
         'pzcheck'=>$plan['pz'],
         'ghcheck'=>$plan['gh'],
         'spcheck'=>$plan['sp']
         );
     }
 
-    $result4 = query("SELECT id, progress, pos_num, notuse, gh, sp FROM plancontrolR WHERE object_id=".$data['id']);
+    $result4 = query("SELECT id, progress, pos_num, notuse, gh, sp, fullfuck FROM plancontrolR WHERE object_id=".$data['id']);
     $planarrR=array();
     while($planR = mysqli_fetch_assoc($result4)){ 
         $planarrR[$planR['pos_num']]=array(
@@ -116,6 +219,7 @@ while($data = mysqli_fetch_assoc($result)){
         'progress'=>$planR['progress'],
         'position_num'=>$planR['pos_num'],
         'notuse'=>$planR['notuse'],
+        'fullfuck'=>$planR['fullfuck'],
         'ghcheck'=>$planR['gh'],
         'spcheck'=>$planR['sp']
         );
@@ -131,12 +235,13 @@ while($data = mysqli_fetch_assoc($result)){
         );
     }
 
-    $result3 = query("SELECT id, pos_num, data FROM jobplan WHERE object_id=".$data['id']);
+    $result3 = query("SELECT id, pos_num, data, data_2 FROM jobplan WHERE object_id=".$data['id']);
     $jobarr=array();
     while($job = mysqli_fetch_assoc($result3)){ 
         $jobarr[$job['pos_num']]=array(
         'id'=>$job['id'],
         'data'=>$job['data'],
+        'data_2'=>$job['data_2'],
         'pos_num'=>$job['pos_num']
         );
     }
@@ -145,6 +250,7 @@ while($data = mysqli_fetch_assoc($result)){
     $list[]=array(
         'id'=>$data['id'],
         'name'=>$data['name'],
+        'arhiv_id'=>$data['arhiv_id'],
         'task'=>$planarr,
         'job'=>$jobarr,
         'taskR'=>$planarrR,
@@ -153,30 +259,60 @@ while($data = mysqli_fetch_assoc($result)){
 }
 
 //получаем сегодняшнее число и выделяем из него номер месяца.
-$datenow = date("d-m-Y");
+$datenow = date("Y-m-d");
 list($day, $monthnow, $year) = explode("-", $datenow);
 $monthnow = (int)$monthnow;
+/*Получаем разницу в месяцах между самой первой датой и текущей,
+что бы получить разницу между датами и получить ключ массива,
+в которой будет проставлен процент стадии, или кол-во замечаний.
+*/
+$nowdate = diffdatebymonth($mindate, $datenow);
+
+// var_export($list);
 //формируем таблицу с полученным вложенным массивом
 echo "<div class='div-table'>";
 echo "
 <table class='table table-bordered table-hover table-condensed list-object'>
     <tr>
-        <th>П.П.</th>
-        <th>Договор</th>
-        <th>Январь</th>
-        <th>Февраль</th>
-        <th>Март</th>
-        <th>Апрель</th>
-        <th>Май</th>
-        <th>Июнь</th>
-        <th>Июль</th>
-        <th>Август</th>
-        <th>Сентябрь</th>
-        <th>Октябрь</th>
-        <th>Ноябрь</th>
-        <th>Декабрь</th>
-    </tr>";
+    <th id='thid'>П.П.</th>
+    <th id='thidq'>Договор</th>";
+    foreach ($minmaxarray as $keyt => $rowt) {   
+        switch ($rowt) {
+            case '1':
+                $mounthname = 'Январь'; break;
+            case '2':
+                $mounthname = 'Февраль'; break;
+            case '3':
+                $mounthname = 'Март'; break;
+            case '4':
+                $mounthname = 'Апрель'; break;
+            case '5':
+                $mounthname = 'Май'; break;
+            case '6':
+                $mounthname = 'Июнь'; break;
+            case '7':
+                $mounthname = 'Июль'; break;
+            case '8':
+                $mounthname = 'Август'; break;
+            case '9':
+                $mounthname = 'Сентябрь'; break;
+            case '10':
+                $mounthname = 'Октябрь'; break;
+            case '11':
+                $mounthname = 'Ноябрь'; break;
+            case '12':
+                $mounthname = 'Декабрь'; break;
+            default:
+                $mounthname = 'Не определен'; break;
+                break;
+        }
+
+        
+    echo "<th id='thidw'>".$mounthname."</th>";
+    "</tr>";
+    }
 foreach ($list as $key => $row) {
+    if($row['arhiv_id']== NULL){
     echo '<tr>';
             echo '<td>' . $pp . '</td>';
             echo '<td><a 
@@ -189,13 +325,9 @@ foreach ($list as $key => $row) {
             $pp=$pp+1;
             
             //переменные для сортировки дат и процента выполненных работ
-            $monthPstart = 0;
-            $monthPend = 0;     
             $count=0;
             $numPrazd=0;
             $numRrazd=0;
-            $monthEstart = 0;
-            $monthEend = 0; 
             $monthRstart = 0;
             $monthRend = 0;     
             $countR=0;
@@ -225,8 +357,13 @@ foreach ($list as $key => $row) {
             foreach ($pos_numR as $key_m => $col) {
                 if(isset($row['taskR'][$key_m]['id'])){
                     if(isset($row['taskR'][$key_m]['progress'])){
-                    $countR=$countR+$row['taskR'][$key_m]['progress'];
-                    }
+                        if($row['taskR'][$key_m]['fullfuck']==1){
+                            $fuckcount=$row['taskR'][$key_m]['progress'] / 2;
+                            $countR=$countR+$fuckcount;
+                        }else{
+                            $countR=$countR+$row['taskR'][$key_m]['progress'];
+                        }
+                     }
                 }else{}
             }
             //затем считаем сколько разделов присутствует в объекте
@@ -248,46 +385,66 @@ foreach ($list as $key => $row) {
                 }else{}
             }
            
-            foreach ($month as $key_month => $col) {
+            foreach ($minmaxarray as $key_month => $col) {
                 //проверяем наличие дат в таблце jobplan и если они там есть, то выделяем числа месяцев.
 
                 //Проверяем даты начала и конца стадии П
-                if(isset($row['job'][1]['data'])){
-                    list($day, $month1, $year) = explode("-", $row['job'][1]['data']);
-                    $monthPstart = (int)$month1;
-                }else{}
+                if(isset($row['job'][1]['data_2'])){
+                    $pdateStart=$row['job'][1]['data_2'];
+                }else{
+                    $pdateStart=$row['job'][1]['data'];
+                }
 
-                if(isset($row['job'][2]['data'])){
-                    list($day, $month2, $year) = explode("-", $row['job'][2]['data']);
-                    $monthPend = (int)$month2;
-                }else{}
+                if(isset($row['job'][2]['data_2'])){
+                    $pdateEnd=$row['job'][2]['data_2'];
+                }else{
+                    $pdateEnd=$row['job'][2]['data'];
+                }
 
                 //Проверяем даты начала и конца Экспертизы
-                if(isset($row['job'][3]['data'])){
-                    list($day, $month3, $year) = explode("-", $row['job'][3]['data']);
-                    $monthEstart = (int)$month3;
-                }else{}
+                if(isset($row['job'][3]['data_2'])){
+                    $edateStart=$row['job'][3]['data_2'];
+                }else{
+                    $edateStart=$row['job'][3]['data'];
+                }
+                if(isset($row['job'][4]['data_2'])){
+                    $edateEnd=$row['job'][4]['data_2'];
+                }else{
+                    $edateEnd=$row['job'][4]['data'];
+                }
 
-                if(isset($row['job'][4]['data'])){
-                    list($day, $month4, $year) = explode("-", $row['job'][4]['data']);
-                    $monthEend = (int)$month4;
-                }else{}
                 
                 //Проверяем даты начала и конца стадии Р
-                if(isset($row['job'][5]['data'])){
-                    list($day, $month5, $year) = explode("-", $row['job'][5]['data']);
-                    $monthRstart = (int)$month5;
-                }else{}
+                //пробуем сделать подсчет даты для новой схемы.
+                /*
+                Суть - берем первую дату из базы. От нее начинаем отсчет. 
+                Берем вторую дату - выделяем 
+                */
+                if(isset($row['job'][5]['data_2'])){
+                    $rdateStart=$row['job'][5]['data_2'];
+                }else{
+                    $rdateStart=$row['job'][5]['data'];
+                }
 
-                if(isset($row['job'][6]['data'])){
-                    list($day, $month6, $year) = explode("-", $row['job'][6]['data']);
-                    $monthRend = (int)$month6;
-                }else{}
+                if(isset($row['job'][6]['data_2'])){
+                    $rdateEnd=$row['job'][6]['data_2'];
+                }else{
+                    $rdateEnd=$row['job'][6]['data'];
+                }
 
-                $string="";
-                
-                $cellcolor=" ";
-                 
+
+
+
+                //стадия П
+                $monthsPStart = diffdatebymonth($mindate, $pdateStart);
+                $monthsPEnd = diffdatebymonth($mindate, $pdateEnd);
+                //Экспертиза
+                $monthsEStart = diffdatebymonth($mindate, $edateStart);
+                $monthsEEnd = diffdatebymonth($mindate, $edateEnd);
+                //стадия Р
+                $monthsRStart = diffdatebymonth($mindate, $rdateStart);
+                $monthsREnd = diffdatebymonth($mindate, $rdateEnd);
+
                 /*После получения чисел месяцев: 
                 Проверяем что номер месяца попадает в диапазон дат начала и конца работ
                 указанных в main.php.Дальше получаем сегодняшнюю дату и сравниваем ее с номера месяца.
@@ -297,32 +454,44 @@ foreach ($list as $key => $row) {
                 если работы по стадии закончены.
                 Ячейку формируем путем добавления элементов в переменную  $string.
                 */
-                
+                $string="";
+                $cellcolor=" ";
                 //Проверяем Стадию П
-                if($key_month>=$monthPstart && $key_month<=$monthPend){
-                    if($key_month==$monthnow){
-                        $string= "П-" .$count ."% ";
-                    }elseif ($monthnow>$key_month && $key_month==$monthPend) {
-                        $string= "П-" .$count ."% ";
-                    }else{$string= "П ";}
+                if($pdateStart!=NULL & $pdateEnd!=NULL){
+                    if($key_month>=$monthsPStart && $key_month<=$monthsPEnd){
+                        if($key_month==$nowdate){
+                            $string=$string. "П-". $count ."% ";
+                        }elseif($nowdate>$key_month && $key_month==$monthsPEnd){
+                            $string=$string. "П-". $count ."% ";
+                        }else{
+                            $string=$string. "П ";
+                        }
+                    }else{}
                 }else{}
                 
                 //Проверяем Экспертизу
-                if($key_month>=$monthEstart && $key_month<=$monthEend){
-                    if($key_month==$monthnow){
-                        $string=$string. "Э-".$countE." ";
-                    }elseif ($monthnow>$key_month && $key_month==$monthEend) {
-                        $string=$string. "Э-".$countE." ";
-                    }else{$string=$string. "Э ";}
+                if($edateStart!=NULL & $edateEnd!=NULL){
+                    if($key_month>=$monthsEStart && $key_month<=$monthsEEnd){
+                        if($key_month==$nowdate){
+                            $string=$string. "Э-". $count ."% ";
+                        }elseif($nowdate>$key_month && $key_month==$monthsEEnd){
+                            $string=$string. "Э-". $count ."% ";
+                        }else{
+                            $string=$string. "Э ";
+                        }
+                    }else{}
                 }else{}
-                
-                //Проверяем Стадию Р    
-                if($key_month>=$monthRstart && $key_month<=$monthRend){
-                    if($key_month==$monthnow){
-                        $string=$string. "Р-". $countR ."% ";
-                    }elseif ($monthnow>$key_month && $key_month==$monthRend) {
-                        $string=$string. "Р-". $countR ."% ";
-                    }else{$string=$string. "Р ";}
+                //Проверяем Стадию Р   
+                if($rdateStart!=NULL & $rdateEnd!=NULL){ 
+                    if($key_month>=$monthsRStart && $key_month<=$monthsREnd){
+                        if($key_month==$nowdate){
+                            $string=$string. "Р-". $countR ."% ";
+                        }elseif($nowdate>$key_month && $key_month==$monthsREnd){
+                            $string=$string. "Р-". $countR ."% ";
+                        }else{
+                            $string=$string. "Р ";
+                        }
+                    }else{}
                 }else{}
 
                 //Пример окрашивания ячеек. (на данный момент не нужен)
@@ -342,7 +511,7 @@ foreach ($list as $key => $row) {
                 // }else{}
 
 
-                if($key_month>=$monthPstart && $key_month<=$monthPend){
+                if($key_month>=$monthsPStart && $key_month<=$monthsPEnd){
                     // if($count<=45){
                     //     $cellcolor='   ';
                     // }elseif($count>=46 && $count<=75){
@@ -353,11 +522,11 @@ foreach ($list as $key => $row) {
                     echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string ;
                     echo '</td>';
-                }elseif($key_month>=$monthEstart && $key_month<=$monthEend){                    
+                }elseif($key_month>=$monthsEStart && $key_month<=$monthsEEnd){                    
                     echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string;
                     echo '</td>';
-                }elseif($key_month>=$monthRstart && $key_month<=$monthRend){
+                }elseif($key_month>=$monthsRStart && $key_month<=$monthsREnd){
                     echo '<td'.$cellcolor.'class="letspacing">';
                     echo $string;
                     echo '</td>';
@@ -366,7 +535,64 @@ foreach ($list as $key => $row) {
                     echo '</td>';
                 } 
             }   
+        }else{}
 }
+
     echo '</tr>';
 echo "</table>";
 ?>
+
+<script>
+$(document).ready(function($) {
+
+// alert(getStyle( document.getElementById('thid'),'width'));
+// alert(getStyle( document.getElementById('thidq'),'width'));
+
+// $('thup'){
+// $(this).attr('width', getStyle( document.getElementById('thid'),'width'))
+// });
+$('th#thup').attr('width', getStyle( document.getElementById('thid'),'width'));
+$('th#thupq').attr('width', getStyle( document.getElementById('thidq'),'width'));
+$('th#thupw').attr('width', getStyle( document.getElementById('thidw'),'width'));
+$('th#thupe').attr('width', getStyle( document.getElementById('thide'),'width'));
+$('th#thupr').attr('width', getStyle( document.getElementById('thidr'),'width'));
+$('th#thupt').attr('width', getStyle( document.getElementById('thidt'),'width'));
+$('th#thupy').attr('width', getStyle( document.getElementById('thidy'),'width'));
+$('th#thupu').attr('width', getStyle( document.getElementById('thidu'),'width'));
+$('th#thupi').attr('width', getStyle( document.getElementById('thidi'),'width'));
+$('th#thupo').attr('width', getStyle( document.getElementById('thido'),'width'));
+$('th#thupp').attr('width', getStyle( document.getElementById('thidp'),'width'));
+$('th#thupa').attr('width', getStyle( document.getElementById('thida'),'width'));
+$('th#thups').attr('width', getStyle( document.getElementById('thids'),'width'));
+$('th#thupd').attr('width', getStyle( document.getElementById('thidd'),'width'));
+
+
+// alert(getStyle( document.getElementById('thup'),'width'));
+// alert(getStyle( document.getElementById('thupq'),'width'));
+// alert( getRealSize(document.getElementById('thid1')).width );
+// alert( getRealSize(document.getElementById('thid2')).width );
+
+    $nav = $('.fixed-div');
+    $nav.css('width', $nav.outerWidth());
+    $window = $(window);
+    $h = $nav.offset().top;
+    $window.scroll(function() {
+        if ($window.scrollTop() > $h) {
+            $nav.addClass('fixed');
+        } else {
+            $nav.removeClass('fixed');
+        }
+    });
+});
+
+ function getStyle(b, a) {
+    if (document.defaultView && document.defaultView.getComputedStyle) {
+        return document.defaultView.getComputedStyle(b, "")[a]
+    } else if (b.currentStyle) {
+        return b.currentStyle[a]
+    }
+};
+
+
+
+</script>

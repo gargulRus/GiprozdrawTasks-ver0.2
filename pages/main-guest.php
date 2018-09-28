@@ -1,7 +1,7 @@
 <div class="buttnons">
 </div>
 <?php
-include(__DIR__.'/../template/main-users.php');
+include(__DIR__.'/../template/main-source.php');
 
 foreach ($list as $key => $row) {
     echo '<tr>';
@@ -10,6 +10,24 @@ foreach ($list as $key => $row) {
         //проверяем наличие ГИПа в массиве
         if(isset($row['gip'][$keygip]['gipname'])){
             echo '<td>'. $row['gip'][$keygip]['gipname'] .'</td>';
+        }else {
+            echo '<td></td>';
+        }
+        //проверяем наличие ГАПа в массиве
+        if(isset($row['gap'][$keygip]['gapname'])){
+            echo '<td>'. $row['gap'][$keygip]['gapname'] .'</td>';
+        }else {
+            echo '<td></td>';
+        }
+        //проверяем наличие ОВ в массиве
+        if(isset($row['ov'][$keygip]['ovname'])){
+            echo '<td>'. $row['ov'][$keygip]['ovname'] .'</td>';
+        }else {
+            echo '<td></td>';
+        }
+        //проверяем наличие КР в массиве
+        if(isset($row['kr'][$keygip]['krname'])){
+            echo '<td>'. $row['kr'][$keygip]['krname'] .'</td>';
         }else {
             echo '<td></td>';
         }

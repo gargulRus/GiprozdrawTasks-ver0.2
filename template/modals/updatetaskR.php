@@ -27,11 +27,11 @@ $plan = plan_listR($pos_num);
     <div class="modal-body">
         <form method="POST" action="/?save=updatetaskR" class="form-ajax">
         
-        <!-- <div class="material-switch pull-right">
+        <div class="material-switch pull-right">
         <p>Предварительный вариант</p>
             <input id="fullfuckid" name="fullfuck" type="checkbox" <?php echo $checkfuck;?>/>
             <label for="fullfuckid" class="label-warning"></label>
-        </div> -->
+        </div>
               <br>
 
             <?php foreach($plan['tasks'] as $key=>$checkbox){ ?>

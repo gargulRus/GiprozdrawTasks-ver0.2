@@ -3,18 +3,46 @@
 <div class="">
 
     <div class="modal-header">
-        <h4 class="modal-title">Обновление 14.05.2018</h4>
+        <h4 class="modal-title">Обновление 01.10.2018</h4>
     </div>
     <div class="modal-body">
+    <p>1. Добавлена авторизация пользователей.</p>
+    <p>2. В Плане Работ кликнув по названию объекта можно увидеть График Проектирования.</p>
+    <p>3. В Таблице контроля для редактирования доступен только раздел авторизированного пользователя.</p>
+    <p>4. В Таблице Контроля кликнув по названию раздела можно увидеть план отдела по объектам.</p>
+    <p>5. Теперь таблица не привязана к годам. Можно ставить любые даты.</p>
+    <p>
+    <a data-toggle="collapse" href="#collapse18-06-2018" aria-expanded="false" aria-controls="collapse18-06-2018">
+    18.06.2018
+  </a>
+  </p>
+    <div class="collapse" id="collapse18-06-2018">
+    <div class="card card-block">
+    <p>1. В стадию П и в Экспертизу добавлен раздел для ГИПа.</p>
+    <p>2. В стадии Р добавлена возможность отображения "Предварительной Версии".</p>
+    <p>3. Добавлена таблица с отображением Плана по Объекту и Его фактической готовности.</p>
+    <p>4. В Таблице с планом по Договорам добавлена информация отставания работ от контракта.</p>
+    </div>
+    </div>
+    <p>
+    <p>
+    <a data-toggle="collapse" href="#collapse14-05-2018" aria-expanded="false" aria-controls="collapse14-05-2018">
+    14.05.2018
+  </a>
+  </p>
+    <div class="collapse" id="collapse14-05-2018">
+    <div class="card card-block">
     <p>1. В стадию Р добавлены разделы - ДС, АПТ.<br>
     <p>2. В стадию П добавлены разделы - АТЗ, БЭО, ОЗДС,Радиационная безопасность.</p>
     <p>3. В экспертизу добавлен раздел СЭС.</p>
+    </div>
+    </div>
     <p>
-    <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <a data-toggle="collapse" href="#collapse11-05-2018" aria-expanded="false" aria-controls="collapse11-05-2018">
     11.05.2018
   </a>
   </p>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse" id="collapse11-05-2018">
     <div class="card card-block">
     <p>1. Добавлена возможность убрать том из Объекта.<br>
     Для этого необходимо нажать кнопку <span class="btn btn-danger btn-sm">Том не нужен </span>, и затем <span class="btn btn-success btn-sm">Сохранить.</span></p>

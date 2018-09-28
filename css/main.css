@@ -5,22 +5,35 @@ body{
 }
 
 .div-table{
-margin: 0px 10px 0px 10px;	
+/* border: 1px solid red; */
+margin: 0px 5px 0px 5px;	
+}
+.div-table-period{
+/* border: 1px solid blue;
+margin: 0px 100px 0px 100px; */
+margin: 0px 5px 0px 5px;	
+text-align: center;
+}
+.textstyleperiod{	
+text-align: center;
 }
 .div-table-editobj{
 margin: 30px 10px 0px 10px;	
 }
-.zagolovok{
+
+/* .zagolovok{
+	border:1px solid yellow;
 	 width:800px;
      height: 104px;
      position: relative;
 }
 .zagolovok div{
+
 	        width:50px; 
-        border:1px solid red;
+        border:1px solid yellow;
         height:50px;
         position: absolute;
-}
+} */
 
 /*.za1{
 	width: auto;
@@ -28,27 +41,36 @@ margin: 30px 10px 0px 10px;
 	display:inline-block;
 }*/
 .buttnons{
+	/* border: 1px solid green; */
 	width:auto;
-    margin: 10px 0px 20px 30px;
+    margin: 10px 0px 20px 20px;
 }
 .title-pc{
-margin-left:40%;
-margin-bottom:5px;
+	/* border: 1px solid blue; */
+	margin-left:40%;
+	margin-bottom:5px;
 }
-
+.periodBtn{
+	margin-left:20px;
+	/* border: 1px solid red; */
+}
+.reportsBtn{
+	margin:0px 0px 20px 20px;
+	/* border: 1px solid red; */
+}
 th{
-background-color:#CCC;	
+	background-color:#CCC;	
+	text-align:center;
 }
 table{
-font-size: 12px;
+	font-size: 12px;
+	/* text-align:center; */
 }
-
 
 
 .objectplace{
 	margin-top: 10px;
-width: 15%;
-
+	width: 15%;
 }
 .fomrobject{
 margin: 20px 0px 0px 30px;
@@ -114,20 +136,60 @@ margin: -15px 0px 0px 350px;
 .list-object tr>th {
 	font-size: 12px;
 }
-.list-object tr>th:nth-child(1) {
-	width: 20px;
-	
+
+ /* .list-object tr>th:nth-child(1) {
+	width: 10px;
 }
 
 .list-object tr>th:nth-child(2) {
-	width: auto;
-	
+	width: 100px;
 }
+.list-object tr>th:nth-child(2) {
+	width: auto;
+} */
 
-.list-object td{ padding:0 !important; }
+
+.list-object td{ padding:0 !important; } 
 
 .letspacing{
 	word-spacing: 3.0em;
 }
 
 .openformplan{  white-space: nowrap}
+
+/* .sticky{
+} */
+
+.fixed-box {
+    height: 60px;
+}
+.fixed-div {
+	/* border:1px solid yellow; */
+	height: 60px;
+	opacity: 0;
+}
+.fixed {
+    position: fixed;
+	z-index: 9999;
+	top: 0;
+	opacity: 1;
+}
+/* .col1 {
+    width: 150px; 
+} */
+
+/* .twotable{
+opacity: 0;
+} */
+
+.numRstyle{
+    max-width: 150px;
+}
+.red{
+	/* display:inline-flex;
+	position: fixed;
+	z-index: 9999;
+	top:0; */
+border: 1px solid red;
+}
+
