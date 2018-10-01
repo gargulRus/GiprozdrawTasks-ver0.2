@@ -1,3 +1,4 @@
+<link rel="shortcut icon" href="/image/logo.ico" type="image/x-icon">
 <?php
 
 session_start(); 

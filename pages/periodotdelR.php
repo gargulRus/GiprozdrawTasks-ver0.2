@@ -176,8 +176,8 @@ if($row['radzdelParr'][0]['stage']==1 && $data2<=32){
     echo '<tr>';
     echo '<td>' . $pp . '</td>';
     echo '<td>'. $row['name'] .'</td>';
-    echo '<td>'.$datastart.' '.$data1.'</td>';
-    echo '<td>'.$makedate1.' '.$data2.'</td>';
+    echo '<td>'.$datastart.'</td>';
+    echo '<td>'.$makedate1.'</td>';
     echo '<td>'.$row['planarr'][0]['progress'].'</td>';
     $pp =$pp +1;
 }
@@ -185,8 +185,8 @@ if($row['radzdelParr'][0]['stage']==2  && $data3<=32){
     echo '<tr>';
     echo '<td>' . $pp . '</td>';
     echo '<td>'. $row['name'] .'</td>';
-    echo '<td>'.$makedate1.' '.$data2.'</td>';
-    echo '<td>'.$makedate2.' '.$data3.'</td>';
+    echo '<td>'.$makedate1.'</td>';
+    echo '<td>'.$makedate2.'</td>';
     echo '<td>'.$row['planarr'][0]['progress'].'</td>';
     $pp =$pp +1;
 }
@@ -194,8 +194,8 @@ if($row['radzdelParr'][0]['stage']==3  && $data4<=32){
     echo '<tr>';
     echo '<td>' . $pp . '</td>';
     echo '<td>'. $row['name'] .'</td>';
-    echo '<td>'.$makedate2.' '.$data3.'</td>';
-    echo '<td>'.$makedate3.' '.$data4.'</td>';
+    echo '<td>'.$makedate2.'</td>';
+    echo '<td>'.$makedate3.'</td>';
     echo '<td>'.$row['planarr'][0]['progress'].'</td>';
     $pp =$pp +1;
 }

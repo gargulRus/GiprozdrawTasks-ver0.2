@@ -77,12 +77,22 @@ echo "   <div class='div-table'>";
             <th id='thid'>П.П.</th>
             <th id='thidq'>Договор</th>
             <th id='thidw'><a  class='openform tooltip1' title='План работ отдела Генплан'
-            href='/?page=periodotdelR.php&title=Генплан&posnum=1'>Генплан</a></th>
-            <th id='thide'><a  class='openform tooltip1' title='План работ отдела АР'
-            href='/?page=periodotdelR.php&title=АР&posnum=2'>АР</a></th>
-            <th id='thidr'><a  class='openform tooltip1' title='План работ отдела КР'
-            href='/?page=periodotdelR.php&title=КР&posnum=3'>КР</a></th>
-            <th id='thidt'><a  class='openform tooltip1' title='План работ отдела ЭОМ'
+            href='/?page=periodotdelR.php&title=Генплан&posnum=1'>Генплан</a></th>";
+            if($_COOKIE['role']=='admin'){
+            echo "<th id='thide'><a  class='openform tooltip1' title='План работ отдела АР'
+            href='/?page=periodotdelRar1.php&title=АР&posnum=2'>АР</a></th>";
+            }else{
+            echo "<th id='thide'><a  class='openform tooltip1' title='План работ отдела АР'
+            href='/?page=periodotdelR.php&title=АР&posnum=2'>АР</a></th>";
+            }
+            if($_COOKIE['role']=='admin'){
+            echo" <th id='thidr'><a  class='openform tooltip1' title='План работ отдела КР'
+            href='/?page=periodotdelRkr1.php&title=КР&posnum=3'>КР</a></th>";
+            }else{
+            echo" <th id='thidr'><a  class='openform tooltip1' title='План работ отдела КР'
+            href='/?page=periodotdelR.php&title=КР&posnum=3'>КР</a></th>";
+            }
+            echo "<th id='thidt'><a  class='openform tooltip1' title='План работ отдела ЭОМ'
             href='/?page=periodotdelR.php&title=ЭО&posnum=4'>ЭО</a></th>
             <th id='thidy'><a  class='openform tooltip1' title='План работ отдела ЭОМ'
             href='/?page=periodotdelR.php&title=ЭМ&posnum=5'>ЭМ</a></th>
@@ -95,10 +105,15 @@ echo "   <div class='div-table'>";
             <th id='thidp'><a  class='openform tooltip1' title='План работ отдела ВК'
             href='/?page=periodotdelR.php&title=ДС&posnum=9'>ДС</a></th>
             <th id='thida'><a  class='openform tooltip1' title='План работ отдела ВК'
-            href='/?page=periodotdelR.php&title=АПТ&posnum=10'>АПТ</a></th>
-            <th id='thids'><a  class='openform tooltip1' title='План работ отдела ОВ'
-            href='/?page=periodotdelR.php&title=ОВ&posnum=11'>ОВ</a></th>
-            <th id='thidd'><a  class='openform tooltip1' title='План работ отдела ОТ'
+            href='/?page=periodotdelR.php&title=АПТ&posnum=10'>АПТ</a></th>";
+            if($_COOKIE['role']=='admin'){
+            echo "<th id='thids'><a  class='openform tooltip1' title='План работ отдела ОВ'
+            href='/?page=periodotdelRov1.php&title=ОВ&posnum=11'>ОВ</a></th>";
+            }else{
+            echo "<th id='thids'><a  class='openform tooltip1' title='План работ отдела ОВ'
+            href='/?page=periodotdelR.php&title=ОВ&posnum=11'>ОВ</a></th>";
+            }
+            echo "<th id='thidd'><a  class='openform tooltip1' title='План работ отдела ОТ'
             href='/?page=periodotdelR.php&title=ОТ&posnum=12'>ОТ</a></th>
             <th id='thidf'><a  class='openform tooltip1' title='План работ отдела ХС'
             href='/?page=periodotdelR.php&title=ХС&posnum=13'>ХС</a></th>

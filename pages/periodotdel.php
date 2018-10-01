@@ -2,7 +2,7 @@
 <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
 <a href="/?page=plancontrol.php" class="btn btn-gipro">Таблица контроля</a>
 <a href="/?page=planforyear.php" class="btn btn-gipro">План работ Факт</a>
-<a href="/?page=planforyear-plan.php" class="btn btn-gipro">План работ на год план</a>
+<a href="/?page=planforyear-plan.php" class="btn btn-gipro">План работ план</a>
 <?php 
 if($_COOKIE['role']=='admin'){
     echo '<a href="/?page=arhiv.php" class="btn btn-gipro">Архив</a>';
@@ -20,9 +20,10 @@ $curdata = currdata();
 
 $title = $_GET['title'];
 $posnum = $_GET['posnum'];
+
 echo '
 <div class="title-pc" >
-<h2>План работ Стадии П отдела '.$title.' на '.$curdata.'</h2>
+<h2>План работ Стадии П отдела '.$title.' по всем объектам</h2>
 </div>
 <br>
 <div class="periodBtn">

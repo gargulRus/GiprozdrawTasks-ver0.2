@@ -484,6 +484,7 @@ foreach ($list as $key => $row) {
                 }
 
                 //Проверяем Стадию П
+                if($pdateStart!=NULL & $pdateEnd!=NULL){
                 if($key_month>=$monthsPStart && $key_month<=$monthsPEnd){
                     if($key_month==$nowdate){
                         $string=  "<span style='background: #aefcb7;'>П-план-".$percentcalcP."%</span> <span style='background:".$percolor."'>П-факт-" .$count ."%</span> ";
@@ -493,8 +494,10 @@ foreach ($list as $key => $row) {
                         $string=$string. "П ";
                     }
                 }else{}
-                
+                }else{}
+
                 //Проверяем Экспертизу
+                if($edateStart!=NULL & $edateEnd!=NULL){
                 if($key_month>=$monthsEStart && $key_month<=$monthsEEnd){
                     if($key_month==$nowdate){
                         $string=$string. "Э-". $count ."% ";
@@ -504,8 +507,9 @@ foreach ($list as $key => $row) {
                         $string=$string. "Э ";
                     }
                 }else{}
-                
+                }else{}
                 //Проверяем Стадию Р    
+                if($rdateStart!=NULL & $rdateEnd!=NULL){ 
                 if($key_month>=$monthsRStart && $key_month<=$monthsREnd){
                     if($key_month==$nowdate){
                         $string=$string."<span style='background: #aefcb7;'>Р-план-".$percentcalcR."%</span> <span style='background:".$percolorR."'>Р-факт-" .$countR ."%</span>";
@@ -515,7 +519,7 @@ foreach ($list as $key => $row) {
                         $string=$string. "Р ";
                     }
                 }else{}
-
+                }else{}
                 //Пример окрашивания ячеек. (на данный момент не нужен)
                 // if($key_month>=$monthRstart && $key_month<$monthRend){
                 //     $string=$string. "Р ";

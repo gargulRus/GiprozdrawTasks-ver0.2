@@ -73,4 +73,4 @@ if(is_numeric($task_id) && $notuse==1){
 
 <h4><i class="fas fa-sync fa-spin"></i></h4>
 
-<meta http-equiv="refresh" content="0">
+<meta http-equiv="refresh" content="2">
