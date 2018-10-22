@@ -46,35 +46,16 @@
         </script>
         <?php 
         $newsdate= "Обновление 01.10.2018";
-        if($_SESSION['mode']=='admin'){
-          $priveleg = 'Здравствуйте, Администратор!';
+        if(isset($_COOKIE['name'])){
+          $priveleg = 'Вы авторизированы как '.$_COOKIE['name'];
           $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
           $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }elseif(isset($_COOKIE['name'])){
-          $priveleg = $_COOKIE['name'];
-          $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
-          $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }elseif($_SESSION['mode']=='spec'){
-          $priveleg = 'Здравствуйте, Специалист.';
-          $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
-          $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }elseif($_SESSION['mode']=='gip'){
-          $priveleg = 'Вы зашли как Главный Инженер.';
-          $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
-          $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }elseif($_SESSION['mode']=='arhiv'){
-          $priveleg = 'Вы зашли как Архив.';
-          $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
-          $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }elseif($_SESSION['mode']=='expert'){
-          $priveleg = 'Вы зашли как Эксперт.';
-          $news= '<a href="/?modal=updatenews" class="modal-a btn btn-info">'.$newsdate.'</a>';
-          $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';
-        }else{$priveleg=""; $news="";}
+        }else{$priveleg=""; $news="";  $exit= '<a href="exit.php" class="btn btn-danger">Выход</a>';}
   ?>
   <h4><?php echo $priveleg;?></h4>
   <?php echo $news;
         echo $exit;
+
   ?>
 </div>
 </div>

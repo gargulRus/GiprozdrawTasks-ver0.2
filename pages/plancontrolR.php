@@ -1,6 +1,6 @@
 <?php
 //Определяем кнопки верхнего меню
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -14,7 +14,8 @@ if($_SESSION['mode']=='admin'){
         <a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
         <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
     </div>';
-}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -31,7 +32,7 @@ if($_SESSION['mode']=='admin'){
 }
 
 //Определяем какие страницы подключать в зависимости от прав доступа
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
 
     include(__DIR__.'/../template/plancontrolR-users.php');
 
@@ -92,9 +93,9 @@ if($_SESSION['mode']=='admin'){
         }else{}
     }
        echo "</table>";
-}elseif($_SESSION['mode']=='spec'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov'){
     include(__DIR__.'/../template/plancontrolR-users.php');
-
 foreach ($list as $key => $row) {
     if($row['arhiv_id']== NULL){
     echo '<tr>';
@@ -228,8 +229,8 @@ foreach ($list as $key => $row) {
                     >'. $row['task'][$key_m]['progress'] .' %</a></td>';
                     }
                 }else{
-                    echo '<td><a 
-                    href="#" class="openformtask" " bgcolor="#e8d532"
+                    echo '<td  bgcolor="#e8d532"><a 
+                    href="#" class="openformtask"
                     >'. $row['task'][$key_m]['progress'] .' %</a></td>';
                 }
             }else{
@@ -273,7 +274,7 @@ $pp++;
     }else{}
 }
    echo "</table>";
-}elseif($_SESSION['mode']=='gip'){
+}elseif($_COOKIE['role']=='gip'){
     include(__DIR__.'/../template/plancontrolR-users.php');
 
     foreach ($list as $key => $row) {
@@ -304,7 +305,7 @@ $pp++;
         }else{}
     }
        echo "</table>";
-}elseif($_SESSION['mode']=='arhiv'){
+}elseif($_COOKIE['role']=='arhiv'){
     include(__DIR__.'/../template/plancontrolR-users.php');
     foreach ($list as $key => $row) {
         if($row['arhiv_id']== NULL){
@@ -356,7 +357,7 @@ $pp++;
         }else{}
     }
        echo "</table>";
-}elseif($_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='expert'){
     include(__DIR__.'/../template/plancontrolR-users.php');
 
     foreach ($list as $key => $row) {

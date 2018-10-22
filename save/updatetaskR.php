@@ -8,6 +8,7 @@ $fullfuck = $_POST['fullfuck'];
 $update = array();
 $progress=0;
 $user=$_COOKIE['login'];
+
 //Рассчитываем процент
 $responce = array();
 $plan = plan_listR($pos_num);
@@ -31,9 +32,13 @@ if($task_id=='new'){
         $setnotuse = query ("INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `notuse`, `user`) VALUES ('".$object_id."', '".$pos_num."', '0', '".$notuse."', '".$user."')");
         echo "Убираем раздел"; 
     }else{
-    $sql = "INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `user`, ".implode(',',$keys).") 
-    VALUES ('".$object_id."', '".$pos_num."', '".$progress."', '".$user."', ".implode(',',$values)." )";
-
+        if($fullfuck=="on"){
+            $sql = "INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`,  `fullfuck`, `user`, ".implode(',',$keys).") 
+            VALUES ('".$object_id."', '".$pos_num."', '".$progress."', 1,'".$user."', ".implode(',',$values)." )";
+        }else{
+            $sql = "INSERT INTO `plancontrolR` (`object_id`, `pos_num`, `progress`, `user`, ".implode(',',$keys).") 
+            VALUES ('".$object_id."', '".$pos_num."', '".$progress."', '".$user."', ".implode(',',$values)." )";
+        }
     $result = query ($sql);
     }
     echo implode('<br>',$responce);
@@ -53,9 +58,9 @@ if(is_numeric($task_id)){
     $result = query($sql);
 
     if($fullfuck=="on"){
-        $setfulluck = query("UPDATE plancontrolR SET fullfuck = 1 , user = ".$user." WHERE id=".$task_id);
+        $setfulluck = query("UPDATE plancontrolR SET fullfuck = 1 , user = '".$user."' WHERE id=".$task_id);
         }else{
-            $setfulluck = query("UPDATE plancontrolR SET fullfuck = NULL , user = ".$user." WHERE id=".$task_id);
+            $setfulluck = query("UPDATE plancontrolR SET fullfuck = NULL , user = '".$user."' WHERE id=".$task_id);
         }
     echo implode('<br>',$responce);
 

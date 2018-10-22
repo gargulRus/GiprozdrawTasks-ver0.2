@@ -1,6 +1,6 @@
 <?php
 //Определяем кнопки верхнего меню
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -14,7 +14,8 @@ if($_SESSION['mode']=='admin'){
         <a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
         <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
     </div>';
-}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -31,10 +32,11 @@ if($_SESSION['mode']=='admin'){
 }
 
 //Определяем какие страницы подключать в зависимости от прав доступа
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
     include(__DIR__.'/../template/plancontrol-users.php');
     include(__DIR__.'/../template/plancontrol-edit.php');
-}elseif($_SESSION['mode']=='spec'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov'){
     include(__DIR__.'/../template/plancontrol-users.php');
 
     foreach ($list as $key => $row) {
@@ -53,11 +55,7 @@ if($_SESSION['mode']=='admin'){
         data-name="'.$row['name'].'"
         >'. $row['name'] .'</a></td>';
 
-    if($_COOKIE['login']=='gip'){
-        $logo1=1;
-        $logo2=1;
-        $logo3=1;
-    }elseif($_COOKIE['login']=='genplan'){
+    if($_COOKIE['login']=='genplan'){
         $logo1=2;
         $logo2=2;
         $logo3=2;
@@ -173,6 +171,10 @@ if($_SESSION['mode']=='admin'){
         $logo1=31;
         $logo2=31;
         $logo3=31;
+    }elseif($_COOKIE['login']=='Arcenii'){
+        $logo1=22;
+        $logo2=23;
+        $logo3=30;
     }else{
 
     }
@@ -245,111 +247,7 @@ if($_SESSION['mode']=='admin'){
    
     echo "</table>";
 
-
-    // foreach ($list as $key => $row) {
-    //     if($row['arhiv_id']== NULL){
-    //     echo '<tr>';
-    //     echo '<td>' . $pp . '</td>';
-    //     // echo '<td><a 
-    //     //     href="/?modal=renameobject&id='.$row['id'].'"
-    //     //     class="openform modal-a" 
-    //     //     >'. $row['name'] .'</a></td>';
-    //     echo '<td><a 
-    //     href="#" 
-    //     data-toggle="modal" data-target="#renameobject" 
-    //     class="openform" 
-    //     data-id="'.$row['id'].'"
-    //     data-name="'.$row['name'].'"
-    //     >'. $row['name'] .'</a></td>';
-    
-    //     if($_COOKIE['login']=='arhc'){
-    //         foreach ($pos_num as $key_m => $col) {
-    //             if(isset($row['task'][$key_m]) && $row['task'][$key_m]['notuse']==1){
-    //                 echo '<td><a 
-    //                 href="#" class="openformtask">Не исп.
-    //                 </a> </td>';
-    //             }elseif(isset($row['task'][$key_m])){
-    //                 if($row['task'][$key_m]['fullfuck']==1){
-    //                     if($key_m==3){
-    //                         echo '<td alt="' . $row['task'][$key_m]['id'] . '" bgcolor="#e8d532"><a 
-    //                         href="/?modal=updatetask&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'&fullfuckis='.$row['task'][$key_m]['fullfuck'].'" class="modal-a openformtask"
-    //                         >'. $row['task'][$key_m]['progress'] .' %
-    //                         </a></td>';
-    //                     }else {                   
-    //                         echo '<td><a 
-    //                         href="#" class="openformtask" " bgcolor="#e8d532"
-    //                         >'. $row['task'][$key_m]['progress'] .' %</a></td>';
-    //                     }
-    //                 }else{
-    //                     if($key_m==3){
-    //                         echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
-    //                         href="/?modal=updatetask&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask"
-    //                         >'. $row['task'][$key_m]['progress'] .' %
-    //                         </a></td>';
-    //                     }else {
-    //                         echo '<td><a 
-    //                         href="#" class="openformtask"
-    //                         >'. $row['task'][$key_m]['progress'] .' %</a></td>';
-    //                     }
-    //                 }
-    //             }else{
-    //                 if($key_m==3){
-    //                     echo '<td><a 
-    //                     href="/?modal=updatetask&pos_num='.$key_m.'&task_id=new&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask hideFuck">+
-    //                     </a> </td>';
-    //                 }else {                
-    //                     echo '<td><a 
-    //                     href="#" class=" openformtask hideFuck">+
-    //                     </a> </td>';
-    //                 }
-    //             }
-    //         }
-    
-    //     }else{
-    
-    //     foreach ($pos_num as $key_m => $col) {
-    //         if(isset($row['task'][$key_m]) && $row['task'][$key_m]['notuse']==1){
-    //             echo '<td><a 
-    //             href="#" class="openformtask">Не исп.
-    //             </a> </td>';
-    //         }elseif(isset($row['task'][$key_m])){
-    //             if($row['task'][$key_m]['fullfuck']==1){
-    //                 if($key_m==1){
-    //                     echo '<td><a 
-    //                     href="#" class="openformtask" " bgcolor="#e8d532"
-    //                     >'. $row['task'][$key_m]['progress'] .' %</a></td>';
-    //                 }else {
-    //                     echo '<td alt="' . $row['task'][$key_m]['id'] . '" bgcolor="#e8d532"><a 
-    //                 href="/?modal=updatetask&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'&fullfuckis='.$row['task'][$key_m]['fullfuck'].'" class="modal-a openformtask"
-    //                 >'. $row['task'][$key_m]['progress'] .' %
-    //                 </a></td>';
-    //                 }
-    //             }else{
-    //                 if($key_m==1){
-    //                     echo '<td><a 
-    //                     href="#" class="openformtask"
-    //                     >'. $row['task'][$key_m]['progress'] .' %</a></td>';                
-    //                 }else {
-    //                     echo '<td alt="' . $row['task'][$key_m]['id'] . '"><a 
-    //                 href="/?modal=updatetask&pos_num='.$key_m.'&task_id='.$row['task'][$key_m]['id'].'&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask"
-    //                 >'. $row['task'][$key_m]['progress'] .' %
-    //                 </a></td>';
-    //                 }
-    //             }
-    //         }else{
-    //             if($key_m==1){
-    //                 echo '<td><a 
-    //             href="#" class=" openformtask hideFuck">+
-    //             </a> </td>';
-    //             }else {echo '<td><a 
-    //             href="/?modal=updatetask&pos_num='.$key_m.'&task_id=new&object_id='.$row['id'].'&object_name='.$row['name'].'" class="modal-a openformtask hideFuck">+
-    //             </a> </td>';
-    //             }
-    //         }
-    //     }
-    // }
-
-}elseif($_SESSION['mode']=='gip' ){
+}elseif($_COOKIE['role']=='gip' ){
     include(__DIR__.'/../template/plancontrol-users.php');
 foreach ($list as $key => $row) {
     if($row['arhiv_id']== NULL){
@@ -405,7 +303,7 @@ $pp++;
     }else{}
 }
    echo "</table>";
-}elseif($_SESSION['mode']=='arhiv'){
+}elseif($_COOKIE['role']=='arhiv'){
     include(__DIR__.'/../template/plancontrol-users.php');
 
     foreach ($list as $key => $row) {
@@ -458,7 +356,7 @@ $pp++;
     }else{}
   }
        echo "</table>";
-}elseif($_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='expert'){
     include(__DIR__.'/../template/plancontrol-users.php');
 
 

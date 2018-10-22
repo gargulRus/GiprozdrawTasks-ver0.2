@@ -30,8 +30,17 @@ function load_page(){
     }else{
     //Грузим страницу по умолчанию. Без админских прав.
         $page = 'planforyear-guest.php';
-        switch ($_SESSION['mode']) {
+        switch ($_COOKIE['role']) {
             case 'spec':
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
+            case 'gap':
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
+            case 'kr':
+            $page = 'main.php'; break;
+            // $page = 'main-update.php'; break;
+            case 'ov':
             $page = 'main.php'; break;
             // $page = 'main-update.php'; break;
             case 'gip':
@@ -1348,11 +1357,10 @@ function diffdatebymonth ($diffdata1, $diffdata2) {
 }
 
 function getobjectsP ($posnum, $role, $au_id) {
-
+   
     $list = array();
 
     if($role=='gap'){
-
         $toObjects = query("SELECT id, name, arhiv_id, gip_id, gap_id, ov_id, kr_id FROM objects WHERE arhiv_id IS NULL AND gap_id =".$au_id);
 
         while($data = mysqli_fetch_assoc($toObjects)){

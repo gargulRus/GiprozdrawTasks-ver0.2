@@ -1,6 +1,6 @@
 <?php
 //Определяем кнопки верхнего меню
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -10,7 +10,8 @@ if($_SESSION['mode']=='admin'){
         <a href="/?page=arhiv.php" class="btn btn-gipro">Архив</a>
         <a href="/?page=reports.php" class="btn btn-gipro">Отчеты</a>
     </div>';
-}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>

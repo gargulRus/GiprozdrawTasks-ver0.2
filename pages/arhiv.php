@@ -17,10 +17,11 @@
 
 <?php
 
-if($_SESSION['mode']=='admin'){
+if($_COOKIE['role']=='admin'){
     include(__DIR__.'/../template/main-source.php');
     include(__DIR__.'/../template/main-arhiv.php');
-}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
+}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
+        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
 
 }else{
     echo '<h1>Ошибка в правах доступа!</h1>';

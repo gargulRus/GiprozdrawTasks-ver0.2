@@ -35,25 +35,22 @@ if(!empty($count)){
             <label class="btn btn-danger btn-sm" for="notuseid">Том не нужен</label> -->
 
                     <?php
-                    if($_SESSION['mode']=='admin'){
+                    if($_COOKIE['role']=='admin'){
                         echo '
                         <br>
                         <input name="percent" type="text" value="" placeholder="'.$countin.'" id="obname" class="form-control">
                         <br>
                         ';
-                        }elseif($_SESSION['mode']=='expert'){
+                        }elseif($_COOKIE['role']=='expert'){
                             echo '
                             <br>
                             <input name="percent" type="text" value="" placeholder="'.$countin.'" id="obname" class="form-control">
                             <br>
                             ';
-                        }elseif($_SESSION['mode']=='spec'){
+                        }elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
+                                || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv'){
 
-                        }elseif($_SESSION['mode']=='gip'){
-
-                        }elseif($_SESSION['mode']=='arhiv'){
-
-                            }
+                        }
                     ?>
                   <input name='task_id' type='hidden' value="<?php echo $task_id;?>">
             <input name='pos_num' type='hidden' value="<?php echo $pos_num;?>">
@@ -64,10 +61,10 @@ if(!empty($count)){
                 <br>
             <div class="form-group">
             <?php
-                    if($_SESSION['mode']=='admin'){
+                    if($_COOKIE['role']=='admin'){
                         echo '           <input type="checkbox"  name="deleteexp" id="deleteexpid" class="deleteexp" value=1>
                         <label for="deleteexpid">Убрать замечания</label>'; 
-                    }elseif($_SESSION['mode']=='expert'){
+                    }elseif($_COOKIE['role']=='expert'){
                         echo '           <input type="checkbox"  name="deleteexp" id="deleteexpid" class="deleteexp" value=1>
                         <label for="deleteexpid">Убрать замечания</label>';
                     }else{}
@@ -76,9 +73,9 @@ if(!empty($count)){
             
             <div class="form-group text-right">
             <?php
-                    if($_SESSION['mode']=='admin'){
+                    if($_COOKIE['role']=='admin'){
                         echo '<input type="submit" class="btn btn-success" value="Сохранить"/>'; 
-                    }elseif($_SESSION['mode']=='expert'){
+                    }elseif($_COOKIE['role']=='expert'){
                         echo '<input type="submit" class="btn btn-success" value="Сохранить"/>'; 
                     }else{}
                     ?>
