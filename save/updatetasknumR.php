@@ -38,9 +38,9 @@ if(is_numeric($task_id)){
     $result = query($sql);
 
     if($fullfuck=="on"){
-        $setfulluck = query("UPDATE plancontrolR SET fullfuck = 1 , user = '".$user."' WHERE id=".$task_id);
+        $setfulluck = query("UPDATE plancontrolR SET fullfuck = 1 , user = ".$user." WHERE id=".$task_id);
         }else{
-            $setfulluck = query("UPDATE plancontrolR SET fullfuck = NULL , user = '".$user."' WHERE id=".$task_id);
+            $setfulluck = query("UPDATE plancontrolR SET fullfuck = NULL , user = ".$user." WHERE id=".$task_id);
         }
     echo "Устанавливаю Процент";
 

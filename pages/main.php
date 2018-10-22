@@ -1,6 +1,7 @@
 <?php
+
 //Определяем кнопки верхнего меню
-if($_COOKIE['role']=='admin'){
+if($_SESSION['mode']=='admin'){
     echo '
     <div class="buttnons">
     <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -18,8 +19,7 @@ if($_COOKIE['role']=='admin'){
     <a href="#" data-toggle="modal" data-target="#newcur" class="openformcreate btn btn-gipro">Кураторы</a> 
     <a href="#" data-toggle="modal" data-target="#newexp" class="openformcreate btn btn-gipro">Отв за Эксперт.</a>  
     </div>';
-    }elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
-            || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
+    }elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
       echo '
       <div class="buttnons">
       <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -32,11 +32,10 @@ if($_COOKIE['role']=='admin'){
     }
 
 //Определяем какие страницы подключать в зависимости от прав доступа
-if($_COOKIE['role']=='admin'){
+if($_SESSION['mode']=='admin'){
     include(__DIR__.'/../template/main-source.php');
     include(__DIR__.'/../template/main-edit.php');
-}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
-        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
+}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
     include(__DIR__.'/../template/main-source.php');
     include(__DIR__.'/../template/main-users.php');
 }else{

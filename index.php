@@ -1,3 +1,4 @@
+<link rel="shortcut icon" href="/image/logo.ico" type="image/x-icon">
 <?php
 
 session_start(); 
@@ -37,7 +38,29 @@ echo "<div class='footer-form'>
         <p>© АО &quot;Гипроздрав&quot; "; echo date("Y");echo "</p>
       </div>";
 
+}elseif($_COOKIE['login']=='levin'){
+  $_SESSION['mode']='admin';
+}elseif($_COOKIE['login']=='spec' 
+|| $_COOKIE['login']=='gip' || $_COOKIE['login']=='genplan' || $_COOKIE['login']=='kr' || $_COOKIE['login']=='eom' || $_COOKIE['login']=='vk'
+|| $_COOKIE['login']=='ov' || $_COOKIE['login']=='ot' || $_COOKIE['login']=='hs' || $_COOKIE['login']=='ts' || $_COOKIE['login']=='itp' || $_COOKIE['login']=='ss' 
+|| $_COOKIE['login']=='mg' || $_COOKIE['login']=='th' || $_COOKIE['login']=='avtom' || $_COOKIE['login']=='pos' || $_COOKIE['login']=='atz' || $_COOKIE['login']=='oos' 
+|| $_COOKIE['login']=='ppm' || $_COOKIE['login']=='gocs' || $_COOKIE['login']=='odi' || $_COOKIE['login']=='ee' || $_COOKIE['login']=='smeti' || $_COOKIE['login']=='beo' 
+|| $_COOKIE['login']=='ozds' || $_COOKIE['login']=='amelko' || $_COOKIE['login']=='gurianov' || $_COOKIE['login']=='verstunina'
+|| $_COOKIE['login']=='soloviova' || $_COOKIE['login']=='zukova' || $_COOKIE['login']=='glazkov'  || $_COOKIE['login']=='semenova' 
+|| $_COOKIE['login']=='belakov'  || $_COOKIE['login']=='vasenkov'  || $_COOKIE['login']=='gavrilin'  || $_COOKIE['login']=='polakov' 
+|| $_COOKIE['login']=='yaskov'  || $_COOKIE['login']=='Isemenova'
+){
+  $_SESSION['mode']='spec';
+}elseif($_COOKIE['login']=='gip'){
+  $_SESSION['mode']='gip';
+}elseif($_COOKIE['login']=='arhc'){
+  $_SESSION['mode']='spec';
+}elseif($_COOKIE['login']=='arhiv'){
+  $_SESSION['mode']='arhiv';
+}elseif($_COOKIE['login']=='expert'){
+  $_SESSION['mode']='expert';
 }
+
 
 if(empty($_COOKIE['login'])){
 

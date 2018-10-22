@@ -120,6 +120,30 @@ echo "   <div class='div-table'>";
         <th id='thidrr'>Сметы</th>
         <th id='thidtt'>СЭС</th>
         </tr>";
+//     foreach ($list as $key => $row) {
+//         echo '<tr>';
+//         echo '<td>' . $pp . '</td>';
+//         echo '<td><a 
+//             href="#" 
+//             data-toggle="modal" data-target="#renameobject" 
+//             class="openform" 
+//             data-id="'.$row['id'].'"
+//             data-name="'.$row['name'].'"
+//             >'. $row['name'] .'</a></td>';
+   
+//         foreach ($pos_num as $key_m => $col) {
+//             if(isset($row['task'][$key_m])){
+//                   echo '<td alt="' . $row['task'][$key_m]['id'] . '">  '. $row['task'][$key_m]['exp_num'] .'</td>';
+//             }else{
+//                 echo '<td>
+//                     </td>';
+//             }
+//         }
+//         echo '</tr>';
+//     $pp++;
+//   }
+//        echo "</table>";
+       
 ?>
 
 <script>

@@ -1,7 +1,7 @@
 <?php
 
 //Определяем кнопки верхнего меню
-if($_COOKIE['role']=='admin'){
+if($_SESSION['mode']=='admin'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -15,8 +15,7 @@ if($_COOKIE['role']=='admin'){
         <a href="/?page=planexpert.php" class="btn btn-gipro">Замечания Экспертизы</a>
         <a href="/?page=plancontrolR.php" class="btn btn-gipro">План работ стадия Рабочка</a>
     </div>';
-}elseif($_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
-        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='arhiv' || $_COOKIE['role']=='expert'){
+}elseif($_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='arhiv' || $_SESSION['mode']=='expert'){
     echo '
     <div class="buttnons">
         <a href="/?page=main.php" class="btn btn-gipro">План работ по договорам</a>
@@ -32,8 +31,7 @@ if($_COOKIE['role']=='admin'){
     echo '<h1>Ошибка в правах доступа!</h1>';
 }
 
-if($_COOKIE['role']=='admin' || $_COOKIE['role']=='spec' || $_COOKIE['role']=='gip' || $_COOKIE['role']=='gap' 
-        || $_COOKIE['role']=='kr' || $_COOKIE['role']=='ov' || $_COOKIE['role']=='expert'){
+if($_SESSION['mode']=='admin' || $_SESSION['mode']=='spec' || $_SESSION['mode']=='gip' || $_SESSION['mode']=='expert'){
     include(__DIR__.'/../template/planexpert-users.php');
 
     foreach ($list as $key => $row) {
@@ -69,7 +67,7 @@ if($_COOKIE['role']=='admin' || $_COOKIE['role']=='spec' || $_COOKIE['role']=='g
         }else{}
     }
        echo "</table>";
-}elseif($_COOKIE['role']=='arhiv'){
+}elseif($_SESSION['mode']=='arhiv'){
     include(__DIR__.'/../template/planexpert-users.php');
 
     foreach ($list as $key => $row) {
